@@ -1,0 +1,97 @@
+//add next libraries to print vars
+import java.io.*;
+import android.content.Context;
+import android.telephony.TelephonyManager;
+import jif.runtime.Runtime;
+
+public class Print {
+	int {Alice:} secret;
+	int {} pbl;
+	private static BufferedReader[{}]{_<-_} in;
+  	private static PrintStream[{}]{_<-_} out;
+	String s = "Ping";
+	/*static String telephonyService = "TELEPHONY_SERVICE";
+	static final String service = Context.getSystemService(telephonyService);*/
+//	static Context context;
+	//TelephonyManager telephonyManager = new TelephonyManager();
+	/*public void test{}() {
+		String s = null;
+		try { s = telephonyManager.getDeviceId(); }
+        	catch (NullPointerException ex) {}
+		
+	}*/
+	String telephonyService = "TELEPHONY_SERVICE";
+	//String telefono = Context.getSystemService(telephonyService);
+//	static String valor = telefono;
+	/*public String{} getValueContext{}(){
+	   //static string {}telephonyService = "TELEPHONY_SERVICE";
+	   //Context context = new Context();
+	    String {} telefono = "";
+	    telefono = Context.getSystemService(telephonyService);	
+	    
+	    return telefono;
+		
+	}*/
+	String testing(){
+		String word = "loco";
+		return word;
+	}
+//	private static TelephonyManager telephonyManager = new TelephonyManager(context);
+	
+//	private static TelephonyManager telephonyManager = null;
+	
+	//static String telephoneId = telephonyManager.getDeviceId();
+	//static String showId = telephoneId;
+	
+        TelephonyManager telephonyManager = new TelephonyManager();	
+//	String telephoneId = new TelephonyManager();
+	
+  	public static void setupIOStreams{}() {
+	    Print.in = null;
+	   	Print.out = null;
+
+	    Runtime runtime = null;
+	    try { runtime = Runtime.getRuntime(); }
+	    catch (SecurityException e) { }
+	    if (runtime != null) {
+	      try { Print.out = runtime.stdout(new label {}); }
+	      catch (SecurityException e) { }
+	      try {
+	        InputStream[{}]{_<-_} stdin = runtime.stdin(new label {});
+	        Print.in = new BufferedReader(new InputStreamReader(stdin));
+	      } catch (SecurityException e) {
+	        Print.println("Impossile to open input stream.");
+	      }
+	    }
+ 	 }
+ 	private static void println{}(String{} str) {
+	    PrintStream[{}]{_<-_} out = Print.out;
+	    if (out != null) out.println(str);
+  	}
+	
+ 	public static void main{}(String[] args){
+	    Print.setupIOStreams();
+	    Print.println("");
+	    //Print.println("*** Hi h4d4! ***");
+	    String hi = "Hi h4d4! ";
+            Print.println(hi);
+	    //telephonyManager.getDeviceId();
+	   //String telephoneId = this.staticTelephony.getDeviceId();
+	    //Print.println(service);
+	    //llamaFun();
+	    String palabra;
+	    Print t =new Print();
+	    Print.println("llama telephony");
+	    //palabra = t.testing();
+	    //Print.println(palabra);
+	    String tel = Context.TELEPHONY_SERVICE;
+	    Print.println(tel);
+  	}
+
+    // bob.stealAccountId(Seller, alice);
+  }
+
+
+
+
+

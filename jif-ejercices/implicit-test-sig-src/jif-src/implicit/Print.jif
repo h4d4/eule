@@ -1,0 +1,79 @@
+//add next libraries to print vars
+import java.io.*;
+import android.content.Context;
+import android.telephony.TelephonyManager;
+import jif.runtime.Runtime;
+
+public class Print {
+	int {Alice:} secret;
+	int {} pbl;
+	private static BufferedReader[{}]{_<-_} in;
+  	private static PrintStream[{}]{_<-_} out;
+	//String {} imei;
+	//String telephonyService = "TELEPHONY_SERVICE";
+ 	//TelephonyManager telephonyManager = new TelephonyManager;
+        String {Alice:} imei {} = TelephonyManager.getDeviceId();
+	
+	String testing(){
+		String word = "loco";
+		return word;
+	}
+	
+	Context context;	
+         //TelephonyManager telephonyManager{Alice:} = new TelephonyManager();
+	boolean one = true;
+	
+      //TelephonyManager telephonyManager = (TelephonyManager)();	
+  	public static void setupIOStreams{}() {
+	    Print.in = null;
+	   	Print.out = null;
+
+	    Runtime runtime = null;
+	    try { runtime = Runtime.getRuntime(); }
+	    catch (SecurityException e) { }
+	    if (runtime != null) {
+	      try { Print.out = runtime.stdout(new label {}); }
+	      catch (SecurityException e) { }
+	      try {
+	        InputStream[{}]{_<-_} stdin = runtime.stdin(new label {});
+	        Print.in = new BufferedReader(new InputStreamReader(stdin));
+	      } catch (SecurityException e) {
+	        Print.println("Impossile to open input stream.");
+	      }
+	    }
+ 	 }
+ 	private static void println{}(String{} str) {
+	    PrintStream[{}]{_<-_} out = Print.out;
+	    if (out != null) out.println(str);
+  	}
+        /*void call{}(){
+		if (one) {
+			try{
+				String{Alice:} imei = TelephonyManager.getDeviceId();
+			}catch (NullPointerException e){
+	    			//Print.setupIOStreams();
+				Print.println("Present a NP");	
+			}
+		}
+	}*/
+	
+ 	public static void main{}(String[] args){
+	    Print.setupIOStreams();
+	    Print.println("");
+	    //Print.println("*** Hi h4d4! ***");
+	    String hi = "Hi h4d4! ";
+            Print.println(hi);
+	    String palabra;
+	    Print t =new Print();
+	    Print.println("llama telephony");
+	    String tel = Context.TELEPHONY_SERVICE;
+	    Print.println(tel);
+  	}
+
+    // bob.stealAccountId(Seller, alice);
+  }
+
+
+
+
+

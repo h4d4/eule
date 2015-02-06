@@ -1,0 +1,56 @@
+//add next libraries to print vars
+import java.io.*;
+import java.util.HashMap;
+import jif.runtime.Runtime;
+//import TelephonyManager.jif;
+
+public class Print {
+	int {Alice:} secret;
+	int {} pbl;
+	static String {Alice:} verdad="si";
+	private static BufferedReader[{}]{_<-_} in;
+  	private static PrintStream[{}]{_<-_} out;
+	private HashMap holdRecords;
+	
+ 	public static void main{}(String[] args){
+	    Print.setupIOStreams();
+	    Print.println("");
+	    //Print.println("*** Hi h4d4! ***");
+	    String hi = "Hi h4d4! ";
+            Print.println(verdad);
+	    //TelephonyManager telephonyManager = new TelephonyManager();
+	    //String telephoneId = telephonyManager.getDeviceId();
+	    //Print.println(telephoneId);
+  	}
+	
+
+  	public static void setupIOStreams{}() {
+	    Print.in = null;
+	   	Print.out = null;
+
+	    Runtime runtime = null;
+	    try { runtime = Runtime.getRuntime(); }
+	    catch (SecurityException e) { }
+	    if (runtime != null) {
+	      try { Print.out = runtime.stdout(new label {}); }
+	      catch (SecurityException e) { }
+	      try {
+	        InputStream[{}]{_<-_} stdin = runtime.stdin(new label {});
+	        Print.in = new BufferedReader(new InputStreamReader(stdin));
+	      } catch (SecurityException e) {
+	        Print.println("Impossile to open input stream.");
+	      }
+	    }
+ 	 }
+ 	private static void println{}(String{} str) {
+	    PrintStream[{}]{_<-_} out = Print.out;
+	    if (out != null) out.println(str);
+  	}
+
+
+    // bob.stealAccountId(Seller, alice);
+  }
+
+
+
+

@@ -1,0 +1,16 @@
+package com.android.internal.telephony;
+public interface ITelephonyRegistry 
+{
+	public static int __JIF_SIG_OF_JAVA_CLASS$20030619 = 0;
+	public static abstract class Stub implements com.android.internal.telephony.ITelephonyRegistry
+	{
+		private static final java.lang.String DESCRIPTOR = "com.android.internal.telephony.ITelephonyRegistry";
+		/** Construct the stub at attach it to the interface. */
+		public Stub()
+		{
+			this.attachInterface(this, DESCRIPTOR);
+		}
+		
+	}
+
+}

@@ -1,0 +1,22 @@
+package jif.principals;
+
+public class Auctioneer extends ExternalPrincipal {
+
+  private static Auctioneer{*!:*} P;
+
+  public Auctioneer() {
+    super("Auctioneer");
+  }
+
+  public static Principal getInstance{*!:*}() {
+    if (P == null) { P = new Auctioneer(); }
+    return P;
+  }
+}
+
+// Local Variables:
+// mode: java
+// c-basic-offset: 2
+// indent-tabs-mode: nil
+// End:
+

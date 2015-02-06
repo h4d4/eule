@@ -1,0 +1,22 @@
+package auctionPayment;
+
+
+public class PubliclyNamedEntity[principal P] {
+  public String{} name;
+
+  public void output{Seller->P;Buyer->P;Auctioneer->P}
+  (String{Seller->P;Buyer->P;Auctioneer->P} msg) {
+    Main.println(P, this, msg);
+  }
+
+  public String{} input{Seller->P;Buyer->P;Auctioneer->P}() {
+    return (Main.readLine(P, this));
+  }
+}
+
+
+// Local Variables: 
+// mode: java
+// c-basic-offset: 2
+// indent-tabs-mode: nil
+// End:

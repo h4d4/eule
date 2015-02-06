@@ -1,0 +1,8 @@
+package android.util;
+public final class Log {
+	private  static int __JIF_SIG_OF_JAVA_CLASS$20030619 = 0;
+	public static final int INFO = 4;
+	
+	public native static int i(String tag, String msg);
+
+}

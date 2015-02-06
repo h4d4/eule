@@ -1,0 +1,17 @@
+package java.util;
+
+public class HashMap {
+  private static int __JIF_SIG_OF_JAVA_CLASS$20030619 = 0;
+
+  // public native HashMap();
+
+  public native Object{this;key} put(Object key, Object{this} value);
+  public native Object{this;key} remove(Object key);
+}
+
+
+// Local Variables: 
+// mode: java
+// c-basic-offset: 2
+// indent-tabs-mode: nil
+// End:

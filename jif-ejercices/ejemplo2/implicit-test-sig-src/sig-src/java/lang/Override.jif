@@ -1,0 +1,11 @@
+package java.lang;
+import javax.annotion.*;
+import java.lang.annotation.*;
+
+@Target(ElementType.METHOD)
+@Retention(RetentionPolicy.SOURCE)
+public @interface Override {
+
+	static int __JIF_SIG_OF_JAVA_CLASS$20030619 = 0;
+}
+

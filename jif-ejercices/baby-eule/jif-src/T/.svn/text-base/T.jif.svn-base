@@ -1,0 +1,49 @@
+//add next libraries to print vars
+import java.io.*;
+import jif.runtime.Runtime;
+
+public class T {
+	int {Alice:} secret;
+	int {} pbl;
+	private static PrintStream[{}]{_<-_} out;
+	/*public PrintStream[{}]{_<-_} setupOutputStream() { //add to print
+		PrintStream[{}] out = null;
+		try {
+			Runtime runtime = Runtime.getRuntime();
+			out = runtime == null?null:runtime.stdout(new label {});
+		}
+		catch ( SecurityException e ) {}
+			return out;
+	}*/
+	public static void setupOutputStream() {
+		T.out = null;
+		Runtime runtime = null;
+		try { runtime = Runtime.getRuntime(); }
+    		catch (SecurityException e) { }
+		if (runtime != null) {
+			try { T.out = runtime.stdout(new label {}); }
+      			catch (SecurityException e) { }
+		}
+	}
+	public static void println{}(String{} str) {
+    		PrintStream[{}]{_<-_} out = T.out;
+    		if (out != null) out.println(str);
+  	}
+	public void foo() {
+		int x = this.pbl;	
+		/*PrintStream[{}] out = PrintStream.out.setupOutputStream();
+		if( out != null )
+			out.println("valor de x ");*/
+		//int {} y = this.secret;
+		//int {Alice:} z = 0;
+		//if ( secret > 0 ) z = 1;
+		
+	}
+	public static void main{}( String [] args ) where authority( Alice ){
+		T.setupOutputStream();
+		T.println("Init");
+	}
+}
+
+
+

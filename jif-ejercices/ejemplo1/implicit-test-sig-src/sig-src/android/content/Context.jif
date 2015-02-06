@@ -1,0 +1,17 @@
+package android.content;
+public abstract class Context {
+
+	private static int __JIF_SIG_OF_JAVA_CLASS$20030619 = 0;
+        public  static final String TELEPHONY_SERVICE = "phone";
+	public  abstract Object getSystemService(String name);
+
+
+	/*public  static String ret;
+	public static String{} getSystemService{}(String{} name) {
+		//String {} ret=""; //umcommned thos varible works
+		if (name == "TELEPHONY_SERVICE")
+			ret = TELEPHONY_SERVICE;
+		
+		return ret;
+	}*/
+}

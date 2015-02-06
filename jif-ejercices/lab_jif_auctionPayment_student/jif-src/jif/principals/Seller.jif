@@ -1,0 +1,23 @@
+package jif.principals;
+
+public class Seller extends ExternalPrincipal {
+
+  private static Seller{*!:*} P;
+
+  public Seller() {
+    super("Seller");
+  }
+
+  public static Principal getInstance{*!:*}() {
+    if (P == null) { P = new Seller(); }
+    return P;
+  }
+}
+
+
+// Local Variables:
+// mode: java
+// c-basic-offset: 2
+// indent-tabs-mode: nil
+// End:
+

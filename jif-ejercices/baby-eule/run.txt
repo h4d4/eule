@@ -1,0 +1,16 @@
+To execute exercices of this chapter, you need:
+- export JIF to PATH 
+	Somethin similar to:
+	export JIF=`pwd`
+  566  export PATH=$PATH:$JIF 
+  576  export JIF=`pwd`
+  577  export PATH=$PATH:$JIF 
+  595  export PATH=$PATH:$JIF >>~/.profile 
+  598  export PATH=$PATH:$JIF >> ~/.profile 
+  602  export PATH=$PATH:$JIF >> ~/.profile 
+  605  export PATH=$PATH:$JIF >> ~/.bashrc 
+  611  export JIF=home/h4d4/Documentos/MESI/secureCoding/jif-3.4.1
+
+
+- execute sh. appropiate:
+	h4d4@abvega:~/svn/ThesisI/jif/baby-eule$ ./jifc.sh -e jif-src/T/T.jif 

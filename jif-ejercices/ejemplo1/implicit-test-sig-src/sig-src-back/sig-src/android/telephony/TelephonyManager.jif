@@ -1,0 +1,27 @@
+package android.telephony;
+import android.content.Context;
+//import com.android.internal.telephony.ITelephonyRegistry;
+public class TelephonyManager{
+    
+    private  static int __JIF_SIG_OF_JAVA_CLASS$20030619 = 0;	
+    //private static Context Context;
+ 	   
+    //public TelephonyManager(Context context) {}
+      
+    // public TelephonyManager() {}
+     //public TelephonyManager{}() {}
+     //public TelephonyManager{}():{} {}
+    //public native String{this} getDeviceId();
+
+     static String getDeviceId();
+     /*{
+	try {
+            return "DeviceId";
+        } catch (RemoteException ex) {
+            return null;
+        }catch (NullPointerException ex) {
+            return null;
+        }		
+     }*/
+
+}

@@ -1,0 +1,27 @@
+package auctionPayment;
+
+
+public class AuctionSystem extends PubliclyNamedEntity[Auctioneer] authority(Auctioneer) {
+
+  public AuctionSystem{}(String{} name) {
+    this.name = name;
+  }
+
+  public void closeAuction{}(User[Seller]{} vendor, int{} maxbid, User[Buyer]{} winner) {
+    this.processCCPayment(winner, maxbid, vendor);
+  }
+
+  private boolean{}
+  processCCPayment{}
+  (User[Buyer]{} winner, int{} amount, User[Seller]{} vendor) {
+    // ...
+
+    return true;
+  }
+}
+
+// Local Variables: 
+// mode: java
+// c-basic-offset: 2
+// indent-tabs-mode: nil
+// End:

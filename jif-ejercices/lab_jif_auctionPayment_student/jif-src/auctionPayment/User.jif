@@ -1,0 +1,88 @@
+package auctionPayment;
+
+
+public class User[principal P] extends PubliclyNamedEntity[P] authority (P) {
+
+  public Bank[P] bank;
+  private int accountId;
+  private int accountCredentials;
+
+  /**
+   * Create a new instance.
+   * Initialize the fields (name, bank, balance) in the obvious way.
+   * Calls bank.setBalance(balance) to initalize accountId and accountCredentials with values provided by the bank.
+   */
+  public User(String name, Bank[P] bank, int balance) {
+    this.name = name;
+    this.bank = bank;
+    this.accountId = -1;
+    this.accountCredentials = -1;
+    // ...
+  }
+
+  /**
+   * Returns the field bank.
+   */
+  public Bank[P] getBank() {
+    Bank[P] res;
+    // ...
+    return res;
+  }
+
+  /**
+   * Returns the field accountId.
+   */
+  public int getAccountId() {
+    int res;
+    // ...
+    return res;
+  }
+
+  /**
+   * Display the string ("Do you want to validate payment of " + amount + " requested by " + requester.name + "?") to this (PubliclyNamedEntity.output).
+   * Read the input provided by this (PubliclyNamedEntity.input).
+   * If the input is "Y" then return accountCredentials, otherwise return -1.
+   */
+  public int
+  getCredentials
+  (principal Pr, PubliclyNamedEntity[Pr] requester, int amount) {
+    int credentials = -1;
+
+    // ...
+
+    return credentials;
+  }
+
+  /**
+   * Calls PubliclyNamedEntity.output with the appropriate parameters.
+   */
+  public void sendMessage
+  (String msg) {
+    // ...
+  }
+
+  /**
+   * Display the string ("Do you validate transaction for " + amount + "?") to this (PubliclyNamedEntity.output).
+   * Read the input provided by this (PubliclyNamedEntity.input).
+   * If the input is "Y" then return true, otherwise return false.
+   */
+  public boolean
+  validateTransaction
+  (int amount) {
+    boolean res = false;
+
+    // ...
+  
+    return res;
+  }
+
+    // ...
+
+}
+
+
+// Local Variables: 
+// mode: java
+// c-basic-offset: 2
+// indent-tabs-mode: nil
+// End:

@@ -1,0 +1,40 @@
+package android.telephony;
+//import android.content.Context;
+//import com.android.internal.telephony.ITelephonyRegistry;
+public class TelephonyManager {
+    
+    private static int __JIF_SIG_OF_JAVA_CLASS$20030619 = 0;	
+    //private static Context Context;
+          	
+    /* private static Context sContext;
+     private static ITelephonyRegistry sRegistry;
+
+     public TelephonyManager(Context context) {
+        if (sContext == null) {
+            Context appContext = context.getApplicationContext();
+            if (appContext != null) {
+                sContext = appContext;
+            } else {
+                sContext = context;
+            }
+
+            sRegistry = ITelephonyRegistry.Stub.asInterface(ServiceManager.getService(
+                    "telephony.registry"));
+        }
+    }	     
+		
+     public static TelephonyManager from(Context context) {
+	return (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+     }*/
+    //public TelephonyManager(Context{this} context) {}
+    private TelephonyManager() {}
+    /**
+     * Returns the unique device ID, for example, the IMEI for GSM and the MEID
+     * or ESN for CDMA phones. Return null if device ID is not available.
+     *
+     * <p>Requires Permission:
+     *   {@link android.Manifest.permission#READ_PHONE_STATE READ_PHONE_STATE}
+     */
+    public native String{this} getDeviceId();
+
+}

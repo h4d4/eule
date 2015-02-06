@@ -1,0 +1,12 @@
+package android.app;
+
+import android.os.Bundle;
+import android.view.View;
+
+public class Activity{
+
+	private static int __JIF_SIG_OF_JAVA_CLASS$20030619 = 0;
+//	protected Activity(){}
+	public native void onCreate(Bundle savedInstanceState); //original modifier: protected
+	protected native void setContentView(View view);
+}

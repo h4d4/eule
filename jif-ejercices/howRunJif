@@ -1,0 +1,34 @@
+To execute exercices of this chapter, you need:
+- export JIF to PATH 
+
+** To export one directory while the actual session is active
+	export PATH=$PATH:/home/estudiante/jif-3.4.2/bin/
+
+** To permanently export one directory to your enviroment variable $PATH, add the following sentence to ~/.bashrc file end:
+	export PATH=$PATH:/home/estudiante/jif-3.4.2/bin/
+
+- Setup the enviroment directory:
+execute setup script(setup-baby-eule.sh). 
+This script compiles with jif compiler the principals requires for your jif project, that you put in the jif-src/jif/principals/ directory. Eg Alice.jif, Bob.jif
+
+- compile with Jif compiler your code jif --> jifc.sh:
+	 ./jifc.sh -e jif-src/T/T.jif 
+
+-run the program generated
+	./jif.sh yourProgram
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

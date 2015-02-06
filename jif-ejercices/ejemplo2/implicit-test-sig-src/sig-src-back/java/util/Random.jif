@@ -1,0 +1,16 @@
+package java.util;
+
+public class Random {
+  private static int __JIF_SIG_OF_JAVA_CLASS$20030619 = 0;
+
+  // public native Random();
+
+  public native int{this;max} nextInt(int max);
+}
+
+
+// Local Variables: 
+// mode: java
+// c-basic-offset: 2
+// indent-tabs-mode: nil
+// End:

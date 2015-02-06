@@ -1,0 +1,123 @@
+package auctionPayment;
+
+import jif.runtime.Runtime;
+import java.io.*;
+
+
+public class Main authority(*) {
+  private static BufferedReader[{}]{_<-_} in;
+  private static PrintStream[{}]{_<-_} out;
+
+  public static void setupIOStreams{}() {
+    Main.in = null;
+    Main.out = null;
+
+    Runtime runtime = null;
+    try { runtime = Runtime.getRuntime(); }
+    catch (SecurityException e) { }
+    if (runtime != null) {
+      try { Main.out = runtime.stdout(new label {}); }
+      catch (SecurityException e) { }
+      try {
+        InputStream[{}]{_<-_} stdin = runtime.stdin(new label {});
+        Main.in = new BufferedReader(new InputStreamReader(stdin));
+      } catch (SecurityException e) {
+        Main.println("Impossile to open input stream.");
+      }
+    }
+  }
+
+  private static void println{}(String{} str) {
+    PrintStream[{}]{_<-_} out = Main.out;
+    if (out != null) out.println(str);
+  }
+
+  public static void println{Seller->P;Buyer->P;Auctioneer->P}
+  (principal P, PubliclyNamedEntity[P]{Seller->P;Buyer->P;Auctioneer->P} dest,
+   String{Seller->P;Buyer->P;Auctioneer->P} str)
+    where authority(Seller, Buyer, Auctioneer) {
+    PrintStream[{}]{_<-_} out = Main.out;
+    String s = (dest==null?null:dest.name) + "> " + str;
+    if (out != null)
+      declassify({Seller->P;Buyer->P;Auctioneer->P} to {})
+        out.println(declassify(s, {Seller->P; Buyer->P; Auctioneer->P} to {}));
+  }
+
+  private static String{} readLine{}() {
+    String res = null;
+    BufferedReader[{}]{_<-_} in = Main.in;
+    if (in != null)
+      try { res = in.readLine(); }
+      catch (IOException e) {
+        Main.println("Error reading line.");
+      }
+    return res;
+  }
+
+  public static String{} readLine{Seller->P;Buyer->P;Auctioneer->P}
+  (principal P, PubliclyNamedEntity[P]{Seller->P;Buyer->P;Auctioneer->P} orig) where authority(Seller, Buyer, Auctioneer) {
+    String res = null;
+
+    PrintStream[{}]{_<-_} out = Main.out;
+    String s = (orig==null?null:orig.name) + "> ";
+    if (out != null)
+      declassify({Seller->P;Buyer->P;Auctioneer->P} to {})
+        out.print(declassify(s, {Seller->P;Buyer->P;Auctioneer->P} to {}));
+
+    BufferedReader[{}]{_<-_} in = Main.in;
+    if (in != null)
+      try {
+        declassify({Seller->P;Buyer->P;Auctioneer->P} to {})
+          res = in.readLine();
+      } catch (IOException e) {
+        declassify({Seller->P;Buyer->P;Auctioneer->P} to {})
+          Main.println("Error reading line.");
+      }
+    return res;
+  }
+
+  public static void main{}(String[] args) where authority(Seller, Buyer) {
+    Main.setupIOStreams();
+    Main.println("");
+    Main.println("*** Starting application ***");
+    Main.println("");
+
+    AuctionSystem auctioneer = new AuctionSystem("Kauction");
+    Bank alicesBank = new Bank[Seller]("Alice's bank");
+    User[Seller] alice = new User[Seller]("Alice", alicesBank, 10000);
+    Bank bobsBank = new Bank[Buyer]("Bob's bank");
+    User[Buyer] bob = new User[Buyer]("Bob", bobsBank, 10000);
+
+    Main.println("");
+    Main.println("*** Entities initialized ***");
+    Main.println("");
+
+    int maxbid = 1000;
+    String str = bob.name + " --(" + maxbid + ")--> " + alice.name;
+    Main.println("");
+    Main.println("Closing auction: " + str);
+    Main.println("");
+    auctioneer.closeAuction(alice, maxbid, bob);
+
+    Main.println("");
+    Main.println("*** Application end ***");
+    Main.println("");
+
+    int alicesMoney = alicesBank.getBalance();
+    int bobsMoney = bobsBank.getBalance();
+    int alicesHold = alicesBank.getAmountOnHold();
+    int bobsHold = bobsBank.getAmountOnHold();
+    Main.println(" Alice -> " + alicesMoney + " (- " + alicesHold + ")");
+    Main.println(" Bob -> " + bobsMoney + " (- " + bobsHold + ")");
+    Main.println("");
+
+    // bob.stealAccountId(Seller, alice);
+  }
+}
+
+
+// Local Variables: 
+// mode: java
+// c-basic-offset: 2
+// indent-tabs-mode: nil
+// End:
