@@ -1,3 +1,4 @@
+package implicit;
 import implicit.Activity;
 import android.content.Context;
 import android.os.Bundle;
@@ -24,7 +25,7 @@ public class ImplicitFlow1 extends Activity{
 	//private static TelephonyManager telephonyManager;
 	static Context context;
         //@Override
-       	public void onCreate{Alice:}(Bundle savedInstanceState) { //origin modifier: protected
+       	protected void onCreate{Alice:}(Bundle savedInstanceState) { //origin modifier: protected
        	      super.onCreate(savedInstanceState);
 	      String {Alice:} imei ="";
 	      //String imei ="";

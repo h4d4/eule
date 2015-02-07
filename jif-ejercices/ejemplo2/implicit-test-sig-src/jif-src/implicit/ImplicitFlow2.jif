@@ -1,10 +1,15 @@
-package de.ecspride;
+package implicit;
 
+import java.io.*;
 import implicit.Activity;
 import android.os.Bundle;
 import android.util.Log;
+import android.generated.R;
 import android.view.View;
+//import implicit.View;
 import android.widget.EditText;
+//import implicit.widget.EditText;
+import jif.runtime.Runtime; //add me
 /**
  * @testcase_name ImplicitFlow2
  * @version 0.1
@@ -19,6 +24,7 @@ import android.widget.EditText;
  */
 public class ImplicitFlow2 extends Activity {
 	private boolean passwordCorrect = false;
+	//static View view;
 	
     //@Override
     protected void onCreate{Alice:}(Bundle savedInstanceState) {
@@ -26,19 +32,25 @@ public class ImplicitFlow2 extends Activity {
         //setContentView(R.layout.activity_implicit_flow2);
     }
 
-    public void checkPassword(){
+    public void checkPassword{Alice:}(View view){
 		
-		int password=0x7f070000;
-		EditText mEdit = (EditText)findViewById(password);
-		String userInputPassword = mEdit.getText().toString(); //source
-		
+		int  password=0;
+		//String{Alice:} pwd = "";
+		//try{
+			 //EditText mEdit = (EditText) View.findViewById(R.idPassword);
+			//EditText mEdit = (EditText) view.findViewById(password);
+		 //}catch (ClassCastException ignore) {}
+			//String userInputPassword = mEdit.getText().toString(); //source
+			String {Alice:} userInputPassword = "";
+				
 		if(userInputPassword.equals("superSecure"))
 			passwordCorrect = true;
 		
 		if(passwordCorrect)
-			Log.i("INFO", "Password is correct"); //sink, leak
+			Log.i{}("INFO", "Password is correct"); //sink, leak
 		else
-			Log.i("INFO", "Password is not correct"); //sink, leak 
-	}
+			Log.i{}("INFO", "Password is not correct"); //sink, leak 
+
     
+  }
 }

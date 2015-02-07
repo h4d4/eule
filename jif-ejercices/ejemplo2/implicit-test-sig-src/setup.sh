@@ -16,8 +16,9 @@ ${JIFC} -d sig-classes -sourcepath sig-src sig-src/android/telephony/*.jif;
 ${JIFC} -d sig-classes -sourcepath sig-src sig-src/android/content/*.jif;
 ${JIFC} -d sig-classes -sourcepath sig-src sig-src/android/os/*.jif;
 ${JIFC} -d sig-classes -sourcepath sig-src sig-src/android/util/*.jif;
+${JIFC} -d sig-classes -sourcepath sig-src sig-src/android/text/*.jif;
 ${JIFC} -d sig-classes -sourcepath sig-src sig-src/android/view/*.jif;
 ${JIFC} -d sig-classes -sourcepath sig-src sig-src/android/widget/*.jif;
-#${JIFC} -d sig-classes -sourcepath sig-src sig-src/java/lang/*.jif;
+${JIFC} -d sig-classes -sourcepath sig-src sig-src/android/generated/*.jif;
 #compiles the additional java classes with jif compiler; produce version jif version of java code
 
