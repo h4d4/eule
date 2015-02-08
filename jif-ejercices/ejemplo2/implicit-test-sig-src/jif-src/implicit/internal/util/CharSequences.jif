@@ -1,0 +1,4 @@
+package implicit,internal.util;
+
+public class CharSequences {
+}

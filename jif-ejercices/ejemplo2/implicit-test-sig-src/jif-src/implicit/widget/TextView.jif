@@ -1,0 +1,14 @@
+
+package implicit.widget;
+
+public class TextView{
+//	private  static int __JIF_SIG_OF_JAVA_CLASS$20030619 = 0;
+	private CharSequence mText;
+	
+	public CharSequence getText() {
+        	return mText;
+    	}
+	
+
+}
+

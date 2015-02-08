@@ -1,0 +1,10 @@
+package android.generated;
+
+public class R{
+	private  static int __JIF_SIG_OF_JAVA_CLASS$20030619 = 0;
+	public static final int idPassword = 1;
+	public static final int layoutActivity_implicit_flow2 = 0;
+
+	
+}
+
