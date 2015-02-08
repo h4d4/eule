@@ -1,0 +1,94 @@
+package implicit;
+import implicit.logss.Log;
+import implicit.Activity;
+import android.content.Context;
+import android.os.Bundle;
+//import implicit.Log;
+//import android.util.Log;
+import android.telephony.TelephonyManager;
+import java.io.*;			//add me
+//import java.lang.annotation.*;
+//import java.lang.Override;
+import jif.runtime.Runtime; //add me 
+/**
+ * @testcase_name ImplicitFlow1
+ * @version 0.1
+ * @author Secure Software Engineering Group (SSE), European Center for Security and Privacy by Design (EC SPRIDE) 
+ * @author_mail siegfried.rasthofer@cased.de
+ * 
+ * @description A value from a source gets obfuscated by two different ways and is then written to the log
+ * @dataflow source -> userInputPassword -> if-condition -> sink
+ * @number_of_leaks 2
+ * @challenges the analysis must be able to handle implicit flows and
+ *  treat the value of password fields as source 
+ */
+public class ImplicitFlow1 extends Activity{
+
+	//private static TelephonyManager telephonyManager;
+	static Context context;
+        //@Override
+       	protected void onCreate{Alice:}(Bundle savedInstanceState) { //origin modifier: protected
+       	      super.onCreate(savedInstanceState);
+	      String {Alice:} imei ="";
+	      //String imei ="";
+      	    //setContentView(R.layout.activity_implicit_flow1);
+	try{       
+		  TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(context.TELEPHONY_SERVICE);
+		 // String {Alice:} imei ="";
+		  imei = telephonyManager.getDeviceId(); //source
+	          //writeToLog(imei);
+	}catch (ClassCastException ignore) {
+
+	}catch(NullPointerException e){
+		
+	}
+
+        //String {}obfuscatedIMEI = obfuscateIMEI(imei);
+	//String {Alice:}obfuscatedIMEI = reallyHardObfuscatedIMEI(imei);
+	//writeToLog(obfuscatedIMEI);
+	String{Alice:} loco = "";
+	writeToLog(loco);
+	//String {Alice:} imei ="";
+	/*try{
+		imei = telephonyManager.getDeviceId(); //source 
+	}catch (NullPointerException e) {
+		//Print.println("Present a NP");
+	}*/
+	//String {} obfuscatedIMEI = obfuscateIMEI(imei);
+	//writeToLog(obfuscatedIMEI);
+	//writeToLog(imei);
+		
+	//hard to detect
+		/*obfuscatedIMEI = reallyHardObfuscatedIMEI(imei);
+		writeToLog(obfuscatedIMEI); */
+		
+	}
+	//private String{Alice:} reallyHardObfuscatedIMEI{Alice:}(String{Alice:} imei){
+		//ASCII values for integer: 48-57
+		//String{Alice:} arg = imei;
+		//Integer {Alice:}[] {Alice:} numbers = new Integer[57];
+		//for(int  i=0; i< numbers.length; i++){
+		//	numbers[i] = i;
+		//}
+		//	/*{0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,
+		//		20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,
+		//		40,4142,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57};*/
+		//
+
+		//char{Alice:}[] {Alice:}imeiAsChar = arg.toCharArray();
+		
+		//char{Alice:}[] {Alice:}newOldIMEI = new char[imeiAsChar.length];
+		
+		//for(int i = 0; i < imeiAsChar.length; i++){
+		//	newOldIMEI[i] = Character.forDigit(numbers[(int)imeiAsChar[i]], 10);
+		//}
+		
+		//return newOldIMEI.toString();
+	//}
+	
+	private void writeToLog{Alice:}(String{Alice:} message){
+		Log.i("INFO", message); //sink
+	}
+    
+}
+
