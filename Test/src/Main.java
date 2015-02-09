@@ -52,13 +52,13 @@ public class Main {
 		return  result;
 	}
 
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		
 		//String s = obfuscateIMEI("1234");
 		//System.out.println("obfuscateIMEI: "+s);
 		System.out.println("iterator: "+iterator("u235"));
 
-	}
+	}*/
 
 }
