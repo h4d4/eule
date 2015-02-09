@@ -7,6 +7,6 @@ public class Activity{
 
 	//private static int __JIF_SIG_OF_JAVA_CLASS$20030619 = 0;
 //	protected Activity(){}
-	protected native void onCreate{Alice:}(Bundle savedInstanceState); //original modifier: protected
+	protected native void onCreate{}(Bundle savedInstanceState); //original modifier: protected
 	protected native void setContentView(View view);
 }
