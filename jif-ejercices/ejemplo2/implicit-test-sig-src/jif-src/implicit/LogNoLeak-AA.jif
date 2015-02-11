@@ -2,7 +2,8 @@ package implict;
 
 import implicit.Activity;
 import android.os.Bundle;
-import implicit.logsinks.Log;
+
+//import implicit.logsinks.Log;
 /**
  * @testcase_name LogNoLeak
  * @version 0.1

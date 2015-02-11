@@ -1,0 +1,4 @@
+package implicit;
+
+public final class PendingIntent{
+}

@@ -1,0 +1,18 @@
+package implicit;
+import implicit.PendingIntent;
+
+public final class SmsManager {
+
+	//private native static final SmsManager sInstance = new SmsManager();
+	
+	public native static SmsManager getDefault{Alice:}(); /*{
+        	return sInstance;
+    	}*/
+	
+	public void sendTextMessage{Alice:}(
+            String{Alice:} destinationAddress, String{Alice:} scAddress, String{} text,
+            PendingIntent{Alice:} sentIntent, PendingIntent{Alice:} deliveryIntent) {
+	}
+
+
+}

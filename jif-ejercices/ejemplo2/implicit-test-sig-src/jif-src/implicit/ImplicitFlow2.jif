@@ -3,7 +3,8 @@ package implicit;
 import java.io.*;
 import implicit.Activity;
 import android.os.Bundle;
-import android.util.Log;
+//import android.util.Log;
+import implicit.Log;
 import android.generated.R;
 import android.view.View;
 //import implicit.View;
@@ -23,7 +24,7 @@ import jif.runtime.Runtime; //add me
  *  detect callbacks from layout xml file and treat the value of password fields as source
  */
 public class ImplicitFlow2 extends Activity {
-	private boolean passwordCorrect = false;
+	private boolean{Alice:} passwordCorrect = false;
 	//static View view;
 	
     //@Override
@@ -47,9 +48,9 @@ public class ImplicitFlow2 extends Activity {
 			passwordCorrect = true;
 		
 		if(passwordCorrect)
-			Log.i{}("INFO", "Password is correct"); //sink, leak
+			Log.i("INFO", "Password is correct"); //sink, leak
 		else
-			Log.i{}("INFO", "Password is not correct"); //sink, leak 
+			Log.i("INFO", "Password is not correct"); //sink, leak 
 
     
   }

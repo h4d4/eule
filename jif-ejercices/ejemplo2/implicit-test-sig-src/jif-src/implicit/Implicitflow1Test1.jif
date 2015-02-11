@@ -43,8 +43,9 @@ public class ImplicitFlow1 extends Activity{
 
         String {Alice:}obfuscatedIMEI = obfuscateIMEI(imei);
 	//String {Alice:}obfuscatedIMEI = reallyHardObfuscatedIMEI(imei);
-	writeToLog(obfuscatedIMEI);
-
+	//writeToLog(obfuscatedIMEI);
+	String loco = "";
+	writeToLog(loco);
 	//String {Alice:} imei ="";
 	/*try{
 		imei = telephonyManager.getDeviceId(); //source 
