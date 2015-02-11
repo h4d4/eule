@@ -1,0 +1,13 @@
+android.telephony.TelephonyManager
+getDeviceId()
+getSimSerialNumber()
+
+android.widget.EditText ; 
+findViewById();   //anotar como privado cualquier patron que cumpla con no importa si es el usuario o el password
+
+android.location.Location; 
+android.location.LocationListener;
+android.location.LocationManager;
+getLatitude(); getLongitude(); 
+
+
