@@ -97,27 +97,7 @@ public class Scanner {
 			}
 		}
 		
-		public static void varSourcesFound(){
-			 //vars no found as sources in variable definitions
-			/*for (Map.Entry<String, Boolean> mList : methodsList.entrySet()) {
-		     	  String ms = mList.getKey();*/
-		     	 /*for (Map.Entry<String, String> varsDec : varsDeclaration.entrySet()) {
-		     		 	String tmp;
-				     	System.out.println("Key = " + varsDec.getKey() + ", "
-				     		+ "Value = " + varsDec.getValue());
-		     		 	//System.out.println(ms);
-				     	//if ( varsDec.getValue().split("\\.")[1].split("(") )
-		     		 	tmp = varsDec.getValue().split("\\.")[1].split("\\(")[0];
-				     	//System.out.println( tmp );
-						for (Map.Entry<String, Boolean> mList : methodsList.entrySet()) {
-							 System.out.println("ListaMethods: "+ mList.getKey() +"\n");
-							 System.out.println( "varsDeclarations: "+tmp+"\n" );
-							//if( mList.getKey().matches( tmp ) )
-								//System.out.println( varsDec.getKey() );
-						}			     	
-				}*/
-		//}*/
-		     	 
+		public static void varSourcesFound(){	 
 		     	for (Map.Entry<String, Boolean> mList : methodsList.entrySet()) {
 			     	 	String ms = mList.getKey();//method source
 			     	 	for (Map.Entry<String, String> varsDec : varsDeclaration.entrySet()) {
@@ -125,72 +105,54 @@ public class Scanner {
 			     		 		System.out.println( " varsDec.getKey(): "+varsDec.getKey()+ " varsDec.getValue(): " +varsDec.getValue() +" // " + " ms: " + ms);
 			     		 		varsSources.add( varsDec.getKey() );
 			     		 		//System.out.println( "VariableSource:" +varsDec.getKey() + varsDec.getValue() );
-			     		 	 }
-			     		 	 //else
-			     		 		 
+			     		 	 } 		 
 					}
 		     	}
-		     	
-		     	/*for( int i=0; i<varsNotDefinition.size(); i++ ){
-		     		System.out.println("NS-DV:"+varsNotDefinition.get(i));
-		     		for ( int j=0; j<methodsCalls.size(); j++ ) {
-		     			if( methodsCalls.get(j).contains( varsNotDefinition.get(i) ))
-		     				System.out.println( "varName:"+varsNotDefinition.get(i)+ "contenidaen: "+ varsNotDefinition.get(i)  );
-		     		}
-		     	}*/
-		}
-		
-		public static void foundSourcesInMethodsCall(){
-			for (Map.Entry<String, Boolean> mList : methodsList.entrySet()) {
-	     	 	String ms = mList.getKey();//method source
-	     	 	System.out.println("PimeraPasada: "+mList.getKey() );
-	     	 	for ( int i=0; i<methodsCalls.size(); i++) {
-	     		 	 if(  methodsCalls.get(i).contains( ms) ){
-	     		 		System.out.println( " CallsMethodsMatchets: "+ methodsCalls.get(i));
-	     		 	 	for (Map.Entry<String, String> varsDec : varsDeclaration.entrySet()) {
-			     		 	 if( methodsCalls.get(i).contains(  varsDec.getKey() ) ){
-			     		 		for (Map.Entry<String, Boolean> ml : methodsList.entrySet()) {
-			     		 			System.out.println( "SegundaPasada: "+ml.getKey());
-			     		 			String methodV = ml.getKey();
-			     		 			if( methodsCalls.get(i).contains(methodV))
-			     		 				System.out.println( "Encontro: "+methodsCalls.get(i) );
-			     		 		}
-			     		 		//System.out.println( "VarName: " +varsDec.getKey() + "VarContetn: "+varsDec.getValue()); 
-			     		 		 //System.out.println( methodsCalls.get(i) );
-			     		 	 }
-			     		 	 //else
-			     		 		 
-					}
-	     		 		//varsSources.add( varsDec.getKey() );
-	     		 		//System.out.println( "VariableSource:" +varsDec.getKey() + varsDec.getValue() );
-	     		 	 }
-	     		 	 //else
-	     		 		 
-			}
-			}
 		}
 		
 		public static void foundSourcesinM(){
+			Map<String,String> matchest = new HashMap<String,String>();
 			for ( int i=0; i<methodsCalls.size(); i++) {
 				for (Map.Entry<String, String> varsDec : varsDeclaration.entrySet()) {
-					int pos = methodsCalls.get(i).indexOf( varsDec.getKey() ), f=0;
-					System.out.println(pos);
-					if(pos > -1 ){
-						//end = methodsCalls.get(i).indexOf( '(' );
-						//System.out.println("end: "+end);
-						System.out.println( methodsCalls.get(i).substring( pos, methodsCalls.get(i).length()   ) );
-						String tmp = methodsCalls.get(i).substring( pos, pos+varsDec.getKey().length() );
-						System.out.println( methodsCalls.get(i).substring( pos, pos+varsDec.getKey().length()   ) );
-						System.out.println( methodsCalls.get(i).substring( pos, end   ) );
+					int posVarInit = methodsCalls.get(i).indexOf( varsDec.getKey() );//position of var defined
+					if( posVarInit > -1 ){
+						int posVarEnd = posVarInit + varsDec.getKey().length();
+						String var = methodsCalls.get(i).substring(posVarInit, posVarEnd );
 						for (Map.Entry<String, Boolean> ml : methodsList.entrySet()) {
-							f = tmp.indexOf( ml.getKey());
-							if( f   > -1) 
-								System.out.println( tmp );;
+							int posImet = methodsCalls.get(i).indexOf( ml.getKey() );
+							if( posImet > -1 ){
+								int posEndM = posImet + ml.getKey().length();
+								String met =  methodsCalls.get(i).substring( posImet, posEndM );
+								System.out.println( "Method: " + met );
+								//System.out.println(( var+"."+ met) );
+								if( methodsCalls.get(i).indexOf( var+"."+ met) > -1){
+									String match = var+"."+ met;
+									System.out.println("Match: "+match);
+									matchest.put(var, match);
+									/*for (Map.Entry<String, String> vDecl : varsDeclaration.entrySet()) {
+										System.out.println("Var : "+ var);
+										if( vDecl.getValue().indexOf(var) == -1){
+											varsSources.add( var );
+											System.out.println("VarYaDefinida: "+var);
+										}else if( vDecl.getValue().indexOf(var) == -1 ){
+											System.out.println("no esta: "+var);
+										}
+									}*/
+							   }
 								
+							}
 						}
-						
 					}
-					
+				}
+			}
+			
+			for (Map.Entry<String, String> mat : matchest.entrySet()) {
+				System.out.println(mat.getKey()+" "+ mat.getValue());
+				for( int j=0; j<varsSources.size(); j++ ){
+					if( varsDeclaration.get( varsSources.get(j) ).indexOf( mat.getKey()) > -1 )
+						System.out.println( " Ya estaba definida: "+ varsDeclaration.get( varsSources.get(j) ) );
+					else
+						System.out.println( " NoDefinida: "+ varsDeclaration.get( varsSources.get(j) ) );;
 				}
 			}
 		}

@@ -10,7 +10,7 @@ import java.util.Map;
 public class Main {
 	
 	public static void main(final String[] args) throws ParseException, IOException {
-		String fileIn = "/home/h4d4/Escritorio/inLabelGenerator/MainActivity.java"; //MainActivity.java  Exceptions1.java test-sources.java
+		String fileIn = "/home/h4d4/Escritorio/inLabelGenerator/Exceptions1.java"; //MainActivity.java  Exceptions1.java Exceptions3.java test-sources.java ImplicitFlow1.java
 		//Scanner scanner = new Scanner();
 		Scanner.setFileIn(fileIn);
 		Scanner.fullingMethodsList();
@@ -32,6 +32,11 @@ public class Main {
 		//Scanner.checkArrayList( Scanner.varsNotDefinition);
 		//Scanner.foundSourcesInMethodsCall();
 		Scanner.foundSourcesinM();
+		System.out.println(">>>>>>>>>>>>  VARS_SOURCES >>>>>>>>>>>>>>>>>>>>>>");
+		Scanner.checkArrayList(Scanner.varsSources);
+		System.out.println(Scanner.varsSources.size());
+		
+		
 		
 	}
 }
