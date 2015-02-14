@@ -6,7 +6,9 @@ import japa.parser.ParseException;
 import japa.parser.ast.CompilationUnit;
 import japa.parser.ast.TypeParameter;
 import japa.parser.ast.body.MethodDeclaration;
+import japa.parser.ast.body.VariableDeclarator;
 import japa.parser.ast.expr.MethodCallExpr;
+import japa.parser.ast.expr.VariableDeclarationExpr;
 import japa.parser.ast.visitor.VoidVisitorAdapter;
 
 import java.io.BufferedWriter;
@@ -16,8 +18,16 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
+import javax.swing.text.html.HTMLDocument.Iterator;
+
+/**
+ * @author h4d4
+ *
+ */
 public class Annotation {
 	
 	static String sourcesVar[] = {"imei"};
@@ -26,10 +36,11 @@ public class Annotation {
 	static String fileIn, fileOut;
 	static ArrayList<String> declaredMethods = new ArrayList<String>(),//metodos declarados en la clase
 			methodsCallSource = new ArrayList<String>(), //metodos de la clase que son llamados con Sources
-			methodsSources = new ArrayList<String>(), //methodos a anotar con source
+			//methodsSources = new ArrayList<String>(), //methodos a anotar con source
 			methodsNoSources = new ArrayList<String>();	//metodos a anotar sin source
 	static Map<String,String> methodsCalls = new HashMap<String,String>(), //todas las llamadas a metodos
-			methodClassCall = new HashMap<String,String>();	//llamadas solo a metodos de la clase		
+			methodClassCall = new HashMap<String,String>();	//llamadas solo a metodos de la clase	
+	static Set<String> methodsSources = new HashSet<String>(); //methodos a anotar con source
 	
 	
 	public static void setFiles( String inFile, String outFile ){
@@ -63,40 +74,48 @@ public class Annotation {
 	public static class MethodVisitor extends VoidVisitorAdapter<Object> {//obtener el total de metodos declarados dentro de la clase
 		@Override
 	    public void visit(MethodDeclaration n, Object arg) {
-			declaredMethods.add( n.getName() );
+			declaredMethods.add( n.getName() ); 
 	    }
 	 }
 	
-	public static class MethodCallsVisitor extends VoidVisitorAdapter<Object> {
+	public static class MethodVisitorExceptions extends VoidVisitorAdapter<Object> {
+		@Override
+	    public void visit(MethodDeclaration n, Object arg) {
+			System.out.println("Thows: "+n.getThrows()); 
+	    }
+	 }
+	
+	public static class MethodCallsVisitor extends VoidVisitorAdapter<Object> {//todas las llamadas a metodos
         @Override
         public void visit(MethodCallExpr n, Object arg) {
         	methodsCalls.put(n.getName(), n.toString());
+        	//System.out.println( "methodCALLS: "+n.getName()+" "+n.toString());
         } 
 	}
-	
+
 	public static void filterMethodsNoSources(){
 		int i;
 		for( i=0; i<declaredMethods.size(); i++ ){
 			boolean f = false;
-			for( int j=0; j<methodsSources.size(); j++ ){
-				if ( declaredMethods.get(i).equals(methodsSources.get(j)) ){
+			for( String s : methodsSources ){
+				if ( declaredMethods.get(i).equals( s ) ){
 					f = true;
 					
 					break;
 				}
-				
-				//	System.out.println( "XXXX: "+declaredMethods.get(i)+" "+ methodsSources.get(j));
 			}
-			if (!f) System.out.println( "NO estan: "+declaredMethods.get(i));
+			if (!f) 
+				methodsNoSources.add( declaredMethods.get(i) );
 		}
 	}
 	
-	private static class MethodChangerVisitorSources extends VoidVisitorAdapter<Object> {//anotar methods sources
+	public static class MethodChangerVisitorSources extends VoidVisitorAdapter<Object> {//anotar methods sources
 		@Override
         public void visit(MethodDeclaration n, Object arg) {
-			for( int i=0; i<methodsSources.size(); i++ ){
-				if( methodsSources.get(i).equals(n.getName()) ){
+			for( String s : methodsSources ){
+				if( s.equals(n.getName()) ){
 					System.out.println( n.getName() );
+					n.setName("{Alice:}"+n.getName());
 					java.util.List<japa.parser.ast.body.Parameter> parameters = n.getParameters(); 
 		            for (japa.parser.ast.body.Parameter param : parameters){
 			              param.getId().setName("{Alice:}"+param.getId().getName());
@@ -105,36 +124,43 @@ public class Annotation {
 			}
         }
     }
-	private static class MethodChangerVisitor extends VoidVisitorAdapter<Object> {//anotar methods NO sources
+	public static class MethodChangerVisitorNS extends VoidVisitorAdapter<Object> {//anotar methods NO sources
 		@Override
         public void visit(MethodDeclaration n, Object arg) {
 			
-			/*for( int i=0; i<methodsSources.size(); i++ ){
-				if( methodsSources.get(i).equals(n.getName()) ){
-					System.out.println( n.getName() );
-					java.util.List<japa.parser.ast.body.Parameter> parameters = n.getParameters(); 
-		            for (japa.parser.ast.body.Parameter param : parameters){
-			              param.getId().setName("{Alice:}"+param.getId().getName());
-			        }
+			for( int i=0; i<methodsNoSources.size(); i++ ){
+				if( n.getName().equals(methodsNoSources.get(i)) ){
+						System.out.println( "NS: "+methodsNoSources.get(i) );
+						n.setName(n.getName()+"{}");
 				}
-			}*/
+			}
         }
     }
+	
 	public static void filterMethodsCalls(){		//detectar llamadas solo a metodos declarados en la clase
 		for (Map.Entry<String, String> entry : methodsCalls.entrySet()) {
 			for( int i=0; i<declaredMethods.size(); i++ ){
-				if( entry.getKey().equals(declaredMethods.get(i)) )
+				if( entry.getKey().equals(declaredMethods.get(i)) ){
 					methodClassCall.put( entry.getKey() ,  entry.getValue() );
+				}
 			}
 		}
 	}
 	
-	public static void methodsCallsSources(){ //llamadas a metodos de la clase que tienen en sus argumentos un source
-		for (Map.Entry<String, String> entry : methodClassCall.entrySet()) {
-			if( entry.getValue().indexOf( sourcesVar[0] ) > -1 )
-				methodsSources.add( entry.getKey() );
+	public static void methodsCallsSources(){ //guarda llamadas a metodos de la clase que tienen en sus argumentos un source
+		for( int i=0; i<Source.varSources.size(); i++ ){
+			for (Map.Entry<String, String> entry : methodClassCall.entrySet()) {
+				if(  entry.getValue().indexOf( Source.varSources.get(i) )  > -1 ){
+					methodsSources.add(entry.getKey());
+				}
+			}
+			
+		}
+		for (String s : methodsSources) {
+		    System.out.println("MS: "+s);
 		}
 	}
+
 	
 	public static void printFile(){
 		try {
@@ -167,7 +193,7 @@ public class Annotation {
 	}
 	
 	
-	public static void main(String[] args) throws ParseException, IOException {
+/*	public static void main(String[] args) throws ParseException, IOException {
 		String fileIn = "/home/h4d4/Escritorio/inLabelGenerator/ImplicitFlow1.java"; 
 		String fileOut = "/home/h4d4/Escritorio/outLabelGenerator/parser.java";
 		//MainActivity.java  Exceptions1.java Exceptions3.java test-sources.java ImplicitFlow1.java
@@ -179,11 +205,11 @@ public class Annotation {
 		//checkStringMaps(methodClassCall);	
 		methodsCallsSources();
 		new MethodChangerVisitorSources().visit(cu,null);
-		printFile();
 		filterMethodsNoSources();
-		System.out.println("LLLLLLLLLLLLLLLLLLLLLLLLLLLLLL");
-		checkArrayList(declaredMethods);
+		new MethodChangerVisitor().visit(cu, null);
+		printFile();
+		new MethodVisitorExceptions().visit(cu, null);
 		
-	}
+	}*/
 	
 }
