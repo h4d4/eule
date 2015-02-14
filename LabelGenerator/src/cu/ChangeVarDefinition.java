@@ -60,8 +60,7 @@ public class ChangeVarDefinition {
 			BufferedWriter bw = new BufferedWriter(fw);
 			
 			do {
-				 line = in.readLine(); System.out.println("YA");
-				 //System.out.println(line.length());
+				 line = in.readLine(); 
 				 
 				 if( line != null) {
 					 String[] tokens, tmp;
@@ -106,27 +105,49 @@ public class ChangeVarDefinition {
 		}
 	}
 
-
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		String fileIn = "/home/h4d4/Escritorio/eule/InputLabelGenerator/ImplicitFlow4.java";
-		String fileOut = "/home/h4d4/Escritorio/outLabelGenerator/ImplicitFlow4.java";
-		Source.getSources(fileIn);
-		SetPath(fileOut,fileOut);
-		findVar( "username" );
-		/*for( int i=0; i<Source.varSources.size(); i++){
-			if( i > 1 ){
-				System.out.println("SO");
-				SetPath(fileOut,fileOut);
-			}else if( i== 0 )
-					SetPath(fileIn,fileOut);
+	public static void init( String inFile, String outFile ){
+		//Source.getSources(inFile);
+		String fo[] = outFile.split("\\.");
+		String file = fo[0]+"-out."+fo[1];
+		String dot = outFile.split("/")[0]+""+file;
+		if( Source.varSources.size() > 1 ){
+			String dout = outFile.substring( 0, outFile.lastIndexOf('/')+1);
+			String fileName = inFile.substring(inFile.lastIndexOf('/')+1);
+			String fileOutTmp, files[] = new String[ Source.varSources.size() ];
 			
-			findVar( Source.varSources.get(i) );
+			for( int i=0; i<Source.varSources.size()-1; i++ ){
+				fileOutTmp = dout+"fot"+i+".java";
+				files[i] = fileOutTmp;
+			}
+			//files[Source.varSources.size()-1] = dout+fileName;
+			//files[Source.varSources.size()-1] = outFile;
+			files[Source.varSources.size()-1] = dot;
 			
-			SetPath(fileIn,fileOut);
-			findVar( Source.varSources.get(i) );
-		}*/
-		
+			for( int i=0; i<files.length; i++ ){
+				System.out.println("files: "+files[i]);
+			}
+			
+			for( int i=0; i<Source.varSources.size(); i++){
+				if( i == 0 ){
+					SetPath(inFile,files[i]);
+					findVar( Source.varSources.get(i) );
+				}
+				else{
+					SetPath(files[i-1],files[i]);
+					findVar( Source.varSources.get(i) );
+				}
+			}
+		}else if( Source.varSources.size() == 1 ) {
+			SetPath(inFile,dot);
+			findVar( Source.varSources.get(0));
+		}
 	}
+	
+	/*public static void main(String[] args) {
+	
+		String fileIn = "/home/h4d4/Escritorio/eule/InputLabelGenerator/Exceptions1.java";
+		String fileOut = "/home/h4d4/Escritorio/outLabelGenerator/Exceptions1.java";
+		init(fileIn,fileOut);
+	}*/
 
 }

@@ -136,6 +136,18 @@ public class Annotation {
 			}
         }
     }
+	public static class MethodChangerVisitorZeroSources extends VoidVisitorAdapter<Object> {//anotar methods NO sources
+		@Override
+        public void visit(MethodDeclaration n, Object arg) {
+			
+			for( int i=0; i<declaredMethods.size(); i++ ){
+				if( n.getName().equals(declaredMethods.get(i)) ){
+						System.out.println( "NS: "+declaredMethods.get(i) );
+						n.setName(n.getName()+"{}");
+				}
+			}
+        }
+    }
 	
 	public static void filterMethodsCalls(){		//detectar llamadas solo a metodos declarados en la clase
 		for (Map.Entry<String, String> entry : methodsCalls.entrySet()) {
@@ -164,7 +176,6 @@ public class Annotation {
 	
 	public static void printFile(){
 		try {
- 
 				File file = new File(fileOut);
 				if (!file.exists()) {
 					file.createNewFile();
