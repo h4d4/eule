@@ -9,34 +9,45 @@ import java.util.Map;
 
 public class Main {
 	
-	public static void main(final String[] args) throws ParseException, IOException {
-		String fileIn = "/home/h4d4/Escritorio/inLabelGenerator/Exceptions1.java"; //MainActivity.java  Exceptions1.java Exceptions3.java test-sources.java ImplicitFlow1.java
-		//Scanner scanner = new Scanner();
-		Scanner.setFileIn(fileIn);
-		Scanner.fullingMethodsList();
-		Scanner.generateCu();
-		new Scanner.VariableDeclarationVisitor().visit(Scanner.cu, null);
-		System.out.println(">>>>>>>>>>>>>>>  varsDeclaration  >>>>>>>>>>>>>>>>>>>");
-		Scanner.checkStringMaps(Scanner.varsDeclaration);
-		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-		new Scanner.MethodCallsVisitor().visit(Scanner.cu, null);
-		System.out.println(">>>>>>>>>>>>  methodsCalls >>>>>>>>>>>>>>>>>>>>>>");
-		Scanner.checkArrayList(Scanner.methodsCalls);
-		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-		System.out.println(">>>>>>>>>>>>  varsSources >>>>>>>>>>>>>>>>>>>>>>");
-		Scanner.varSourcesFound();
-		System.out.println(">>>>>>>>>>>>>>>>MethodList>>>>>>>>>>>>>>>>>>");
-		//Scanner.foundSourcesInMethodsCall();
-		//Scanner.checkBooleanMaps(Scanner.methodsList);
-		System.out.println(">>>>>>>>>>>>  test >>>>>>>>>>>>>>>>>>>>>>");
-		//Scanner.checkArrayList( Scanner.varsNotDefinition);
-		//Scanner.foundSourcesInMethodsCall();
-		Scanner.foundSourcesinM();
-		System.out.println(">>>>>>>>>>>>  VARS_SOURCES >>>>>>>>>>>>>>>>>>>>>>");
-		Scanner.checkArrayList(Scanner.varsSources);
-		System.out.println(Scanner.varsSources.size());
+	public static void main(String[] args) throws ParseException, IOException {
+		String fileIn = "/home/h4d4/Escritorio/eule/InputLabelGenerator/ImplicitFlow4.java";
+		String fileOut = "/home/h4d4/Escritorio/outLabelGenerator/ImplicitFlow4.java";
+		Annotation.setFiles(fileIn, fileOut);
+		Source.getSources(fileIn);
 		
-		
-		
+		if( Source.varSources.isEmpty() ){
+			//Annotation AA-c
+			
+		}else{	//Annotation AA
+			//ANOTAR VARIABLES SOURCES
+			
+			
+			Annotation.generateCu();
+			//P1: identificar el total de metodos de la clase
+			new Annotation.MethodVisitor().visit(Annotation.cu, null);
+			//Annotation.checkArrayList(Annotation.declaredMethods);
+			//P2: del total de metodos identificar los que son llamados con la clase
+			new Annotation.MethodCallsVisitor().visit(Annotation.cu, null);
+			//Annotation.checkStringMaps(Annotation.methodsCalls);
+			Annotation.filterMethodsCalls();
+			System.out.println("mcc");
+			Annotation.checkStringMaps(Annotation.methodClassCall);
+			System.out.println("mcc");
+			Annotation.methodsCallsSources();
+		/*	for(int i=0; i<Source.varSources.size(); i++){
+				System.out.println("Source: "+Source.varSources.get(i));
+			}*/
+			Annotation.filterMethodsNoSources();
+			System.out.println("MNS");
+			Annotation.checkArrayList(Annotation.methodsNoSources);
+			System.out.println("MNS");
+			//Annotation.checkArrayList(Annotation.methodsSources);
+			System.out.println("Methods sources: "+Annotation.methodsSources.size());
+			new Annotation.MethodChangerVisitorSources().visit(Annotation.cu, null);
+			new Annotation.MethodChangerVisitorNS().visit(Annotation.cu, null);
+			Annotation.printFile();
+
+		}	
+	
 	}
 }
