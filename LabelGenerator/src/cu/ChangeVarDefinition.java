@@ -40,9 +40,9 @@ public class ChangeVarDefinition {
 		}
 		buffer.close();
 	}
-	public static void SetPath(){
-		fileIn = new File( "/home/h4d4/Escritorio/eule/InputLabelGenerator/Exceptions1.java" );  
-		dirOut = new File( "/home/h4d4/Escritorio/outLabelGenerator/Exceptions1.java" );
+	public static void SetPath(String inFile, String outFile){
+		fileIn = new File( inFile );  
+		dirOut = new File( outFile );
 	}
 	public static void findVar( String nameVar ){
 		BufferedReader in = null;
@@ -50,7 +50,7 @@ public class ChangeVarDefinition {
 			in = new BufferedReader(new InputStreamReader(new FileInputStream(fileIn)));			
 		} catch (FileNotFoundException e) { e.printStackTrace(); System.exit(-1); }
 		
-		String line = null, newLline = null;
+		String line = null; 
 		try {
 			File file = dirOut;
 			if (!file.exists()) {
@@ -58,8 +58,9 @@ public class ChangeVarDefinition {
 			}
 			FileWriter fw = new FileWriter(file.getAbsoluteFile());
 			BufferedWriter bw = new BufferedWriter(fw);
+			
 			do {
-				 line = in.readLine(); 
+				 line = in.readLine(); System.out.println("YA");
 				 //System.out.println(line.length());
 				 
 				 if( line != null) {
@@ -96,9 +97,9 @@ public class ChangeVarDefinition {
 						 bw.write(line); 
 						 bw.write("\n");
 					 }
+					// bw.flush();
 			     }
 			} while (line != null);	
-			
 			bw.close();
 		}catch (IOException e) {
 			e.printStackTrace();
@@ -108,8 +109,24 @@ public class ChangeVarDefinition {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		SetPath();
-		findVar("imei");
+		String fileIn = "/home/h4d4/Escritorio/eule/InputLabelGenerator/ImplicitFlow4.java";
+		String fileOut = "/home/h4d4/Escritorio/outLabelGenerator/ImplicitFlow4.java";
+		Source.getSources(fileIn);
+		SetPath(fileOut,fileOut);
+		findVar( "username" );
+		/*for( int i=0; i<Source.varSources.size(); i++){
+			if( i > 1 ){
+				System.out.println("SO");
+				SetPath(fileOut,fileOut);
+			}else if( i== 0 )
+					SetPath(fileIn,fileOut);
+			
+			findVar( Source.varSources.get(i) );
+			
+			SetPath(fileIn,fileOut);
+			findVar( Source.varSources.get(i) );
+		}*/
+		
 	}
 
 }
