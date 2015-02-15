@@ -4,7 +4,7 @@ public final class Log {
 	//private  static int __JIF_SIG_OF_JAVA_CLASS$20030619 = 0;
 	public static final int INFO = 4;
 	
-	public static int i{Alice:}(String{Alice:} tag, String{} msg){
+	public static int i{Alice:}(String {Alice:}tag, String {}msg){
 		return 1;
 	}
 	/*public static int{} i{Alice:}(String{Alice:} tag, String{} msg){
