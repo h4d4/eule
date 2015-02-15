@@ -1,0 +1,128 @@
+\section{Contexto}
+\label{sec:contexto}
+%-(Lina: falta actualizar contenido)\newline
+Las soluciones propuestas para detectar fuga de información en aplicaciones
+Android, se enmarcan en el análisis estático o dinámico de la aplicación, en
+algunos casos, se combinan ambos tipos.\newline 
+En análisis estático, se estudia el código del programa para inferir todos
+los posibles caminos de ejecución. Esto se logra construyendo modelos de estado
+del programa, y determinando los estados posibles que puede alcanzar el
+programa.
+No obstante, debido a que existen múltiples posibilidades de ejecución, se opta
+por construir un modelo abstracto de los estados del programa. La consecuencia
+de tener un modelo aproximado es pérdida de información y posibilidad de menor
+precisión en el análisis.\newline 
+Por otro lado, en análisis dinámico se ejecuta el programa y se analiza su
+comportamiento, verificando el camino de ejecución que ha tomado el programa.
+Esa exactitud en la ejecución que se verifica, da precisión al análisis, porque
+no es necesario construir un modelo aproximado de todos los posibles caminos de
+ejecución.\newline 
+Aunque los resultados del análisis estático pueden perder precisión, la ventaja
+es que son generalizables, es decir, el modelo construido representa una
+descripción del comportamiento del programa, independientemente de las entradas
+y el contexto en que este se ejecute. Ahora, con el análisis dinámico, no es
+posible generalizar sus resultados para futuras ejecuciones, porque no
+existen garantías de que las entradas para las cuales fue ejecutado el programa,
+contengan características para todos los posibles caminos de ejecución.\newline 
+Además de las ventajas y desventajas de ambas clases de análisis, cada uno
+implica su propio reto, así, mientras en el análisis estático la dificultad está
+en construir el modelo de abstracción adecuado, en el análisis dinámico, es
+complejo encontrar un conjunto de casos de prueba representativo, a analizar
+durante la ejecución del programa.\newline
+Por otra parte, dependiendo de la finalidad con qué se detecte la fuga de
+información, un tipo de análisis puede ser más apropiado que otro. Si se busca
+contener la fuga de información a tiempo de ejecución, análisis dinámico es el
+camino apropiado. Por el contrario, si se busca garantizar que a tiempo de
+ejecución la aplicación no incurrirá en fugas de información, resulta más
+conveniente aplicar análisis estático, porque cumplir con tales garantías
+implica definir políticas de confidencialidad y/o integridad desde la
+implementación de la aplicación.\newline 
+Precisamente, el propósito fundamental del presente trabajo es ofrecer al
+desarrollador de aplicaciones Android una herramienta para aplicar políticas de
+confidencialidad en la aplicación que implementa, así, la aplicación se
+ejecutará exitosamente, si y sólo si, cumple con las políticas definidas, de lo
+contrario, el desarrollador puede revisar y corregir su código.\newline
+ 
+En análisis estático, generalmente, se aplican técnicas de seguridad de
+tipado(Typed-Inference/Security-Typed Analysis) y técnicas de flujo de
+datos(Data/Control Flow Analysis). Con técnicas Security-Typed las propiedades
+de confidencialidad e integridad son anotadas en el código, y verificadas a
+tiempo de compilación para garantizar que se cumplen en tiempo de ejecución. Con
+las técnicas de flujo de control o flujo de datos, se hace seguimiento al flujo
+de los datos o control de flujo para verificar el cumplimiento de políticas de
+seguridad, generalmente se utilizan grafos de Control de Flujo CFG(Control Flow
+Graph), Grafos de Flujo de Datos DFG( Data Flow Graph) y Grafos de llamadas CG
+(Call Graphs).\newline 
+
+Al consultar la literatura científica, es posible inferir que parte importante
+de las propuestas para análisis de fuga de información en aplicativos
+Android(TaintDroid\cite{TaintDroid}, Flow-Droid\cite{FlowDroid-Thesis},
+DidFail\cite{DidFail}, DroidForce\cite{DroidForce}), parten del bytecode para
+realizar data-flow analysis, mediante técnicas de análisis tainting. Tainting
+es un tipo especial de análisis de flujo de datos, que hace seguimiento al flujo
+de datos entre un conjunto de fuentes considerados privados y/o sensibles; y un
+conjunto de destinos considerados no confiables, sources y sinks,
+respectivamente.\newline 
+Tales propuestas se enfocan en analizar aplicativos de terceros para detectar
+flujos de datos indebidos, y no: para garantizar el cumplimiento de determinadas
+políticas de seguridad. En consecuencia, es complejo que el desarrollador
+garantice la ausencia de fugas de información en la aplicación que implementa,
+partiendo de tales herramientas. Puesto que, al seguir únicamente a los datos
+marcados, los datos no marcados para el análisis, pueden acarrear fugas de
+información(under-tainting). Adicionalmente, si no se hace seguimiento al flujo
+de control pueden existir fugas de información a través de flujos implícitos,
+ya que, el análisis estará centrado en flujos explícitos.\newline
+No obstante, las limitaciones propias de un análisis basado en flujo de datos,
+pueden superarse enfocando el análisis de la aplicación hacia técnicas de
+análisis basadas en control de flujo de información, ya que estás analizan el
+aplicativo de forma estática para identificar todos los posibles caminos que
+podría tomar la aplicación en tiempo de ejecución. Así, con análisis basado en
+control de flujo de información, no sólo es posible prevenir fugas por
+under-tainting y flujos implícitos; sino que también, es posible ofrecer
+garantías del cumplimiento de determinadas políticas de seguridad.\newline 
+Ahora, las reglas para evaluar control de flujo de información pueden definirse
+mediante técnicas Security-Typed, por ejemplo como se definen con
+JIF \ref{JIF-Tool}, una herramienta basada en lenguajes tipados de seguridad
+para realizar control de flujo de información, el inconveniente es que está
+implementada para aplicaciones en Java, y no para aplicativos Android.\newline 
+En general, herramientas como estas, basadas en técnicas de análisis
+Security-Typed, implican conceptos como flujo de información, políticas de
+confidencialidad e integridad, y chequeo de tipos.\newline 
+El flujo de información describe el comportamiento de un programa, desde la
+entrada de los datos hasta la salida de los mismos.\newline 
+Confidencialidad e integridad son políticas de seguridad, aplicables mediante
+control de flujo de información. La confidencialidad busca prevenir que la
+información fluya hacia destinos no apropiados, mientras que, la integridad
+busca prevenir que la información provenga de fuentes no apropiadas. Una
+importante diferencia entre confidencialidad e integridad, es que la integridad
+de la información de un programa puede ser alterada sin la interacción con
+agentes externos.\newline %\textcolor{red}{(por qué es importante?)}
+Ambas políticas son fundamentales para garantizar propiedades de seguridad. Con
+políticas de confidencialidad, es posible garantizar ausencia de fugas de
+información. Mientras que, con políticas de integridad, la finalidad es evitar
+modificación de la información, de forma no consentida.\newline
+Por consiguiente, verificar que un programa utilice la información acorde a
+tales políticas, implica analizar sus flujos de información, de inicio a fin.
+Para el análisis, se deben definir: políticas de flujo de información y
+controles de flujo de información, es decir, las políticas de seguridad a
+evaluar y los mecanismos para aplicarlas.\newline 
+Al usar un lenguaje tipado de seguridad, las políticas son definidas a través
+del lenguaje, porque son expresadas mediante anotaciones en el código fuente del
+programa a verificar, y su evaluación se realiza mediante chequeo de tipos. El
+chequeo de tipos consiste en una técnica estática, también utilizada para
+analizar flujo de información durante la compilación de un programa, más
+específicamente en la etapa de análisis semántico, el compilador identifica el
+tipo para cada expresión del programa y verifica que corresponda al contexto de
+la expresión.
+%  El
+% chequeo de tipos también es una técnica estática utilizada para analizar flujo
+% de información durante la compilación de un programa, más específicamente en la
+% etapa de análisis semántico, el compilador identifica el tipo para cada
+% expresión del programa y verifica que corresponda al contexto de la expresión.
+Bajo este principio de chequeo, lenguajes tipados de seguridad aplican
+políticas de control de flujo, definiendo para cada expresión del programa un
+tipo de seguridad(security type), de la forma:  tipo de dato y label de
+seguridad(security label), regulador de uso del dato, acorde a su tipo. El
+compilador realiza el chequeo de tipos, partiendo del conjunto de labels de
+seguridad. Así, si el programa pasa el chequeo de tipos y compila correctamente,
+se espera que cumpla con las políticas de control de flujo evaluadas.
