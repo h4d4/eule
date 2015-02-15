@@ -6,7 +6,9 @@ import japa.parser.ParseException;
 import japa.parser.ast.CompilationUnit;
 import japa.parser.ast.TypeParameter;
 import japa.parser.ast.body.MethodDeclaration;
+import japa.parser.ast.body.Parameter;
 import japa.parser.ast.body.VariableDeclarator;
+import japa.parser.ast.expr.Expression;
 import japa.parser.ast.expr.MethodCallExpr;
 import japa.parser.ast.expr.VariableDeclarationExpr;
 import japa.parser.ast.visitor.VoidVisitorAdapter;
@@ -19,6 +21,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -89,7 +92,7 @@ public class Annotation {
         @Override
         public void visit(MethodCallExpr n, Object arg) {
         	methodsCalls.put(n.getName(), n.toString());
-        	//System.out.println( "methodCALLS: "+n.getName()+" "+n.toString());
+        	//System.out.println( "7777777777777777777777777777777777777777777: "+n.getName()+" "+n.toString());
         } 
 	}
 
@@ -115,7 +118,7 @@ public class Annotation {
 			for( String s : methodsSources ){
 				if( s.equals(n.getName()) ){
 					System.out.println( n.getName() );
-					n.setName("{Alice:}"+n.getName());
+					n.setName("{Alice:}"+n.getName()+"{Alice:}");
 					java.util.List<japa.parser.ast.body.Parameter> parameters = n.getParameters(); 
 		            for (japa.parser.ast.body.Parameter param : parameters){
 			              param.getId().setName("{Alice:}"+param.getId().getName());
@@ -124,6 +127,19 @@ public class Annotation {
 			}
         }
     }
+	
+	public static class ChangerSetContentView extends VoidVisitorAdapter<Object> {
+	        @Override
+	        public void visit(MethodCallExpr n, Object arg) {
+	        	if( n.getName().equals("setContentView") ){ 
+	        		Expression newExp = ASTHelper.createNameExpr("R.layou");
+	        		java.util.List<japa.parser.ast.expr.Expression> param = n.getArgs();
+	        		param.clear();
+	        		param.add(newExp);
+	        	}
+	        }
+	}
+	
 	public static class MethodChangerVisitorNS extends VoidVisitorAdapter<Object> {//anotar methods NO sources
 		@Override
         public void visit(MethodDeclaration n, Object arg) {
