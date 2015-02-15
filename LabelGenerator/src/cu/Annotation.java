@@ -136,6 +136,33 @@ public class Annotation {
 			}
         }
     }
+	
+	public static class MethodChangerVisitorNS2 extends VoidVisitorAdapter<Object> {//anotar methods NO sources
+		@Override
+        public void visit(MethodDeclaration n, Object arg) {
+			
+			for( int i=0; i<methodsNoSources.size(); i++ ){
+				if( n.getName().equals(methodsNoSources.get(i)) ){
+						//System.out.println( "NS: "+methodsNoSources.get(i) );
+						n.setName(n.getName()+"{}");
+						String tmp = n.getName();
+						//System.out.println( "name: "+n.getName() );
+						//if( ! tmp.equals("onCreate{}") ){
+							java.util.List<japa.parser.ast.body.Parameter> parameters = n.getParameters();
+							if( parameters != null && !parameters.isEmpty() ){
+								for (japa.parser.ast.body.Parameter param : parameters){
+									if( ! tmp.equals("onCreate{}") ){
+									System.out.println( "PNS<<<<<<<<<<<<<<<<<<<  "+tmp+"  <<<<<<<<<<<<<<<<<<:"+param.getId().getName() );
+						              param.getId().setName("{}"+param.getId().getName()); 
+									}
+					            }
+						}
+				//}
+			}
+        }
+    }
+	}
+	
 	public static class MethodChangerVisitorZeroSources extends VoidVisitorAdapter<Object> {//anotar methods NO sources
 		@Override
         public void visit(MethodDeclaration n, Object arg) {

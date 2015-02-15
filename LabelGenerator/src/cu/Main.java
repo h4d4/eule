@@ -108,7 +108,8 @@ public class Main {
 				//Annotation.checkArrayList(Annotation.methodsSources);
 				System.out.println("Methods sources: "+Annotation.methodsSources.size());
 				new Annotation.MethodChangerVisitorSources().visit(Annotation.cu, null);
-				new Annotation.MethodChangerVisitorNS().visit(Annotation.cu, null);
+				new Annotation.MethodChangerVisitorNS2().visit(Annotation.cu, null);
+				//new Annotation.ParametersNS().visit(Annotation.cu, null);
 				Annotation.printFile();
 				//P1-B: Anotar variables sources
 				ChangeVarDefinition.init(fileOut, fileOut);
