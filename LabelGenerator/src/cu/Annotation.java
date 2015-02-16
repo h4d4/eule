@@ -50,11 +50,12 @@ public class Annotation {
 	static String sourcesVar[] = {"imei"};
 	//static String sourcesVar[] = {};
 	static CompilationUnit cu;
-	static String fileIn, fileOut;
+	static String fileIn, fileOut, instancesName[] = {"android.content.Context"};
 	static ArrayList<String> declaredMethods = new ArrayList<String>(),//metodos declarados en la clase
 			methodsCallSource = new ArrayList<String>(), //metodos de la clase que son llamados con Sources
 			//methodsSources = new ArrayList<String>(), //methodos a anotar con source
-			methodsNoSources = new ArrayList<String>();	//metodos a anotar sin source
+			methodsNoSources = new ArrayList<String>(),	//metodos a anotar sin source
+			instances = new ArrayList<String>();		//clases que debo instanciar
 	static Map<String,String> methodsCalls = new HashMap<String,String>(), //todas las llamadas a metodos
 			methodClassCall = new HashMap<String,String>();	//llamadas solo a metodos de la clase	
 	static Set<String> methodsSources = new HashSet<String>(); //methodos a anotar con source
@@ -131,47 +132,28 @@ public class Annotation {
 		}
 		
 	}
-	public static class Test extends VoidVisitorAdapter<Object> {
-        @Override
-        public void visit(MethodDeclaration n, Object arg) {
-        	//NameExpr ne = ASTHelper.createNameExpr("static Context context;");
-        	ClassOrInterfaceDeclaration type = new ClassOrInterfaceDeclaration(ModifierSet.STATIC, false, "GeneratedClass");
-        	ASTHelper.addTypeDeclaration(cu, type);
-/*
-        	
-        	EmptyTypeDeclaration etd = new EmptyTypeDeclaration();
-        	etd.setName("Context");
-        	List<TypeDeclaration> ltd = cu.getTypes();
-        	ltd.add(etd);
-        	*/
-        }
-	}
-	public static void setContext(){
+	public static void IsClass(){
 		List<ImportDeclaration> imports = cu.getImports();
-    	boolean context = false;
-    	if( imports != null && !imports.isEmpty() ){
-    		for( int i=0; i<imports.size(); i++ ){
-    			if( imports.get(i).getName().toString().equals("android.content.Context") ){
-    				context = true;
-    				break;
-    			}
+    	boolean existClass = false;
+    	for( int j=0; j<instancesName.length; j++ ){
+    		if( imports != null && !imports.isEmpty() ){
+        		for( int i=0; i<imports.size(); i++ ){
+        			if( imports.get(i).getName().toString().matches(instancesName[j]) ){
+        				existClass = true;
+        				break;
+        			}
+        		}
+        	}
+    		if( existClass ){
+    			instances.add(instancesName[j].split("\\.")[2]); 
     		}
     	}
-    	if( context ){
-    		;
-    		
-    		//ASTHelper.addMember(type, decl);
-	    		/*List<TypeDeclaration> typedec = cu.getTypes();
-	    		if( typedec != null && !typedec.isEmpty() )
-	    			for( int i=0; i<typedec.size(); i++){
-	    				System.out.println( "ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ: "+typedec.get(i).getMembers().toString() );
-	    				
-	    			}*/
-    	}
-    	
-    	
-    	
+    }
+	//limpiar para cada archivo el mapa de instancias
+	public static void clearInstances(){
+		instances.clear();
 	}
+	
 	public static void AddImports(){
 				List<ImportDeclaration> imports = cu.getImports();
 		    	ImportDeclaration imp = new ImportDeclaration();
@@ -350,6 +332,12 @@ public class Annotation {
 	
 	public static void checkStringMaps( Map<String,String> map ){
 		for (Map.Entry<String, String> entry : map.entrySet()) {
+		     	System.out.println("Key = " + entry.getKey() + ", "
+		     		+ "Value = " + entry.getValue());
+		}
+	}
+	public static void checkBooleanMaps( Map<String,Boolean> map ){
+		for (Map.Entry<String, Boolean> entry : map.entrySet()) {
 		     	System.out.println("Key = " + entry.getKey() + ", "
 		     		+ "Value = " + entry.getValue());
 		}

@@ -10,6 +10,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Map;
 
+
 public class Main {
 	
 	static File dirIn = null, dirOut, dirsIn[];
@@ -52,18 +53,11 @@ public class Main {
 				filesOut.add( dirOut+"/"+tmp );
 			}
 		}
-		
-		
 	}
 	
 	
 	public static void main(String[] args) throws ParseException, IOException {
-		/*String fileIn = "/home/h4d4/Escritorio/eule/InputLabelGenerator/ImplicitFlow4.java";
-		String fileOut = "/home/h4d4/Escritorio/outLabelGenerator/ImplicitFlow4.java";*/
 		String fileIn, fileOut;
-		
-		// /home/h4d4/Escritorio/eule/InputLabelGenerator/@/home/h4d4/Escritorio/outLabelGenerator/
-		// /home/h4d4/Escritorio/Development/workspace/DroidBench-master/eclipse-project@/home/h4d4/Escritorio/outLabelGenerator/
 		// /home/h4d4/Escritorio/inLabelGenerator/@/home/h4d4/Escritorio/outLabelGenerator/
 
 		ReadPath();
@@ -74,103 +68,46 @@ public class Main {
 			//P1-A: Identificar variables sources
 			Source.getSources(fileIn);
 			
-			if( Source.varSources.isEmpty() ){
-				//Annotation AA-c
-				Annotation.setFiles(fileIn, fileOut);
-				Annotation.generateCu();
-				//P1: identificar el total de metodos de la clase
-				new Annotation.MethodVisitor().visit(Annotation.cu, null);
-				//P3: Annotar Methos que no reciben sources
-				new Annotation.MethodChangerVisitorZeroSources().visit(Annotation.cu, null);
-				Annotation.printFile();
-			}else{	//Annotation AA
-				//inicializar archivos clase Annotation
-				Annotation.setFiles(fileIn, fileOut);
-				Annotation.generateCu();
-				//P1: identificar el total de metodos de la clase
-				new Annotation.MethodVisitor().visit(Annotation.cu, null);
-				//Annotation.checkArrayList(Annotation.declaredMethods);
-				//P2: del total de metodos identificar los que son llamados con la clase
-				new Annotation.MethodCallsVisitor().visit(Annotation.cu, null);
-				//Annotation.checkStringMaps(Annotation.methodsCalls);
-				Annotation.filterMethodsCalls();
-				System.out.println("mcc");
-				Annotation.checkStringMaps(Annotation.methodClassCall);
-				System.out.println("mcc");
-				Annotation.methodsCallsSources();
-				for(int i=0; i<Source.varSources.size(); i++){
-					System.out.println("Source: "+Source.varSources.get(i));
-				}
-				Annotation.filterMethodsNoSources();
-				System.out.println("MNS");
-				Annotation.checkArrayList(Annotation.methodsNoSources);
-				System.out.println("MNS");
-				//Annotation.checkArrayList(Annotation.methodsSources);
-				System.out.println("Methods sources: "+Annotation.methodsSources.size());
-				new Annotation.MethodChangerVisitorSources().visit(Annotation.cu, null);
-				new Annotation.MethodChangerVisitorNS2().visit(Annotation.cu, null);
-				//new Annotation.ParametersNS().visit(Annotation.cu, null);
-				Annotation.printFile();
-				//P1-B: Anotar variables sources
-				ChangeVarDefinition.init(fileOut, fileOut);
-
-			}	
-		
-			
-			
-			
-			
-			
-			
-			
-			
-			
-		}
-		
-		/*
-		//P1-A: Identificar variables sources
-		Source.getSources(fileIn);
-		
-		if( Source.varSources.isEmpty() ){
-			//Annotation AA-c
-			Annotation.setFiles(fileIn, fileOut);
-			Annotation.generateCu();
-			//P1: identificar el total de metodos de la clase
-			new Annotation.MethodVisitor().visit(Annotation.cu, null);
-			//P3: Annotar Methos que no reciben sources
-			new Annotation.MethodChangerVisitorZeroSources().visit(Annotation.cu, null);
-			Annotation.printFile();
-		}else{	//Annotation AA
 			//inicializar archivos clase Annotation
 			Annotation.setFiles(fileIn, fileOut);
 			Annotation.generateCu();
 			//P1: identificar el total de metodos de la clase
 			new Annotation.MethodVisitor().visit(Annotation.cu, null);
-			//Annotation.checkArrayList(Annotation.declaredMethods);
-			//P2: del total de metodos identificar los que son llamados con la clase
-			new Annotation.MethodCallsVisitor().visit(Annotation.cu, null);
-			//Annotation.checkStringMaps(Annotation.methodsCalls);
-			Annotation.filterMethodsCalls();
-			System.out.println("mcc");
-			Annotation.checkStringMaps(Annotation.methodClassCall);
-			System.out.println("mcc");
-			Annotation.methodsCallsSources();
-			for(int i=0; i<Source.varSources.size(); i++){
-				System.out.println("Source: "+Source.varSources.get(i));
+			new Annotation.ChangerSetContentView().visit(Annotation.cu, null);
+			new Annotation.ChangeImports().visit(Annotation.cu, null);
+			Annotation.AddImports();
+			Annotation.IsClass();
+			
+			if( Source.varSources.isEmpty() ){
+				//Annotation AA-c
+				//P3: Annotar Methos que no reciben sources
+				new Annotation.MethodChangerVisitorZeroSources().visit(Annotation.cu, null);
+				Annotation.printFile();
+				BufferWriter.init(fileOut.toString(), fileOut.toString());
+			}else{	//Annotation AA
+				//Annotation.checkArrayList(Annotation.declaredMethods);
+				//P2: del total de metodos identificar los que son llamados con la clase
+				new Annotation.MethodCallsVisitor().visit(Annotation.cu, null);
+				//Annotation.checkStringMaps(Annotation.methodsCalls);
+				Annotation.filterMethodsCalls();
+				Annotation.methodsCallsSources();
+				Annotation.filterMethodsNoSources();
+				new Annotation.MethodChangerVisitorSources().visit(Annotation.cu, null);
+				new Annotation.MethodChangerVisitorNS2().visit(Annotation.cu, null);
+				//new Annotation.ParametersNS().visit(Annotation.cu, null);
+				/*new Annotation.ChangerSetContentView().visit(Annotation.cu, null);
+				//new Annotation.commentOverride().visit(Annotation.cu, null);
+				new Annotation.ChangeImports().visit(Annotation.cu, null);
+				Annotation.AddImports();
+				Annotation.IsClass();*/
+				System.out.println("INSTANCES<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+				Annotation.checkArrayList(Annotation.instances);
+				Annotation.printFile();
+				System.out.println("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+				//P1-B: Anotar variables sources
+				//ChangeVarDefinition.init(fileOut, fileOut);
+				BufferWriter.init(fileOut.toString(), fileOut.toString());
 			}
-			Annotation.filterMethodsNoSources();
-			System.out.println("MNS");
-			Annotation.checkArrayList(Annotation.methodsNoSources);
-			System.out.println("MNS");
-			//Annotation.checkArrayList(Annotation.methodsSources);
-			System.out.println("Methods sources: "+Annotation.methodsSources.size());
-			new Annotation.MethodChangerVisitorSources().visit(Annotation.cu, null);
-			new Annotation.MethodChangerVisitorNS().visit(Annotation.cu, null);
-			Annotation.printFile();
-			//P1-B: Anotar variables sources
-			ChangeVarDefinition.init(fileOut, fileOut);
-
-		}	
-	*/
+		}
 	}
 }
