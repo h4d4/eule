@@ -4,13 +4,27 @@ import japa.parser.ASTHelper;
 import japa.parser.JavaParser;
 import japa.parser.ParseException;
 import japa.parser.ast.CompilationUnit;
+import japa.parser.ast.ImportDeclaration;
 import japa.parser.ast.TypeParameter;
+import japa.parser.ast.body.AnnotationDeclaration;
+import japa.parser.ast.body.BodyDeclaration;
+import japa.parser.ast.body.ClassOrInterfaceDeclaration;
+import japa.parser.ast.body.EmptyTypeDeclaration;
+import japa.parser.ast.body.FieldDeclaration;
 import japa.parser.ast.body.MethodDeclaration;
+import japa.parser.ast.body.ModifierSet;
 import japa.parser.ast.body.Parameter;
+import japa.parser.ast.body.TypeDeclaration;
 import japa.parser.ast.body.VariableDeclarator;
+import japa.parser.ast.expr.AnnotationExpr;
+import japa.parser.ast.expr.ClassExpr;
 import japa.parser.ast.expr.Expression;
+import japa.parser.ast.expr.InstanceOfExpr;
 import japa.parser.ast.expr.MethodCallExpr;
+import japa.parser.ast.expr.NameExpr;
 import japa.parser.ast.expr.VariableDeclarationExpr;
+import japa.parser.ast.stmt.ExpressionStmt;
+import japa.parser.ast.stmt.TypeDeclarationStmt;
 import japa.parser.ast.visitor.VoidVisitorAdapter;
 
 import java.io.BufferedWriter;
@@ -92,10 +106,102 @@ public class Annotation {
         @Override
         public void visit(MethodCallExpr n, Object arg) {
         	methodsCalls.put(n.getName(), n.toString());
-        	//System.out.println( "7777777777777777777777777777777777777777777: "+n.getName()+" "+n.toString());
         } 
 	}
 
+	
+	public static class commentOverride extends VoidVisitorAdapter<Object> {//NO FUNCIONA!!!!!!!!!!1
+		@Override
+        public void visit(MethodDeclaration n, Object arg) {
+			NameExpr ne = new NameExpr();
+			List<AnnotationExpr> annotations = n.getAnnotations();
+			if( annotations != null && !annotations.isEmpty()   ){
+				for( int i=0; i<annotations.size(); i++  ){
+					if( annotations.get(i).getName().toString().equals("Override") )
+						//ne.setName( "/***" +annotations.get(i).getName().toString()+"*\\"  );
+						ne.setName(annotations.get(i).getName().toString()+"X"  );
+						annotations.get(i).setName( ne );
+						//System.out.println( ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> "+ annotations.get(i).getName().toString() );
+				}
+			}	
+			n.setAnnotations(annotations);
+			/*if(a.getName().toString().equals("Override"))
+				System.out.println( ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> "+ a.getName().toString() );*/
+			
+		}
+		
+	}
+	public static class Test extends VoidVisitorAdapter<Object> {
+        @Override
+        public void visit(MethodDeclaration n, Object arg) {
+        	//NameExpr ne = ASTHelper.createNameExpr("static Context context;");
+        	ClassOrInterfaceDeclaration type = new ClassOrInterfaceDeclaration(ModifierSet.STATIC, false, "GeneratedClass");
+        	ASTHelper.addTypeDeclaration(cu, type);
+/*
+        	
+        	EmptyTypeDeclaration etd = new EmptyTypeDeclaration();
+        	etd.setName("Context");
+        	List<TypeDeclaration> ltd = cu.getTypes();
+        	ltd.add(etd);
+        	*/
+        }
+	}
+	public static void setContext(){
+		List<ImportDeclaration> imports = cu.getImports();
+    	boolean context = false;
+    	if( imports != null && !imports.isEmpty() ){
+    		for( int i=0; i<imports.size(); i++ ){
+    			if( imports.get(i).getName().toString().equals("android.content.Context") ){
+    				context = true;
+    				break;
+    			}
+    		}
+    	}
+    	if( context ){
+    		;
+    		
+    		//ASTHelper.addMember(type, decl);
+	    		/*List<TypeDeclaration> typedec = cu.getTypes();
+	    		if( typedec != null && !typedec.isEmpty() )
+	    			for( int i=0; i<typedec.size(); i++){
+	    				System.out.println( "ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ: "+typedec.get(i).getMembers().toString() );
+	    				
+	    			}*/
+    	}
+    	
+    	
+    	
+	}
+	public static void AddImports(){
+				List<ImportDeclaration> imports = cu.getImports();
+		    	ImportDeclaration imp = new ImportDeclaration();
+		    	Expression newExp = ASTHelper.createNameExpr("api.R");
+		    	imp.setName((NameExpr) newExp);
+		    	imports.add(imp);
+	}
+	
+	public static class ChangeImports extends VoidVisitorAdapter<Object> {
+        @Override
+        public void visit(ImportDeclaration n, Object arg) {
+        	if( n.getName().toString().matches("android.app.Activity")  ){
+        		Expression newExp = ASTHelper.createNameExpr("api.app.Activity");
+        		n.setName((NameExpr) newExp);
+        	}else if( n.getName().toString().matches("android.util.Log")  ){
+        		Expression newExp = ASTHelper.createNameExpr("api.util.Log");
+        		n.setName((NameExpr) newExp);
+        	}
+        }
+	}
+	
+	public static class ImportsVisit2 extends VoidVisitorAdapter<Object> {
+        @Override
+        public void visit(ImportDeclaration n, Object arg) {
+        	
+        	Expression newExp = ASTHelper.createNameExpr("api.R");
+    		n.setName((NameExpr) newExp);
+        	}
+	}
+	
 	public static void filterMethodsNoSources(){
 		int i;
 		for( i=0; i<declaredMethods.size(); i++ ){
@@ -117,7 +223,7 @@ public class Annotation {
         public void visit(MethodDeclaration n, Object arg) {
 			for( String s : methodsSources ){
 				if( s.equals(n.getName()) ){
-					System.out.println( n.getName() );
+					//System.out.println( n.getName() );
 					n.setName("{Alice:}"+n.getName()+"{Alice:}");
 					java.util.List<japa.parser.ast.body.Parameter> parameters = n.getParameters(); 
 		            for (japa.parser.ast.body.Parameter param : parameters){
@@ -140,13 +246,16 @@ public class Annotation {
 	        }
 	}
 	
+	
+	
+	
 	public static class MethodChangerVisitorNS extends VoidVisitorAdapter<Object> {//anotar methods NO sources
 		@Override
         public void visit(MethodDeclaration n, Object arg) {
 			
 			for( int i=0; i<methodsNoSources.size(); i++ ){
 				if( n.getName().equals(methodsNoSources.get(i)) ){
-						System.out.println( "NS: "+methodsNoSources.get(i) );
+						//System.out.println( "NS: "+methodsNoSources.get(i) );
 						n.setName(n.getName()+"{}");
 				}
 			}
@@ -168,7 +277,7 @@ public class Annotation {
 							if( parameters != null && !parameters.isEmpty() ){
 								for (japa.parser.ast.body.Parameter param : parameters){
 									if( ! tmp.equals("onCreate{}") ){
-									System.out.println( "PNS<<<<<<<<<<<<<<<<<<<  "+tmp+"  <<<<<<<<<<<<<<<<<<:"+param.getId().getName() );
+									//System.out.println( "PNS<<<<<<<<<<<<<<<<<<<  "+tmp+"  <<<<<<<<<<<<<<<<<<:"+param.getId().getName() );
 						              param.getId().setName("{}"+param.getId().getName()); 
 									}
 					            }
@@ -185,7 +294,7 @@ public class Annotation {
 			
 			for( int i=0; i<declaredMethods.size(); i++ ){
 				if( n.getName().equals(declaredMethods.get(i)) ){
-						System.out.println( "NS: "+declaredMethods.get(i) );
+						//System.out.println( "NS: "+declaredMethods.get(i) );
 						n.setName(n.getName()+"{}");
 				}
 			}
