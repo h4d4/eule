@@ -5,6 +5,7 @@ import japa.parser.JavaParser;
 import japa.parser.ParseException;
 import japa.parser.ast.CompilationUnit;
 import japa.parser.ast.ImportDeclaration;
+import japa.parser.ast.PackageDeclaration;
 import japa.parser.ast.TypeParameter;
 import japa.parser.ast.body.AnnotationDeclaration;
 import japa.parser.ast.body.BodyDeclaration;
@@ -50,7 +51,7 @@ public class Annotation {
 	static String sourcesVar[] = {"imei"};
 	//static String sourcesVar[] = {};
 	static CompilationUnit cu;
-	static String fileIn, fileOut, instancesName[] = {"android.content.Context"};
+	static String fileIn, fileOut, instancesName[] = {"android.content.Context","android.telephony.TelephonyManager"};
 	static ArrayList<String> declaredMethods = new ArrayList<String>(),//metodos declarados en la clase
 			methodsCallSource = new ArrayList<String>(), //metodos de la clase que son llamados con Sources
 			//methodsSources = new ArrayList<String>(), //methodos a anotar con source
@@ -118,13 +119,16 @@ public class Annotation {
 			List<AnnotationExpr> annotations = n.getAnnotations();
 			if( annotations != null && !annotations.isEmpty()   ){
 				for( int i=0; i<annotations.size(); i++  ){
-					if( annotations.get(i).getName().toString().equals("Override") )
+					if( annotations.get(i).getName().toString().equals("Override") ){
 						//ne.setName( "/***" +annotations.get(i).getName().toString()+"*\\"  );
-						ne.setName(annotations.get(i).getName().toString()+"X"  );
+						String tmp = annotations.get(i).toString();
+						//annotations.get(i).
+						ne.setName("//"+tmp  );
 						annotations.get(i).setName( ne );
+				}
 						//System.out.println( ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> "+ annotations.get(i).getName().toString() );
 				}
-			}	
+			}
 			n.setAnnotations(annotations);
 			/*if(a.getName().toString().equals("Override"))
 				System.out.println( ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> "+ a.getName().toString() );*/
@@ -132,47 +136,95 @@ public class Annotation {
 		}
 		
 	}
+	//adiciona a instances la lista de imports de la clase
 	public static void IsClass(){
 		List<ImportDeclaration> imports = cu.getImports();
     	boolean existClass = false;
+    	int pos = 0;
     	for( int j=0; j<instancesName.length; j++ ){
     		if( imports != null && !imports.isEmpty() ){
         		for( int i=0; i<imports.size(); i++ ){
         			if( imports.get(i).getName().toString().matches(instancesName[j]) ){
+        				pos = j;
         				existClass = true;
         				break;
         			}
         		}
         	}
     		if( existClass ){
-    			instances.add(instancesName[j].split("\\.")[2]); 
+    			instances.add(instancesName[pos].split("\\.")[2]); 
     		}
     	}
+    	/*System.out.println(">>>>>>>>>>>>>>>>>>>>>>"+fileIn+">>>>>>>>>>>>>>>>>>>>>>>>>>><<");
+    	    if( imports != null &&  !imports.isEmpty() ){	
+    	    	System.out.println("XXXXXXXXXXXXXXXXXx"+imports.size()+"XXXXXXXXXXXXXXXX");
+    	    	for( int i=0; i<imports.size(); i++ ){
+    	    		System.out.println("XXXXXXXXXXXXXXXXXx"+imports.get(i)+"XXXXXXXXXXXXXXXX");
+    	    	}
+    	    }*/
     }
 	//limpiar para cada archivo el mapa de instancias
 	public static void clearInstances(){
 		instances.clear();
 	}
-	
-	public static void AddImports(){
+	public static void AddImportContext(  ){
+		List<ImportDeclaration> imports = cu.getImports();
+    	ImportDeclaration imp = new ImportDeclaration();
+    	Expression newExp = ASTHelper.createNameExpr("android.content.Context");
+    	imp.setName((NameExpr) newExp);
+    	imports.add(imp);
+    	boolean telephony = false;
+    	for( int i=0; i<imports.size(); i++ ){
+    		if( imports.get(i).getName().toString().equals("android.telephony.TelephonyManager") ){
+    			telephony = true;
+    			break;
+    		}
+    	}
+    	if( telephony ){
+      		ImportDeclaration imp2 = new ImportDeclaration();
+    		Expression newExp1 = ASTHelper.createNameExpr("android.content.Context");
+	    	imp.setName((NameExpr) newExp1);
+	    	imports.add(imp2);
+    	}
+	}
+	public static void addImporClaseR(  ){
 				List<ImportDeclaration> imports = cu.getImports();
 		    	ImportDeclaration imp = new ImportDeclaration();
-		    	Expression newExp = ASTHelper.createNameExpr("api.R");
+		    	Expression newExp = ASTHelper.createNameExpr("test.R");
 		    	imp.setName((NameExpr) newExp);
 		    	imports.add(imp);
 	}
-	
+	public static void addImportsRuntime(  ){
+		List<ImportDeclaration> imports = cu.getImports();
+		ImportDeclaration imp = new ImportDeclaration();
+    	Expression newExp2 = ASTHelper.createNameExpr("jif.runtime.Runtime");
+    	imp.setName((NameExpr) newExp2);
+    	imports.add(imp);
+	}
+	public static void addImports(){
+		addImporClaseR();
+		addImportsRuntime(  );
+	}
 	public static class ChangeImports extends VoidVisitorAdapter<Object> {
         @Override
         public void visit(ImportDeclaration n, Object arg) {
         	if( n.getName().toString().matches("android.app.Activity")  ){
-        		Expression newExp = ASTHelper.createNameExpr("api.app.Activity");
+        		Expression newExp = ASTHelper.createNameExpr("test.Activity");
         		n.setName((NameExpr) newExp);
         	}else if( n.getName().toString().matches("android.util.Log")  ){
-        		Expression newExp = ASTHelper.createNameExpr("api.util.Log");
+        		Expression newExp = ASTHelper.createNameExpr("test.Log");
+        		n.setName((NameExpr) newExp);
+        	}else if( n.getName().toString().matches("android.telephony.SmsManager")  ){
+        		Expression newExp = ASTHelper.createNameExpr("test.SmsManager");
         		n.setName((NameExpr) newExp);
         	}
         }
+	}
+	
+	public static void changePackage(){
+		NameExpr n = new NameExpr();
+		n.setName("test");
+		cu.getPackage().setName(n);
 	}
 	
 	public static class ImportsVisit2 extends VoidVisitorAdapter<Object> {
@@ -220,7 +272,7 @@ public class Annotation {
 	        @Override
 	        public void visit(MethodCallExpr n, Object arg) {
 	        	if( n.getName().equals("setContentView") ){ 
-	        		Expression newExp = ASTHelper.createNameExpr("R.layou");
+	        		Expression newExp = ASTHelper.createNameExpr("R.layout");
 	        		java.util.List<japa.parser.ast.expr.Expression> param = n.getArgs();
 	        		param.clear();
 	        		param.add(newExp);
@@ -302,13 +354,14 @@ public class Annotation {
 			}
 			
 		}
-		for (String s : methodsSources) {
+		/*for (String s : methodsSources) {
 		    System.out.println("MS: "+s);
-		}
+		}*/
 	}
 
 	
 	public static void printFile(){
+		//System.out.println(cu.toString());
 		try {
 				File file = new File(fileOut);
 				if (!file.exists()) {
@@ -340,6 +393,12 @@ public class Annotation {
 		for (Map.Entry<String, Boolean> entry : map.entrySet()) {
 		     	System.out.println("Key = " + entry.getKey() + ", "
 		     		+ "Value = " + entry.getValue());
+		}
+	}
+	
+	public static void checkSet(  ){
+		for( String s : methodsSources ){
+			System.out.println(s);
 		}
 	}
 	

@@ -91,10 +91,10 @@ public class Source {
       e.printStackTrace();
     }
     //cleanSpaces();
-    System.out.println("Me sources: ");
+   /* System.out.println("Me sources: ");
     for (String i : varSources) {
       System.out.println(i);
-    }
+    }*/
     
     //return meSource;
   }

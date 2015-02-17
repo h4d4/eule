@@ -63,34 +63,81 @@ public class BufferWriter {
 	}
 
 	//busca el inicio de la clase y adiciona una linea para instanciar una clase
-	public static void findInitClass(String instance ) throws IOException{
+	public static void instanceContext(String instance ) throws IOException{
+		int pos = 0;
+		boolean add = false;
+		char tmp[] = instance.trim().toCharArray();
+		String fc =  Character.toString( tmp[0] ).toLowerCase();
+		String nl = "static "+instance+ " "+fc+instance.substring(1)+';';
+		
 		for( int i =0; i<fileCont.size(); i++){
 			String line = fileCont.get(i);
 			int extend = line.indexOf("extends");
 			 if( extend > -1 ){
-				 char tmp[] = instance.trim().toCharArray();
-				 String fc =  Character.toString( tmp[0] ).toLowerCase();
-				 String nl = "static "+instance+ " "+fc+instance.substring(1)+';';
-				 fileCont.set(i+1,nl);
+				 add=true;
+				 pos = i;
 			 }
 		}
+		if( add )
+			fileCont.set(pos+1,nl);
+		
 		for( int i =0; i<fileCont.size(); i++){
 			String line = fileCont.get(i);
 			if( line.indexOf("(TelephonyManager)") >-1  && line.indexOf("getSystemService") >-1 ){
 				String s = line.substring(line.indexOf("getSystemService"));
 				String f = line.substring(0, line.indexOf("getSystemService"));
-				char tmp[] = instance.trim().toCharArray();
-				String fc =  Character.toString( tmp[0] ).toLowerCase();
-				String inst = fc+instance.substring(1)+".";
+				char tmp1[] = instance.trim().toCharArray();
+				String fc1 =  Character.toString( tmp1[0] ).toLowerCase();
+				String inst = fc1+instance.substring(1)+".";
 				String fs = f+inst+s;
 				fileCont.set(i, fs);
 			}
 		}
 	}
-	public static void findTelephonyManager(){
+	public static void instanceTelephony( String instance ) throws IOException{
+		int pos = 0;
+		String nl = "import android.content.Context;" ;
+		boolean add = false;
 		for( int i =0; i<fileCont.size(); i++){
-			
-		};
+			String line = fileCont.get(i);
+			 if( line.indexOf("import") > -1 ){
+				 add=true;
+				 pos = i;
+			 }
+		}
+		if( add )
+			fileCont.set(pos+1,nl);
+		
+		
+		int posInst = 0;
+		boolean addInst = false;
+		char tmpInst[] = instance.trim().toCharArray();
+		String fcInst =  Character.toString( tmpInst[0] ).toLowerCase();
+		String nlInst = "static "+instance+ " "+fcInst+instance.substring(1)+';';
+		
+		for( int i =0; i<fileCont.size(); i++){
+			String lineInst = fileCont.get(i);
+			int extendInst = lineInst.indexOf("extends");
+			 if( extendInst > -1 ){
+				 addInst=true;
+				 posInst = i;
+			 }
+		}
+		if( addInst )
+			fileCont.set(posInst+1,nlInst);
+		
+		for( int i =0; i<fileCont.size(); i++){
+			String line = fileCont.get(i);
+			if( line.indexOf("(TelephonyManager)") >-1  && line.indexOf("getSystemService") >-1 && line.indexOf("this") >-1 ){
+				String f = line.substring(0, line.indexOf("this"));
+				String s = line.substring(line.indexOf("this")+4);
+				char tmp[] = instance.trim().toCharArray();
+				String fc =  Character.toString( tmp[0] ).toLowerCase();
+				String div1 = fc+instance.substring(1)+s.split("\\(")[0];
+				String div2 = instance+"."+s.split("\\(")[1];
+				fileCont.set(i,f+div1+"("+div2);
+			}
+		}
 	}
 	//busca la variable y la modifica
 	public static void findVarSource( String nameVar ){
@@ -127,14 +174,44 @@ public class BufferWriter {
 		}
 	}
 	
-	public static void addInstances() throws IOException{
+	/*public static void addInstances() throws IOException{
 		if( Annotation.instances.size() >= 1 )
 		{
 			for( int i=0; i<Annotation.instances.size(); i++ ){
-				findInitClass(Annotation.instances.get(i) );
+				instanceContext(Annotation.instances.get(i) );
 			}
 		}
 			
+	}*/
+	public static void commenOverride(){
+		for( int i =0; i<fileCont.size(); i++){
+			if( fileCont.get(i).indexOf("@Override") >-1 )
+				fileCont.set(i, "//"+fileCont.get(i));
+		}
+	}
+	//saber si importa TelephonyManager y Context
+	public static void typeContext() throws IOException{
+		boolean telephonyManager =false, context = false;
+		for( int i=0; i<Annotation.instances.size(); i++){
+			if( Annotation.instances.get(i).equals("TelephonyManager") ){
+				telephonyManager = true;
+				break;
+			}
+		}
+		for( int i=0; i<Annotation.instances.size(); i++){
+			if( Annotation.instances.get(i).equals("Context") ){
+				context = true;
+				break;
+			}
+		}
+		
+		if( context &&  telephonyManager ){	//importa ambas clases
+			instanceContext("Context"); 
+		}
+		else if( !context &&  telephonyManager ){
+			//Annotation.AddImports("android.content.Context");
+			instanceTelephony( "Context" );
+		}
 	}
 	
 	public static void init(String in, String out) throws IOException{
@@ -146,7 +223,9 @@ public class BufferWriter {
 				findVarSource( var );
 			}
 		}
-		addInstances() ;
+		//addInstances() ;
+		typeContext();
+		commenOverride();
 		writeFile( );
 		Annotation.clearInstances();
 		fileCont.clear();
