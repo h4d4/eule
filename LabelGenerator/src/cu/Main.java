@@ -10,6 +10,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 
@@ -85,8 +86,21 @@ public class Main {
 				Annotation.filterMethodsCalls();
 				Annotation.methodsCallsSources();
 				Annotation.filterMethodsNoSources();
+				new Annotation.ArraysMethosSources().visit(Annotation.cu, null);
+				//new Annotation.VisitorArrayDeclaration().visit(Annotation.cu, null);
+				//new Annotation.VariableDeclarationVisitor().visit(Annotation.cu, null);
+				System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>><"+fileIn);
+				//Annotation.checkSet(Annotation.arraysSources);
+				System.out.println("****************************************");
+				new Annotation.arraysVariables().visit(Annotation.cu, null);
+				System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>><"+fileIn);
+				//Annotation.checkSet(Annotation.arraysSources);;
+				//new Annotation.VisitorFieldDeclaration().visit(Annotation.cu, null);
 				new Annotation.MethodChangerVisitorSources().visit(Annotation.cu, null);
 				new Annotation.MethodChangerVisitorNS2().visit(Annotation.cu, null);
+				//
+				
+				//
 				new Annotation.ChangerSetContentView().visit(Annotation.cu, null);
 				new Annotation.ChangeImports().visit(Annotation.cu, null);
 				Annotation.changePackage();
@@ -99,6 +113,8 @@ public class Main {
 			Annotation.methodsCalls.clear();
 			Annotation.methodClassCall.clear();
 			Annotation.methodsNoSources.clear();
+			Annotation.methodsSources.clear();
+			Annotation.arraysSources.clear();
 		}
 	}
 }

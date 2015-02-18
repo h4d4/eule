@@ -214,6 +214,28 @@ public class BufferWriter {
 		}
 	}
 	
+	public static void arraysMethodsSources(){//anotat arrays methodos sources
+		for( String as : Annotation.arraysSources )
+			for( int i=0; i<fileCont.size(); i++ ){
+				boolean change = false;
+				String line = fileCont.get(i), union = "";
+				if( line.indexOf(as+"*") > -1){
+					//System.out.println(">>>>>>>>>>>>                  "+line+"         >>>>>>>>>>>> ");
+					String f = line.split("=")[0];
+					String s = line.split("=")[1];
+					String div[] = f.split("\\[\\]"); 
+					String div0 = div[0]+"{Alice:}";
+					String div1="{Alice:}"+div[1].substring(0, div[1].length()-2);
+					union = div0+"[]"+div1+" = "+s;
+					change = true;
+					//System.out.println(">>>>>>>>>>>> "+f+">>>>>>>>>>>> "+div[0]+"  "+div[1]+"  "+div.length);
+					//System.out.println(">>>>>>>>>>>>                  "+union+"         >>>>>>>>>>>> ");
+				}
+				if( change )
+					fileCont.set(i, union);
+			}
+	}
+	
 	public static void init(String in, String out) throws IOException{
 		SetPath( in, out );
 		putFileToArray();
@@ -226,6 +248,7 @@ public class BufferWriter {
 		//addInstances() ;
 		typeContext();
 		commenOverride();
+		arraysMethodsSources();
 		writeFile( );
 		Annotation.clearInstances();
 		fileCont.clear();

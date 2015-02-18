@@ -18,14 +18,19 @@ import japa.parser.ast.body.Parameter;
 import japa.parser.ast.body.TypeDeclaration;
 import japa.parser.ast.body.VariableDeclarator;
 import japa.parser.ast.expr.AnnotationExpr;
+import japa.parser.ast.expr.ArrayCreationExpr;
+import japa.parser.ast.expr.ArrayInitializerExpr;
 import japa.parser.ast.expr.ClassExpr;
 import japa.parser.ast.expr.Expression;
 import japa.parser.ast.expr.InstanceOfExpr;
 import japa.parser.ast.expr.MethodCallExpr;
 import japa.parser.ast.expr.NameExpr;
 import japa.parser.ast.expr.VariableDeclarationExpr;
+import japa.parser.ast.stmt.BlockStmt;
 import japa.parser.ast.stmt.ExpressionStmt;
+import japa.parser.ast.stmt.Statement;
 import japa.parser.ast.stmt.TypeDeclarationStmt;
+import japa.parser.ast.type.Type;
 import japa.parser.ast.visitor.VoidVisitorAdapter;
 
 import java.io.BufferedWriter;
@@ -59,7 +64,10 @@ public class Annotation {
 			instances = new ArrayList<String>();		//clases que debo instanciar
 	static Map<String,String> methodsCalls = new HashMap<String,String>(), //todas las llamadas a metodos
 			methodClassCall = new HashMap<String,String>();	//llamadas solo a metodos de la clase	
-	static Set<String> methodsSources = new HashSet<String>(); //methodos a anotar con source
+	static Set<String> methodsSources = new HashSet<String>(), //methodos a anotar con source
+		   arraysSources = new HashSet<String>();
+	
+	static Map<String,String> varsDeclaration = new HashMap<String,String>();
 	
 	
 	public static void setFiles( String inFile, String outFile ){
@@ -296,6 +304,141 @@ public class Annotation {
         }
     }
 	
+	public static class ArraysMethosSources extends VoidVisitorAdapter<Object> {//obtener nombre arrays methos sources
+		@Override
+        public void visit(MethodDeclaration n, Object arg) {
+			for( String s : methodsSources ){
+				if( n.getName().toString().equals(s) ){
+					String statements= n.getBody().getStmts().toString();
+					CharSequence c1= "[]";
+					if(statements.contains(c1)){ 
+						String cad[] = statements.split(";");
+						for(int i =0; i<cad.length; i++){
+							if( cad[i].contains(c1) ){
+								arraysSources.add(cad[i].split("\\[\\]")[1].split("=")[0].trim());
+							}
+							
+						}
+						
+					}
+				}
+					
+			}
+			
+		}
+     }
+	
+	/*public static class ChangeArraysMethosSources extends VoidVisitorAdapter<Object> {//obtener nombre arrays methos sources
+		@Override
+        public void visit(MethodDeclaration n, Object arg) {
+			for( String s : methodsSources ){
+				if( n.getName().toString().equals(s) ){
+					BlockStmt b = n.getBody();
+					Statement s1 = new Statement();
+					List<Statement> listStm = n.getBody().getStmts();
+					if( listStm != null && !listStm.isEmpty() ){
+						for( int i=0; i<listStm.size(); i++ ){
+							System.out.println("stm"+i+"      "+listStm.get(i));
+							listStm.set(0, "");
+						}
+					}
+					List<Statement> test = null;
+					test.add(listStm.get(0));
+					n.setBody(b);
+					
+					String statements= n.getBody().getStmts().toString();
+					CharSequence c1= "[]";
+					if(statements.contains(c1)){ 
+						String cad[] = statements.split(";");
+						for(int i =0; i<cad.length; i++){
+							if( cad[i].contains(c1) ){
+								arraysSources.add(cad[i].split("\\[\\]")[1].split("=")[0]);
+							}
+							
+						}
+						
+					}
+				}
+					
+			}
+			
+		}
+     }*/
+	public static class VariableDeclarationVisitor extends VoidVisitorAdapter<Object> {
+		  @Override
+		  public void visit(VariableDeclarationExpr n, Object arg)
+		  {  
+			 
+		      java.util.List<VariableDeclarator> myVars = n.getVars();
+		      if( myVars != null && !myVars.isEmpty() ){
+		    	  if( myVars.size() >=1 ){
+		    		  for (VariableDeclarator vars: myVars){
+				    	  varsDeclaration.put( vars.toString(), vars.toString()); 
+				    	  //varsDeclaration.put( vars.getId().getName(), vars.getInit().toString());
+				    	  
+				       }  
+		    	  }
+		    	  
+		      }
+		      
+		  }
+	 }
+	public static class arraysVariables extends VoidVisitorAdapter<Object>  {
+		
+	    public void visit(MethodDeclaration method, Object arg) {
+	        if( methodsSources.contains(method.getName()) ){
+	        	if( method.getBody() != null){
+		        	visit(method.getBody(),arg); 
+		        }
+	        }
+	    }
+	    public void visit(VariableDeclarationExpr n, Object arg) {
+	        List<VariableDeclarator> myVars = n.getVars();
+		    if( myVars != null && !myVars.isEmpty() ){
+		    	if( myVars.size() >=1 ){
+		    		for (VariableDeclarator vars: myVars){
+		    			if( arraysSources.contains( vars.getId().getName()) ) {
+		    				vars.getId().setName(vars.getId().getName()+"*"); //modificar declaración char
+		    			}
+				      }  
+		    	  }
+		    	  
+		      }
+	    }
+	   
+	}
+
+ 
+	public static class VisitorFieldDeclaration extends VoidVisitorAdapter<Object> {//anotar methods NO sources
+		@Override
+        public void visit(FieldDeclaration n, Object arg) {
+			//List<Statement> statements;
+			/*List<Expression> exp = n.getValues(); n. 
+			for( int i=0; i<exp.size(); i++ ){
+				System.out.println(exp.get(i));
+			}*/
+			//System.out.println("<>>>>>>>>>>>>"+fileIn+">>>>>>>>>>>>>><<<< ");
+			List<VariableDeclarator> vd = n.getVariables();
+			for(int i=0; i<vd.size(); i++){
+				System.out.println("<>>>>>>>>>>>>"+fileIn+">>>>>>>>>>>>>><<<< "+vd.get(i));
+			}
+			//System.out.println("<>>>>>>>>>>>>"+fileIn+">>>>>>>>>>>>>><<<< "+n.toString());
+		/*	for( String s : methodsSources ){
+				if( n.getName().toString().equals(s) ){
+					//System.out.println("<>>>>>>>>"+n.getName().toString()+"<>>>>>>>>"+s);
+					List<Statement> statements = n.getBody().getStmts(); 
+					for( int j=0; j<statements.size(); j++ ){
+						//System.out.println("<>>>>>>>>>>>>>>>>>>>>>>>>>><<<< "+statements.get(j));
+						if( statements.get(j).toString().indexOf("[]") > -1 );
+							System.out.println("<>>>>>>>>>>>>>>>>>>>>>>>>>><<<< "+statements.get(j));
+					}
+				}
+					
+			}*/
+			
+		}
+     } 
+	
 	public static class MethodChangerVisitorNS2 extends VoidVisitorAdapter<Object> {//anotar methods NO sources
 		@Override
         public void visit(MethodDeclaration n, Object arg) {
@@ -396,8 +539,8 @@ public class Annotation {
 		}
 	}
 	
-	public static void checkSet(  ){
-		for( String s : methodsSources ){
+	public static void checkSet( Set<String> set ){
+		for( String s : set ){
 			System.out.println(s);
 		}
 	}
