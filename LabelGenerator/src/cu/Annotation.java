@@ -81,11 +81,14 @@ public class Annotation {
 	 * @throws IOException
 	 * Generates compiler unit to input file
 	 */
-	public static void generateCu( ) throws japa.parser.ParseException, IOException{
+	public static void generateCu( ) throws IOException{
 		FileInputStream in = new FileInputStream( fileIn );
 		try {
             cu = JavaParser.parse(in);
-        } finally {
+        } catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
             in.close();
         }
 	}
