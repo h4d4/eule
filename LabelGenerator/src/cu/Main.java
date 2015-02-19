@@ -26,7 +26,7 @@ public class Main {
 		BufferedReader buffer = new BufferedReader( lector );
 		System.out.println( "Ingrese la ruta completa para el directorio de entrada, y para el directorio de salida:\n" );
 		System.out.println( "Ejemplo: dir-entrada@dir-salida \n" );
-		
+		//SANITIZAR ENTRADA DE DIRECTORIOS: ASEGURAR / AL FINAL DE CADA DIR 
 		try{
 			inputs = buffer.readLine();
 			if( inputs != null ){
@@ -52,8 +52,12 @@ public class Main {
 			for( int i =0; i<dirsIn.length; i++ ){
 				File[] fi = dirsIn[i].listFiles();
 				filesIn.add( fi[0].toString() );
-				String tmp = fi[0].toString().substring( fi[0].toString().lastIndexOf('/')+1 );
-				filesOut.add( dirOut+"/"+tmp );
+				String dout1 = fi[0].toString().substring(fi[0].toString().lastIndexOf('/'));
+				String doutmp = fi[0].toString().substring( 0, fi[0].toString().lastIndexOf('/'));
+				String dout2 = doutmp.substring(doutmp.lastIndexOf('/') );
+				String f = dout2+dout1 ;
+				new File(dirOut+dout2).mkdir();
+				filesOut.add( dirOut+f );
 			}
 		}
 	}
@@ -89,11 +93,11 @@ public class Main {
 				new Annotation.ArraysMethosSources().visit(Annotation.cu, null);
 				//new Annotation.VisitorArrayDeclaration().visit(Annotation.cu, null);
 				//new Annotation.VariableDeclarationVisitor().visit(Annotation.cu, null);
-				System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>><"+fileIn);
+				//System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>><"+fileIn);
 				//Annotation.checkSet(Annotation.arraysSources);
-				System.out.println("****************************************");
+				//System.out.println("****************************************");
 				new Annotation.arraysVariables().visit(Annotation.cu, null);
-				System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>><"+fileIn);
+				//System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>><"+fileIn);
 				//Annotation.checkSet(Annotation.arraysSources);;
 				//new Annotation.VisitorFieldDeclaration().visit(Annotation.cu, null);
 				new Annotation.MethodChangerVisitorSources().visit(Annotation.cu, null);
