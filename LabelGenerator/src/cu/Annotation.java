@@ -81,7 +81,7 @@ public class Annotation {
 	 * @throws IOException
 	 * Generates compiler unit to input file
 	 */
-	public static void generateCu( ) throws IOException{
+	public static void generateCu( ) throws IOException, ParseException{
 		FileInputStream in = new FileInputStream( fileIn );
 		try {
             cu = JavaParser.parse(in);
@@ -233,9 +233,11 @@ public class Annotation {
 	}
 	
 	public static void changePackage(){
+		//System.out.println("Annotation-fileIn: "+ fileIn);
 		NameExpr n = new NameExpr();
 		n.setName("test");
 		cu.getPackage().setName(n);
+		
 	}
 	
 	public static class ImportsVisit2 extends VoidVisitorAdapter<Object> {
@@ -369,20 +371,22 @@ public class Annotation {
      }*/
 	public static class VariableDeclarationVisitor extends VoidVisitorAdapter<Object> {
 		  @Override
-		  public void visit(VariableDeclarationExpr n, Object arg)
+		  public void visit(VariableDeclarator n, Object arg)
 		  {  
 			 
-		      java.util.List<VariableDeclarator> myVars = n.getVars();
-		      if( myVars != null && !myVars.isEmpty() ){
+		      String myVars =  n.getId().getName(); 
+		     /* if( myVars != null && !myVars.isEmpty() ){
 		    	  if( myVars.size() >=1 ){
 		    		  for (VariableDeclarator vars: myVars){
 				    	  varsDeclaration.put( vars.toString(), vars.toString()); 
+				    	  System.out.println("Variabledeclarator: "+vars.toString());
 				    	  //varsDeclaration.put( vars.getId().getName(), vars.getInit().toString());
 				    	  
 				       }  
 		    	  }
 		    	  
-		      }
+		      }*/
+		      System.out.println("Variabledeclarator: "+n);
 		      
 		  }
 	 }

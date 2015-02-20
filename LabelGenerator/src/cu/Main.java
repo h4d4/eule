@@ -64,6 +64,8 @@ public class Main {
 	
 	
 	public static void main(String[] args) throws ParseException, IOException {
+		
+		// /home/h4d4/Escritorio/Debug/inLabelDebug/@/home/h4d4/Escritorio/Debug/outLabelDebug/
 		// /home/h4d4/Escritorio/inLabelGenerator/@/home/h4d4/Escritorio/outLabelGenerator/
 		String fileIn, fileOut;
 		ReadPath();
@@ -72,6 +74,7 @@ public class Main {
 			fileOut = filesOut.get(f);
 			Source.varSources.clear();//P1-A: Identificar variables sources
 			Source.getSources(fileIn);
+			
 			Annotation.setFiles(fileIn, fileOut);//inicializar archivos clase Annotation
 			Annotation.generateCu();
 			new Annotation.MethodVisitor().visit(Annotation.cu, null);//P1: identificar el total de metodos de la clase
@@ -86,6 +89,8 @@ public class Main {
 				Annotation.printFile();
 				BufferWriter.init(fileOut.toString(), fileOut.toString());
 			}else{	//Annotation AA
+				
+				new Annotation.VariableDeclarationVisitor().visit(Annotation.cu, null);
 				new Annotation.MethodCallsVisitor().visit(Annotation.cu, null);
 				Annotation.filterMethodsCalls();
 				Annotation.methodsCallsSources();

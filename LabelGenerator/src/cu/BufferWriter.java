@@ -35,6 +35,8 @@ public class BufferWriter {
 	public static void writeFile( ){
 		try
 		{
+			//System.out.println("Annotation-fileIn: "+ fileIn);
+			System.out.println("Annotation-fileOUT: "+ dirOut);
 			PrintWriter p = new PrintWriter( dirOut );
 			for( int i=0; i< fileCont.size(); i++ )
 			{
@@ -139,32 +141,56 @@ public class BufferWriter {
 			}
 		}
 	}
-	//busca la variable y la modifica
+	
+	//busca la variable y la anota
 	public static void findVarSource( String nameVar ){
-		for( int i=0; i< fileCont.size(); i++ )
-		{
-			 String line = fileCont.get(i);
-			 String[] tokens;
+		for( int i=0; i< fileCont.size(); i++ ){
+			 String line = fileCont.get(i), tokens[];
 			 int initVar = line.indexOf(nameVar);
 			 boolean esVar = false;
 			 if( initVar > -1 ){
-				 tokens = line.split("\\s+");
-				 if( tokens.length >=3 ){
-					if( tokens[0].length() == 0 ){
-						if( tokens[2].equals(nameVar) || tokens[2].equals(nameVar+"=")){
-							 esVar = true;
-						 }else if( tokens[2].equals(nameVar) && tokens[3].equals("=") ){
-						 	esVar = true;
+				 if( line.indexOf("=") > -1 ){	//si la var source está inicializada
+					 tokens = line.split("="); 
+					 if( tokens.length == 2 ){
+						 String f[] = tokens[0].split("\\s+"); 
+						 if( f[f.length-1].equals(nameVar)){
+							 if( f[0].isEmpty() ){
+								 if( f.length ==3  || f.length ==4 || f.length ==5){ 
+									 char tmp[] = f[f.length-2].trim().toCharArray(); 
+					 				 String t = Character.toString(tmp[0]).toUpperCase();
+					 				 if( Character.toString(tmp[0]).equals(t) ){ 
+					 					 esVar = true;}
+								 }
+							 }else{
+								 	if( f.length ==2  || f.length ==3 || f.length ==4){
+								 		char tmp[] = tokens[tokens.length-2].trim().toCharArray();
+						 				 String t = Character.toString(tmp[0]).toUpperCase();
+						 				 if( Character.toString(tmp[0]).equals(t) )
+						 					 esVar = true;
+								 }
+							 }
 						 }
-						 
-					}else{
-						if( tokens[1].equals(nameVar) || tokens[1].equals(nameVar+"=")){
-							 esVar = true;
-						 }else if( tokens[1].equals(nameVar) &&  tokens[1].equals("=") ){
-						 	esVar = true;
-						 }
-					}
-				 }
+					 }
+				 }else{	//si var source no esta inicializada 
+					 	tokens = line.split(";")[0].split("\\s+"); 
+					 	if( tokens[tokens.length-1].equals(nameVar) ){
+					 		if( tokens[0].isEmpty() ){
+					 			 if( tokens.length ==3  || tokens.length ==4 || tokens.length ==5){
+					 				 char tmp[] = tokens[tokens.length-2].trim().toCharArray();
+					 				 String t = Character.toString(tmp[0]).toUpperCase();
+					 				 if( Character.toString(tmp[0]).equals(t) )
+					 					  esVar = true;
+								 }
+					 		}else{
+					 			if( tokens.length ==2  || tokens.length ==3 || tokens.length ==4){
+					 				char tmp[] = tokens[tokens.length-2].trim().toCharArray();
+					 				 String t = Character.toString(tmp[0]).toUpperCase();
+					 				 if( Character.toString(tmp[0]).equals(t) )
+					 					esVar = true;
+					 			}
+					 		} 
+					 	}
+				 }	 
 			 }
 			 if( esVar ){
 				 StringBuffer sb = new StringBuffer(line);
@@ -173,16 +199,7 @@ public class BufferWriter {
 			 }
 		}
 	}
-	
-	/*public static void addInstances() throws IOException{
-		if( Annotation.instances.size() >= 1 )
-		{
-			for( int i=0; i<Annotation.instances.size(); i++ ){
-				instanceContext(Annotation.instances.get(i) );
-			}
-		}
-			
-	}*/
+
 	public static void commenOverride(){
 		for( int i =0; i<fileCont.size(); i++){
 			if( fileCont.get(i).indexOf("@Override") >-1 )
