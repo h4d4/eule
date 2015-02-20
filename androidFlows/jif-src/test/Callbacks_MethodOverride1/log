@@ -1,0 +1,7 @@
+/home/estudiante/eule/androidFlows/jif-src/test/Callbacks_MethodOverride1/MethodOverride1-out.jif:32: 
+    No valid method call found for 
+    attachBaseContext(android.content.Context{}) in test.Activity.
+        super.attachBaseContext(base);
+        ^---------------------------^
+
+1 error.

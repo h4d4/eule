@@ -1,0 +1,26 @@
+/home/estudiante/eule/androidFlows/jif-src/test/GeneralJava_SourceCodeSpecific1/MainActivity-out.jif:31: 
+    Syntax error: unexpected operator <.
+        Set<String> phoneNumbers = new HashSet<String>();
+           ^
+
+/home/estudiante/eule/androidFlows/jif-src/test/GeneralJava_SourceCodeSpecific1/MainActivity-out.jif:43: 
+    Syntax error: unexpected operator <.
+    private void sendSMS{}(Set<String> numbers, String message) {
+                              ^
+
+/home/estudiante/eule/androidFlows/jif-src/test/GeneralJava_SourceCodeSpecific1/MainActivity-out.jif:45: 
+    Syntax error: unexpected for.
+        for (String number : numbers) {
+        ^-^
+
+/home/estudiante/eule/androidFlows/jif-src/test/GeneralJava_SourceCodeSpecific1/MainActivity-out.jif:46: 
+    Syntax error: unexpected operator ,.
+            sm.sendTextMessage(number, null, message, null, null);
+                                     ^
+
+/home/estudiante/eule/androidFlows/jif-src/test/GeneralJava_SourceCodeSpecific1/MainActivity-out.jif:48: 
+    Jif does not currently support initializer blocks.
+    }
+    ^
+
+5 errors.

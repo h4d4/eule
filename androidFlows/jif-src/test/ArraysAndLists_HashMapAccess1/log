@@ -1,0 +1,6 @@
+/home/estudiante/eule/androidFlows/jif-src/test/ArraysAndLists_HashMapAccess1/HashMapAccess1-out.jif:32: 
+    Syntax error: unexpected operator <.
+        Map<String, String> hashMap = new HashMap<String, String>();
+           ^
+
+1 error.

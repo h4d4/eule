@@ -1,0 +1,6 @@
+/home/estudiante/eule/androidFlows/jif-src/test/FieldAndObjectSensitivity_FieldSensitivity4/FieldSensitivity4-out.jif:37: 
+    Syntax error: unexpected class.
+    class Datacontainer {
+    ^---^
+
+1 error.

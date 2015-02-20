@@ -1,0 +1,6 @@
+/home/estudiante/eule/androidFlows/jif-src/test/AndroidSpecific_PrivateDataLeak2/PrivateDataLeak2-out.jif:27: 
+    Could not find type, field, or local variable "test.R.id".
+        EditText {Alice:}mEdit = (EditText) findViewById(R.id.pwField);
+                                                         ^--^
+
+1 error.

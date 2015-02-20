@@ -1,0 +1,17 @@
+package test;
+
+import android.os.Bundle;
+import android.view.View;
+import android.view.Menu;
+import android.view.MenuInflater;
+
+public class Activity{
+
+	//private static int __JIF_SIG_OF_JAVA_CLASS$20030619 = 0;
+//	protected Activity(){}
+	protected native void onCreate{}(Bundle savedInstanceState); //original modifier: protected
+	protected native void setContentView(View view);
+	public native boolean onCreateOptionsMenu{}(Menu {}menu);
+	public native MenuInflater getMenuInflater();
+	
+}

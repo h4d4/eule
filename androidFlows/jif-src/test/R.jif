@@ -1,0 +1,89 @@
+package test;
+import android.view.View;
+import android.view.Menu;
+public final class R{
+	
+
+	//public static id.password=0x7f070000;	
+	public static View layout;
+	public static Menu menu;
+	//public static String idEdidtext;
+	/*public static final id() {
+        	 final int button1=0x7f070001;
+        	 final int menu_settings=0x7f070002;
+        	 final int password=0x7f070000;
+    	}*/
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

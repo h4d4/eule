@@ -1,0 +1,16 @@
+/home/estudiante/eule/androidFlows/jif-src/test/Callbacks_Button3/MainActivity-out.jif:31: 
+    Could not find type "Button".
+        Button button1 = (Button) findViewById(R.id.button1);
+        ^----^
+
+/home/estudiante/eule/androidFlows/jif-src/test/Callbacks_Button3/MainActivity-out.jif:32: 
+    Could not find type "Button1Listener".
+        button1.setOnClickListener(new Button1Listener(this));
+                                       ^-------------^
+
+/home/estudiante/eule/androidFlows/jif-src/test/Callbacks_Button3/MainActivity-out.jif:36: 
+    Could not find type "Menu".
+    public boolean onCreateOptionsMenu{}(Menu menu) {
+                                         ^--^
+
+3 errors.

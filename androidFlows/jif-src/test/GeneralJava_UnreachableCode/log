@@ -1,0 +1,6 @@
+/home/estudiante/eule/androidFlows/jif-src/test/GeneralJava_UnreachableCode/UnreachableCode-out.jif:31: 
+    Method getBaseContext not found.
+        TelephonyManager tm = (TelephonyManager) getBaseContext().context.getSystemService(Context.TELEPHONY_SERVICE);
+                                                 ^--------------^
+
+1 error.

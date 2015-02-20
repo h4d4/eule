@@ -1,0 +1,9 @@
+package android.view;
+import android.content.Context;
+public class View {
+
+	private  static int __JIF_SIG_OF_JAVA_CLASS$20030619 = 0;
+		
+	View(Context context) {}
+	public static native View findViewById(int id);
+}
