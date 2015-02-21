@@ -25,13 +25,14 @@ public class Source {
     BufferedInputStream bis = null;
     DataInputStream dis = null;
 
-    String sources[] = new String[6];
+    String sources[] = new String[7];
     sources[0] = "getDeviceId";
     sources[1] = "getSimSerialNumber";
     sources[2] = "findViewById";
     sources[3] = "getLatitude";
     sources[4] = "getLongitude";
     sources[5] = "getText().toString()";
+    sources[6] = "getSubscriberId()";
 
     //ArrayList<String> meSource = new ArrayList<String>();
 

@@ -1,0 +1,277 @@
+\section{Trabajos Relacionados}
+\label{sec:trabajo}
+\subsection{JIF}
+\label{JIF-Tool}
+JIF(Java Information Flow), es un lenguaje tipado de seguridad que
+permite extender el lenguaje de programación Java,  con control de flujo de
+información y control de acceso, usando anotaciones de seguridad. El compilador
+usa estás anotaciones durante el chequeo de tipos, verificando el
+cumplimiento de la propiedad de seguridad non-interference.
+
+Usar JIF para el análisis estático de flujo de información de un programa,
+requiere implementar la versión del mismo, especificando mediante el conjunto de
+labels de JIF, las políticas de seguridad a verificar. La implementación de
+programas JIF está basada en el modelo de etiquetas DLM(Decentralized Label
+Model), donde un principal es una entidad con autoridad para observar y cambiar
+aspectos del sistema, así, un principal puede definir y hacer cumplir los
+requerimientos de seguridad del dueño de la información. Para expresar una
+relación de confianza entre principals, se define la relación acts-for, a partir
+de la cual, se derivan dos tipos de principals: top principal y botton
+principal, un top principal puede actuar para todos los principals, mientras
+que, un botton principal permite que todos los principals actúen para el. Las
+políticas de seguridad se condensan en Políticas de Confidencialidad y Políticas
+de Integridad, con ellas se determina el conjunto de principals readers y
+writes, y el comportamiento que deberían tener.
+El compilador de JIF aplica chequeo de labels para verificar  el cumplimiento
+de las políticas de seguridad definidas en el programa, cuando determina que
+efectivamente las cumple, da paso al compilador de Java para generar su versión
+ejecutable.
+
+Además del modelo de labels en que se centra, JIF incluye mecanismos que
+aportan características adicionales en la implementación de programas para
+seguimiento de Flujo de información. La opción de flexibilizar las políticas
+de seguridad de la información, hace parte de estas características adicionales,
+y se logra aplicando el mecanismo Downgrading. Dependiendo del tipo política al
+que se realiza downgrading, políticas de confidencialidad o políticas de
+integridad, el proceso se conoce como Declasificación o Endorsement,
+respectivamente.
+
+\subsection{JOANA}
+\label{JOANA-Tool}
+JOANA (Java Object-sensitive ANAlysis)- Information Flow Control Framework for
+Java\cite{JOANA}. Verifica si una aplicación java contiene fugas de
+información, mediante análisis estático de flujos de información. El análisis parte  de anotaciones en
+el código fuente de la aplicación. JOANA utiliza técnicas de análisis de flujo de
+datos y técnicas de análisis de control de flujo. El frontend de la herramienta
+está basado en el framework de análisis de programas WALA\cite{wala}, a partir
+del cual obtiene la representación intermedia del código Java en forma SSA(Static
+Single Assignement), lo que permite obtener información dinámica del programa.
+Por otro lado, utiliza Grafos de Dependencia, System Dependence Graphs(SDG),
+para detectar dependencias entre las sentencias del programa, es decir,
+si existen caminos entre sentencias etiquetadas con nivel de seguridad
+alto y sentencias con nivel de seguridad bajo. Para esta etapa del análisis
+recurre a técnicas de slicing y chopping, reduciendo la cantidad de caminos
+posibles sólo a los válidos. Así obtiene como resultado, una mayor precisión y
+reducción de falsas alarmas en el análisis.\newline
+
+Aunque JOANA provee sencillez a la hora de anotar el código a analizar, pues
+sólo es necesario anotar inputs y outputs del programa, porque la herramienta se
+encarga de propagar las anotaciones en el resto del programa; carece de
+características adicionales ofrecidas por sistemas de tipado de seguridad, por
+ejemplo, el mecanismo downgrading facilitado por JIF.\newline 
+
+Si bien, al igual que JOANA, la herramienta propuesta a través del presente
+trabajo, aplica análisis de control de flujo de información, esta última busca
+analizar aplicaciones implementadas en código Android, aprovechando las ventajas
+del sistema de anotaciones de JIF. Proporcionando una herramienta de apoyo al
+desarrollador de aplicaciones Android, ya que por el momento, JOANA sólo analiza
+aplicaciones en JAVA.
+
+\subsection{FlowDroid}
+\label{FlowDroid-Tool}
+FlowDroid es una herramienta para análisis estático de flujo de datos en
+Aplicaciones Android. También permite el análisis de aplicaciones Java.\newline
+Esta herramienta utiliza un tipo especial de análisis de flujo de datos:
+análisis tainting, que hace seguimiento al flujo de datos entre un conjunto de
+sources y un conjunto de sinks. Define tales conjuntos a partir de
+SuSi[\ref{sec:susi}], un clasificador automático de sources y sinks para la Api
+de Android.\newline 
+FlowDroid provee un alto recall y precisión\cite{FlowDroid-Thesis} en el
+análisis. El recall, mediante un fiel modelamiento del ciclo de vida de una
+aplicación Android; la precisión, incluyendo elementos de análisis como:
+context-, flow-, field- y object-sensitive. Para proveer sensibilidad al flujo y
+al contexto, recurre a grafos de llamada; y con grafos que modelan todos los
+procedimientos del programa(inter-procedural control-flow graph), analiza el
+flujo de datos entre procedimientos, proporcionando field- y object-sensitive.\newline
+Los autores de esta propuesta, alcanzan precisión en la construcción del grafo
+de llamadas extendiendo Soot\cite{Soot}, un framework que genera código
+intermedio para código Java y código ejecutable Android(dex). Adicionalmente,
+con el framework Heros\cite{heros}, incluyen llamadas multihilos en el análisis
+de flujo de datos entre procedimientos.\newline
+
+Entre las limitaciones de FlowDroid está el over-tainting y la no detección
+de flujos implícitos. Por tanto, la herramienta no distingue elementos marcados
+ni dentro de arrays, ni dentro de collections, si se inserta un elemento marcado
+dentro de alguna de estas estructuras, inmediatamente se marca el resto de
+elementos. La herramienta tampoco identifica flujos implícitos,    
+% causados por dependencias entre control de flujo.\newline
+puesto que, según los resultados de evaluación de
+DroidBench\cite{DroidBenchBenchmarks}, su benchmark; cuando Flowdroid analiza el
+conjunto de aplicaciones de prueba para la identificación de flujos implícitos, no
+detecta fuga de datos, generando falsos negativos en la detección de flujos
+implícitos\cite[pags 32-36]{FlowDroid-Thesis}.\newline
+
+Aún cuando el problema a atacar es el mismo: fuga de información, la propuesta
+que se expone a través del presente trabajo difiere en el enfoque de análisis de
+FlowDroid, mientras FlowDroid se concentra en detectar si la aplicación de un
+tercero presenta fugas de información, la herramienta planteada aborda el
+análisis del lado del desarrollador de la aplicación, apoyándolo en
+la verificación del cumplimiento de políticas de seguridad. Así, resulta más
+conveniente guiar el análisis mediante control de flujo de información, ya que
+se previene fuga por datos no marcados para el análisis(under-tainting) y por
+la no detección de flujos implícitos, siendo posible garantizar el cumplimiento
+de políticas de seguridad.
+ 
+\subsection{TaintDroid, Dinamic Taint Tracking, para la detección de fugas de
+Información}
+\label{TaintDroid-Tool}
+A diferencia de las propuestas expuestas anteriormente, caracterizadas
+por ejecutar el análisis de manera estática, TaintDroid es una herramienta de
+análisis dinámico. Está herramienta extiende la plataforma de dispositivos
+celulares Android, con el fin de verificar el uso dado por aplicaciones de
+terceros a datos sensibles del usuario. El análisis aplica técnicas de análisis
+tainting, marcando automáticamente como sources, datos provenientes de fuentes
+consideradas privadas y/o sensibles; y como sinks, canales que permiten salir
+datos de la aplicación, como por ejemplo internet.
+Cada vez que un dato marcado como source sale de la aplicación, se genera un log.\newline 
+Para reducir sobrecarga en el dispositivo, pues el análisis es ejecutado a nivel
+de instrucciones, instrumentan la máquina virtual de Android con marcas de
+propagación a nivel de: variables, métodos, mensajes y archivos. Las marcas de
+variable hacen seguimiento a datos dentro de aplicaciones consideras no
+confiables. Las marcas de mensaje siguen mensajes entre aplicaciones. Debido a
+que TaintDroid no hace seguimiento a la ejecución de código nativo, utiliza las
+marcas de métodos para hacer seguimiento a lo retornado luego de invocar métodos
+de librerías nativas. Las marcas de archivo son utilizadas para verificar la
+persistencia de los datos, acorde a las políticas de seguridad.\newline 
+Otra medida para reducir sobrecarga en la ejecución del análisis, consiste en no
+hacer seguimiento a flujos de control, generando no detección de flujos
+implícitos\cite[pag 12]{TaintDroid}.\newline
+Si bien, TaintDroid supera el inconveniente de sobrecarga en la ejecución del
+análisis, un inconveniente característico en análisis dinámico, está limitado
+para detectar fuga de datos mediante flujos implícitos, puesto que se
+enfoca en hacer seguimiento a flujos de datos.\newline 
+
+Al ser una herramienta de análisis dinámico, TaintDroid sólo detecta fugas de
+información correspondiente a las ejecuciones presentadas por el programa, y
+para la finalidad de su análisis: informar al usuario de posibles fugas de
+información, se puede decir que es adecuado. No obstante, para los propósitos de
+la propuesta planteada a través del presente trabajo, con la que se pretende
+brindar una herramienta de análisis para que el desarrollador verifique el
+cumplimiento de políticas de seguridad en la aplicación que implementa, no
+resulta viable aplicar análisis dinámico, ni técnicas de análisis tainting para
+hacer seguimiento a flujos flujos de datos.
+%\subsection{STAMP Análisis estático de aplicaciones}
+
+\subsection{Comparación de técnicas}
+Las técnicas utilizadas para análisis de seguridad en aplicaciones, pueden
+aplicarse estática o dinámicamente, dependiendo de las propiedades del programa
+en que se centre el análisis.\newline
+La ejecución dinámica o estática del análisis, trae sus propias ventajas y
+desventajas. En el caso de análisis estático, completitud en el análisis es una
+de sus principales ventajas. Esto debido a qué, el análisis contempla todas los
+caminos de ejecución en que podría incurrir el programa. Evitando que se pierdan
+casos a analizar. Por otra parte, al carecer de información que sólo se puede
+obtener a tiempo de ejecución, por ejemplo, las entradas que el programa
+recibe, el análisis estático suele generar falsos positivos.\newline
+En el análisis dinámico, una de las principales ventajas es la baja generación
+de falsos positivos, puesto que, el análisis no se centra en los posibles casos
+de ejecución, sino que verifica el caso de ejecución que efectivamente está
+ocurriendo. No obstante, el análisis dinámico podría incurrir en incompletitud,
+porque sólo verifica los casos de ejecución que se presenten, es decir, el
+aplicativo podría presentar fugas de información no reportadas por el análisis,
+como consecuencia de la no ejecución de los casos que permiten identificarlos.\newline 
+Así, el análisis dinámico genera menor cantidad de falsos positivos que el
+análisis estático, sin embargo, el análisis estático ofrece mayor completitud en
+el análisis.\newline
+% Ahora, partiendo del contexto de análisis planteado en el presente trabajo,
+% donde el desarrollador cuenta con el código fuente de su propia aplicación y
+% pretende garantizar que esta cumple con determinadas políticas de seguridad, la
+% característica de completitud en el análisis estático, es cable para garantizar
+% el cumplimiento de políticas de seguridad.\newline
+Adicional a la forma en que son aplicadas, estática o dinámicamente, las
+técnicas de análisis pueden enfocarse en hacer seguimiento al flujo de datos a
+través del programa, o en verificar flujos de información. Las técnicas basadas
+en tanting análisis, permiten hacer análisis de flujo de datos, marcando los
+datos de interés y verificando su flujo entre sources(fuentes del programa
+consideradas sensibles y/o confidenciales) y sinks(destinos considerados no
+confiables). Entre las desventajas de está técnica, esta el under-tainting, es
+decir, la posibilidad de fugas a través de datos no marcados para el
+análisis.\newline
+Las técnicas para aplicar análisis mediante control de flujo de información,
+generalmente permiten definir anotaciones de seguridad en el código fuente de la
+aplicación, para verificar sus flujos de información. Estas generalmente se
+basan en técnicas de seguridad de tipado(Security-Typed Analyses), o en grafos
+que describen el comportamiento del programa, como Contol Dependence Graphs(PDG)
+y System Dependence Graphs(SDG).
+Ambas técnicas recurren a etapas de análisis de compilación, sin embargo,
+mientras las técnicas de Security-Typed sólo requieren llegar hasta el chequeo
+de tipos; las basadas en grafos de dependencia deben llegar hasta la
+representación de código intermedio para generar los respectivos grafos. Si
+bien, con grafos de dependencia se tiene mayor precisión en el análisis, su
+ejecución es costosa, ya que genera una complejidad de orden polinomial,
+O(N)3\cite[page 3]{FCO-PDG}.
+Las motivaciones para guiar el análisis bajo una u otra perspectiva, implica
+poner a consideración tanto el nivel de precisión requerido por las propiedades
+de seguridad a evaluar, como el costo de implementación y de ejecución del
+análisis. \newline
+
+
+ 
+%profundizar en las de análisis
+% estático, security Typed y control flow \begin{itemize}
+
+% 	  \item El uso de lenguajes de seguridad tipados para el análisis de flujo de
+% 	  información en tiempo de ejecución, puede generar sobrecargas.\cite[pag.~1]{LanguageIFS-2013}
+% 	  \item Detección de implicit information flows mediante: static enforcements
+% 	  of information-flow control versus, run-time enforcement mechanisms.
+% 	  \item 
+% 	\end{itemize}
+% 
+% Dentro de las técnicas existentes para adelantar análisis de seguridad en
+% aplicativos 
+% Para verificar propiedades de seguridad en los aplicativos que implementa, , 
+% \begin{itemize}
+% 	  \item Information Flow Control
+% 	  \item 
+% 	  \item 
+% 	\end{itemize}
+	
+\subsection{Clasificación de Sources y Sinks}
+\label{sec:susi}
+En el ámbito de análisis de flujo de información de aplicaciones,
+independientemente del tipo de análisis, estático o dinámico, el punto de
+partida es la definición de políticas de privacidad, los pasos sucesivos para 
+detectar la perdida de información giran en torno a las políticas de privacidad
+definidas.
+Muchas de las propuestas para análisis de flujo de información en aplicaciones
+Android, parten de un listado de sources y sinks para definir sus políticas de
+privacidad. Así, en el grupo de sources se incluyen las fuentes de datos
+sensibles, mientras que en el grupo de sinks, se incluyen los medios o canales
+que podrían filtrar información sensible de forma no autorizada. 
+La efectividad del análisis se ve limitada al listado de sources y sinks, y la
+veracidad de los mismos. El inconveniente con estos sources y sinks, es que su
+clasificación suele hacerse de forma manual, por tanto, existe mayor
+probabilidad de error u omisión.\newline
+Con el fin de precisar dicha clasificación, el trabajo de investigación SuSi
+propone el uso de machine-learning para la clasificación y categorización de
+sources y sinks, partiendo del código fuente de la API Android.
+La propuesta de análisis se materializa en una herramienta, que recibe como
+entrada métodos de Android y devuelve una lista con la respectiva
+categorización de sources y sinks.\newline
+La construcción del modelo de
+análisis propuesto, parte definiendo los elementos necesarios para el
+reconocimiento de sources y sinks; inicialmente define:
+Sources y sinks, respectivamente, como las entradas y salidas de flujo de datos del
+programa; un dato como un valor o una referencia a un valor; un Resource Method
+como un método que lee o escribe datos en un recurso compartido. Seguidamente,
+define el concepto de sources y sinks, considerando el contexto de Android:
+Android Sources como llamadas a métodos tipo resources(Resources method) que
+retornan valores no constantes al código de la aplicación. Android Sinks como
+llamadas a methods resource, aceptando como argumento al menos un valor no
+constante desde el código de la aplicación, y qué además adicionen o modifiquen
+valores del recurso invocado.
+El modelo de entrenamiento de SuSi usa el clasificador SMO, una implementación
+del clasificador SVM(Support Vector Machines) para Weka, al que inicialmente
+enseña a clasificar partiendo de ejemplos entrenados manualmente.
+Adicionalmente, lo adapta utilizando la técnica de clasificación
+one-againts-all, de modo que pueda representar, tanto los ejemplos de
+entrenamiento, en tres clases: sources, sinks, o ninguno; como las
+categorías de los sources y sinks identificados.\newline 
+Los criterios de clasificación están basados en un conjunto de características,
+es decir, funciones que asocian ejemplos de entrenamiento o ejemplos de prueba,
+con un determinado valor.\newline
+El proceso de análisis se compone de dos rondas secuenciales: clasificación y
+categorización. Cada una se compone de las fases input, preparation,
+classification y output. Así, la salida de la primera ronda: sources y sinks, se
+convierte en entrada para la ronda de categorización, donde se definen
+diferentes tipos de categorías, 12 para sources y 15 para sinks.

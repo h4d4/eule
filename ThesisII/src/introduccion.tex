@@ -1,0 +1,47 @@
+\label{ch:introduccion}
+\chapter{Introducción}
+% Información más detallada del contexto en el que se presenta el problema.  
+% 
+% Datos estadísticos acerca del problema, de los costos que genera, etc.  
+% 
+% Presentación informal y breve, pero clara, del problema.
+
+En aplicativos Android, el manejo de la información del usuario, es una de las
+principales preocupaciones de seguridad. Según un estudio reciente de seguridad
+en dispositivos móviles, publicado por McAfee\cite{McAfeeReport}, una importante
+cantidad de aplicaciones Android invaden la privacidad del usuario, reuniendo
+información detallada de su desplazamiento, acciones en el dispositivo, y su
+vida personal.\newline
+Por otro lado, para controlar el acceso a información manipulada por sus
+aplicaciones, el desarrollador cuenta con los mecanismos de seguridad proveídos por la API de
+Android, sin embargo, al estar basados en políticas de control de acceso, se
+limitan a verificar el uso de los recursos del sistema acorde a los privilegios
+del usuario, lo qué suceda con la información una vez sea accedida, está fuera
+del alcance de este tipo de controles. Al no contar con herramientas de análisis
+de flujo de información en aplicaciones Android, para el desarrollador es
+difícil verificar el cumplimiento de políticas de confidencialidad e integridad
+en la aplicación próxima a liberar. Por consiguiente, el desarrollador no tiene como
+asegurar la ausencia de fugas de información en la aplicación.\newline
+Si bien, en el campo de aplicativos Android, existen diferentes propuestas para
+detectar fuga de información, en su mayoría están enfocadas a analizar
+aplicaciones de terceros, asumiendo que el atacante provee bytecode malicioso.
+Por tanto, aplican data-flow analysis partiendo del bytecode. Estas propuestas
+no abordan el problema del lado del desarrollador, analizando flujos de
+información de la aplicación para verificar el cumplimiento de políticas de
+confidencialidad.\newline
+%  hacen falta propuestas que aborden
+% el problema análizando flujo de información, 
+% mediante técnicas de lenguajes tipados de seguridad(NO ESTOY SEGURA DE ESTA
+% AFIRMACIÓN, ES DECIR QUE SÓLO CON SECURITY-TYPED ES POSIBLE DETECTAR FUGAS
+% DE INFORMACIÓN),
+% lo que se traduce en
+% imposibilidad para detección de fugas mediante sentencias de control, por
+% ejemplo, la no detección de flujos implicitos.\newline 
+Ante esto, y con el fin de proveer una herramienta de apoyo al desarrollador, de
+modo que verifique el cumplimiento de políticas de seguridad en sus
+aplicaciones, el presente trabajo aborda el problema de fugas de información en
+aplicaciones Android, analizando flujos de información de la aplicación,
+mediante técnicas de lenguajes tipados de seguridad .\newline
+
+
+\input{contexto}

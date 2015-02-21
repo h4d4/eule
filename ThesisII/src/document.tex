@@ -1,0 +1,151 @@
+\documentclass[a4paper, 11pt, oneside]{report}
+
+%%muy util para salto de línea
+%\vspace{0.5 cm}
+%Para garantizar la división correcta de palabras en castellano
+\usepackage[spanish,activeacute]{babel}
+%%\hyphenrules{nohyphenation}
+
+% Conservar division de palabras, listarlas
+\hyphenation{} 
+
+\usepackage[pdftex]{graphicx}
+%avoid put imagen in specific space
+\usepackage{float}
+  % declare the path(s) where your graphic files are
+  % \graphicspath{{../pdf/}{../jpeg/}}
+  \graphicspath{{../imagenes/}}
+  % and their extensions so you won't have to specify these with
+  % every instance of \includegraphics
+\DeclareGraphicsExtensions{.png,.jpeg,}
+
+
+%Paragraph
+%\usepackage{blindtext}
+
+%\usepackage{epsfig}% para los ejemplos con postscript.
+%\usepackage{epstopdf}
+
+% inserción url's notas de pie.
+\usepackage{url}
+
+%url
+
+\usepackage[colorlinks=true,urlcolor=blue,linkcolor=blue]{hyperref}
+
+%Numeración de página
+\setcounter{page}{1}
+\pagenumbering{arabic}
+
+%insertat source code
+\usepackage{listings}
+%%defino atributos para code bash
+%%\lstset{language=bash, basicstyle=\ttfamily, frame=single}  \footnotesize
+\lstset{basicstyle=\footnotesize\ttfamily, escapechar={', --} }
+
+%comentarios que incluyen varias líneas
+\usepackage{verbatim}
+
+%negrita
+\usepackage{bold-extra}
+
+% idioma
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+
+%tablas
+\usepackage{booktabs}
+\usepackage{multirow}
+
+% Personalizar listas
+\usepackage{paralist}
+
+%rotar tablas
+\usepackage{rotating}
+%formate texto tablas 
+\usepackage{array}
+%color tablas
+\usepackage{colortbl}
+%\usepackage[table]{xcolor}
+
+%espaciado
+\usepackage{setspace}
+%%\onehalfspacing
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{2.0ex plus0.5ex minus0.2ex}
+
+%margenes según n. icontec
+\usepackage{vmargin}
+\setmarginsrb           { 4.0cm}  % left margin
+                        { 3.0cm}  % top margcm
+                        { 3.0cm}  % right margcm
+                        { 2.0cm}  % bottom margcm
+                        {   0pt}  % head height
+                        {0.0 cm}  % head sep
+                        {   9pt}  % foot height
+                        { 1.0cm}  % foot sep
+
+% Paquetes de la AMS:
+\usepackage{amsmath, amsthm, amsfonts}
+\addto\captionsspanish{\def\refname{\textsc{Bibliografía}}}
+
+\newcommand\portada{
+	\begin{titlepage}
+		\begin{center}
+			{\large \bf ANÁLISIS DE FLUJOS DE INFORMACIÓN EN APLICACIONES ANDROID  \par }
+			\vfill
+			{\large\bf LINA MARCELA JIMÉNEZ BECERRA \par}
+			\vfill
+			{\large\bf UNIVERSIDAD DE LOS ANDES  \par}
+			{\large\bf FACULTAD DE INGENIERÍA \par}
+			{\large\bf DEPARTAMENTO DE INGENIERÍA DE SISTEMAS Y COMPUTACIÓN \par}
+			{\large\bf  BOGOTA 2015 \par}
+		\end{center}
+	\end{titlepage}
+}
+
+\newcommand\contraportada{
+	\begin{titlepage}
+		\begin{center}
+			{\large \bf ANÁLISIS DE FLUJOS DE INFORMACIÓN EN APLICACIONES ANDROID \par}
+			\vfill
+			{\large\bf LINA MARCELA JIMÉNEZ BECERRA \par}
+			\vfill
+			{\large\bf Asesores\par}
+			{\large\bf Martín Ochoa, Ph. D. \par}
+			{\large\bf Researcher at the software engineering chair of the TU Munich\par}
+			{\large\bf Sandra Julieta Rueda Rodriguez, Ph. D. \par}
+			{\large\bf Profesora Asistente, DISC Universidad de los Andes\par}
+			\vfill
+			{\large\bf UNIVERSIDAD DE LOS ANDES  \par}
+			{\large\bf FACULTAD DE INGENIERÍAS \par}
+			{\large\bf DEPARTAMENTO DE INGENIERÍA DE SISTEMAS Y COMPUTACIÓN \par}
+			{\large\bf BOGOTA 2015 \par}
+		\end{center}
+	\end{titlepage}
+}
+
+
+\begin{document}
+
+\portada
+\contraportada
+\tableofcontents
+%Modificar el nombre: Índice de cuadros, por Índice de tablas
+\renewcommand{\listtablename}{ÍNDICE DE TABLAS}\listoftables
+%Modificar el nombre a mayúsculas
+\renewcommand{\listfigurename}{ÍNDICE DE GRÁFICAS}\listoffigures
+%hacer que el título del capitulo aparezca en mayuscula
+\renewcommand\chaptername{CAPÍTULO} 
+
+
+\input{resumen}
+\input{introduccion}
+\input{problema}
+\input{desing}
+%\input{implementacion}  
+\input{evaluacion}
+\input{trabajoFuturo}
+\bibliographystyle{IEEEtran}
+\bibliography{referencias}
+\end{document}

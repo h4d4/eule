@@ -1,0 +1,11 @@
+\select@language {spanish}
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Static Analisys Tool Diagrama interno. Ilustra la composici\IeC {\'o}n interna de la herramienta propuesta para el an\IeC {\'a}lisis est\IeC {\'a}tico de aplicaciones Android.}}{17}{figure.2.1}
+\contentsline {figure}{\numberline {2.2}{\ignorespaces Static Analisys Tool. Ilustra el input esperado por la herramienta, y el resultado devuelto.}}{17}{figure.2.2}
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Pasos para el dise\IeC {\~n}o de la soluci\IeC {\'o}n.}}{18}{figure.3.1}
+\contentsline {figure}{\numberline {3.2}{\ignorespaces Dise\IeC {\~n}o de la soluci\IeC {\'o}n paso 1. Ilustra dos tipos de anotaciones que deben ser incluidas para que el compilador reconozca clases de la API de Android.}}{19}{figure.3.2}
+\contentsline {figure}{\numberline {3.3}{\ignorespaces Dise\IeC {\~n}o de la soluci\IeC {\'o}n paso 2. Ilustra salidas y entradas del generador de anotaciones.}}{20}{figure.3.3}
+\addvspace {10\p@ }
+\addvspace {10\p@ }

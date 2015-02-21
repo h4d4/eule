@@ -1,0 +1,106 @@
+\label{ch:problema}
+\chapter{Descripción del problema}
+
+En Android, por defecto, el desarrollador no cuenta con mecanismos para
+definir políticas de confidencialidad e integridad que regulen
+el flujo de información de sus aplicaciones. Siendo complejo prevenir fugas de
+información del usuario, puesto que, el desarrollador carece de herramientas que
+le garanticen la ausencia de flujos indeseados.\newline
+Precisamente, una de las principales preocupaciones de seguridad en aplicativos
+Android, es la manipulación de información del usuario.
+Así lo evidencia un
+estudio reciente de seguridad en dispositivos móviles, publicado por
+McAfee\cite{McAfeeReport}, este señala  que una importante cantidad de
+aplicaciones Android invaden la privacidad del usuario, reuniendo información
+detallada de su desplazamiento, acciones en el dispositivo, y su vida personal.
+De este modo, 80\% reúnen información de la ubicación, 82\%
+hacen seguimiento de alguna acción en el dispositivo , 57\%
+registran la forma de uso del celular (mediante Wi-Fi o
+mediante la red de telefonía), y 36\% conocen información de
+las cuentas de usuario.\newline
+Las motivaciones para este tipo de acciones varían acorde al tipo de
+información, por ejemplo: monitorear información de ubicación para mostrar
+publicidad no solicitada; seguir las acciones sobre el dispositivo, para conocer
+qué aplicaciones son rentables de desarrollar, o para ayudar a aplicaciones
+maliciosas a evadir defensas; acceder a información de cuentas del usuario con
+fines delictivos; obtener información de contactos y calendario
+del usuario, buscando modificar los datos; obtener información del celular 
+(número, estado, registro de MMS y SMS) para interceptar llamadas y enviar
+mensajes sin consentimiento del usuario.\newline
+Con o sin autorización de acceso, existen motivaciones suficientes para que un
+tercero desee manipular información del usuario.\newline
+Adicionalmente, el informe señala que una aplicación invasiva no necesariamente
+contiene malware, y que su finalidad no siempre implica fraude; de las
+aplicaciones que más vulneran la privacidad del usuario, 35\% contienen
+malware.\newline 
+Si bien, aplicaciones invasivas no necesariamente implican
+malware y/o acciones delictivas, el cuestionamiento de fondo es la forma y
+finalidad con que están accediendo la información, es decir, si información
+de usuario manipulada por una determinada aplicación, realmente debería ser
+accedida por otros aplicativos del dispositivo, aún cuando sean considerados no
+maliciosos; y qué garantías puede ofrecer el desarrollador para que tal acceso,
+efectivamente sea consentido.\newline 
+La falta de control sobre los flujos de información de la aplicación puede
+ocasionar fugas de información, generando problemas de seguridad tanto para
+quien la implementa como para quien la usa.\newline
+Como contramedida a este problema, la API de Android ofrece herramientas de
+seguridad basadas en políticas de control de acceso, y el desarrollador puede
+implementarlas en su aplicación. Sin embargo, estos mecanismos se centran en
+regular el acceso de los usuarios del sistema a determinados recursos, y no en
+verificar qué sucede con la información una vez es accedida.\newline 
+Para superar tal carencia, diferentes trabajos de investigación han abordado el
+problema de fuga de información en aplicaciones Android, tanto desde un enfoque
+dinámico como desde un enfoque estático, la literatura existente al
+respecto(TaintDroid\cite{TaintDroid}, Flow-Droid\cite{FlowDroid-Thesis},
+DidFail\cite{DidFail}, DroidForce\cite{DroidForce}), indica que la mayoría de
+propuestas hacen data-flow analysis mediante técnicas de análisis usando
+tainting, partiendo del bytecode. Una característica sobresaliente entre estos
+trabajos es el modelo de ataque, puesto que, se centran en analizar aplicaciones
+de terceros asumiendo que el atacante provee bytecode malicioso. Guiar el
+análisis de aplicaciones propias con el fin de verificar políticas de
+confidencialidad e integridad, bajo tales propuestas, puede implicar: mayor
+dificultad en el código a analizar, incompletitud en el análisis(under-tainting)
+y no detección de flujos implícitos. Esto debido a que, aún cuando el
+desarrollador conoce la funcionalidad de su propio código, las optimizaciones
+realizadas por el compilador pueden adicionar complejidad al
+mismo\cite[pag.~43]{SecureProgramming}; el seguimiento de los datos a través del
+programa está centrado en datos marcados, datos no marcados quedan fuera del
+análisis;   flujos de datos a través de estructuras de control, por ejemplo, las
+sentencias if, permiten inferir valores de datos marcados como source, sin
+necesidad de generar flujos explícitos entre sources y sinks, los cuales si
+pueden ser detectados por las técnicas de análisis tainting.\newline Otra razón
+fundamental para no  analizar aplicaciones propias con tales propuestas es que
+están diseñadas para detectar flujos de datos indebidos, y no para garantizar el
+cumplimiento de políticas de seguridad en una aplicación.\newline 
+Los riesgos de seguridad tras el under-tainting de datos, y la ausencia de
+garantías en el cumplimiento de determinadas políticas de seguridad, pueden
+superarse mediante control de flujo de información, Information Flow
+Control(IFC), puesto que, con esta técnica se analiza estáticamente la
+aplicación para identificar todos los posibles caminos que podrían tomar sus
+flujos de información, garantizando que a tiempo de ejecución, la
+aplicación respeta políticas de seguridad.\newline
+
+Finalmente, partiendo del contexto que se plantea, dónde se cuenta con el código
+fuente Android, porque es el propio desarrollador quien requiere evaluar
+políticas de confidencialidad en su aplicación, para  garantizarle
+al usuario que la aplicación las cumple. Resulta apropiado proveer una
+herramienta de apoyo al desarrollador, mediante la cual analice el flujo de
+información de la aplicación próxima a liberar, y verifique el cumplimiento de
+políticas de seguridad.
+ 
+\input{trabajosRelacionados}
+\input{propuesta-sol}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
