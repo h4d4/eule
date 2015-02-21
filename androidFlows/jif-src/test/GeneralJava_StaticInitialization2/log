@@ -1,0 +1,14 @@
+/home/estudiante/eule/androidFlows/jif-src/test/GeneralJava_StaticInitialization2/MainActivity-out.jif:38: 
+    Syntax error: unexpected class.
+    public static class StaticInitClass1 {
+                  ^---^
+
+/home/estudiante/eule/androidFlows/jif-src/test/GeneralJava_StaticInitialization2/MainActivity-out.jif:40-42: 
+    Jif does not currently support initializer blocks.
+        static {
+               ^
+        ...
+        }
+        ^
+
+2 errors.

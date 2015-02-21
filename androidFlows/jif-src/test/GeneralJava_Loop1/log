@@ -1,0 +1,6 @@
+/home/estudiante/eule/androidFlows/jif-src/test/GeneralJava_Loop1/LoopExample1-out.jif:31: 
+    Syntax error: unexpected operator :.
+        for (char c : imei.toCharArray()) obfuscated += c + "_";
+                    ^
+
+1 error.

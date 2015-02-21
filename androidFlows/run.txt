@@ -1,0 +1,4 @@
+
+./setup.sh
+./jifc-java-libraries.sh -e jif-src/implicit/Implicitflow1.jif    // el .jif  a compilar
+./jif.sh Implicitflow1

@@ -1,0 +1,9 @@
+/home/estudiante/eule/androidFlows/jif-src/test/Lifecycle_ActivityLifecycle1/ActivityLifecycle1-out.jif:4: 
+    Class "java.net.HttpURLConnection" not found. A class file was found at 
+    jar:file:/usr/lib/jvm/java-8-oracle/jre/lib/rt.jar!/java/net/HttpURLConnection.class,
+     but it did not contain appropriate information for the Polyglot-based 
+    compiler jifc. Try using jifc to recompile the source code.
+import java.net.HttpURLConnection;
+^--------------------------------^
+
+1 error.

@@ -1,0 +1,6 @@
+/home/estudiante/eule/androidFlows/jif-src/test/Lifecycle_BroadcastReceiverLifecycle1/TestReceiver-out.jif:3: 
+    Class "android.content.BroadcastReceiver" not found.
+import android.content.BroadcastReceiver;
+^---------------------------------------^
+
+1 error.

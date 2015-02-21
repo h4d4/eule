@@ -1,0 +1,11 @@
+/home/estudiante/eule/androidFlows/jif-src/test/ArraysAndLists_ListAccess1/ListAccess1-out.jif:28: 
+    Syntax error: unexpected operator <.
+    List<String> listData;
+        ^
+
+/home/estudiante/eule/androidFlows/jif-src/test/ArraysAndLists_ListAccess1/ListAccess1-out.jif:34: 
+    Syntax error.
+        listData = new LinkedList<String>();
+                       ^--------^
+
+2 errors.

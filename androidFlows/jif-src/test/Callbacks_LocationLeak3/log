@@ -1,0 +1,6 @@
+/home/estudiante/eule/androidFlows/jif-src/test/Callbacks_LocationLeak3/LocationLeak3-out.jif:28: 
+    Could not find type "IDataProvider".
+public class LocationLeak3 extends Activity implements IDataProvider {
+                                                       ^-----------^
+
+1 error.

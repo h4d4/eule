@@ -1,0 +1,7 @@
+/home/estudiante/eule/androidFlows/jif-src/test/Lifecycle_ActivityLifecycle3/MainActivity-out.jif:37: 
+    No valid method call found for getSubscriberId() in 
+    android.telephony.TelephonyManager.
+        s = telephonyManager.getSubscriberId();
+            ^--------------------------------^
+
+1 error.

@@ -1,0 +1,6 @@
+/home/estudiante/eule/androidFlows/jif-src/test/ArraysAndLists_ArrayAccess1/ArrayAccess1-out.jif:4: 
+    Class "android.content.Context" not found.
+import android.content.Context;
+^-----------------------------^
+
+1 error.

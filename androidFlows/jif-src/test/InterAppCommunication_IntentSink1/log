@@ -1,0 +1,11 @@
+/home/estudiante/eule/androidFlows/jif-src/test/InterAppCommunication_IntentSink1/IntentSink1-out.jif:30: 
+    Could not find type "Intent".
+        Intent intent = this.getIntent();
+        ^----^
+
+/home/estudiante/eule/androidFlows/jif-src/test/InterAppCommunication_IntentSink1/IntentSink1-out.jif:32: 
+    Could not find field or local variable "RESULT_OK".
+        this.setResult(RESULT_OK, intent);
+                       ^-------^
+
+2 errors.

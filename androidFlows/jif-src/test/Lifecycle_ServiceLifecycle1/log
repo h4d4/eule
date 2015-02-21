@@ -1,0 +1,6 @@
+/home/estudiante/eule/androidFlows/jif-src/test/Lifecycle_ServiceLifecycle1/MainService-out.jif:3: 
+    Class "android.app.Service" not found.
+import android.app.Service;
+^-------------------------^
+
+1 error.

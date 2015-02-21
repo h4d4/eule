@@ -1,0 +1,11 @@
+/home/estudiante/eule/androidFlows/jif-src/test/InterAppCommunication_IntentSink2/IntentSink2-out.jif:38: 
+    Could not find type "Intent".
+        Intent intent = new Intent();
+        ^----^
+
+/home/estudiante/eule/androidFlows/jif-src/test/InterAppCommunication_IntentSink2/IntentSink2-out.jif:38: 
+    Could not find type "Intent".
+        Intent intent = new Intent();
+                            ^----^
+
+2 errors.

@@ -1,0 +1,25 @@
+/home/estudiante/eule/androidFlows/jif-src/test/ArraysAndLists_ArrayAccess2/ArrayAccess2-out.jif:31: 
+    The exception "java.lang.NullPointerException" must either be caught or 
+    declared to be thrown.
+        TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+                                                               ^-------------------------------------------------^
+
+/home/estudiante/eule/androidFlows/jif-src/test/ArraysAndLists_ArrayAccess2/ArrayAccess2-out.jif:32: 
+    The exception "java.lang.ArrayIndexOutOfBoundsException" must either be 
+    caught or declared to be thrown.
+        array[5] = telephonyManager.getDeviceId();
+        ^---^
+
+/home/estudiante/eule/androidFlows/jif-src/test/ArraysAndLists_ArrayAccess2/ArrayAccess2-out.jif:33: 
+    The exception "java.lang.ArrayIndexOutOfBoundsException" must either be 
+    caught or declared to be thrown.
+        array[4] = "no taint";
+        ^---^
+
+/home/estudiante/eule/androidFlows/jif-src/test/ArraysAndLists_ArrayAccess2/ArrayAccess2-out.jif:35: 
+    The exception "java.lang.ArrayIndexOutOfBoundsException" must either be 
+    caught or declared to be thrown.
+        sm.sendTextMessage("+49 1234", null, array[calculateIndex()], null, null);
+                                             ^---^
+
+4 errors.

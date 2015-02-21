@@ -1,0 +1,11 @@
+/home/estudiante/eule/androidFlows/jif-src/test/FieldAndObjectSensitivity_FieldSensitivity2/FieldSensitivity2-out.jif:29: 
+    Could not find type "Datacontainer".
+        Datacontainer d1 = new Datacontainer();
+        ^-----------^
+
+/home/estudiante/eule/androidFlows/jif-src/test/FieldAndObjectSensitivity_FieldSensitivity2/FieldSensitivity2-out.jif:29: 
+    Could not find type "Datacontainer".
+        Datacontainer d1 = new Datacontainer();
+                               ^-----------^
+
+2 errors.

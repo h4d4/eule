@@ -1,0 +1,19 @@
+/home/estudiante/eule/androidFlows/jif-src/test/Callbacks_Button1/Button1-out.jif:33: 
+    The exception "java.lang.NullPointerException" must either be caught or 
+    declared to be thrown.
+        TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+                                                               ^-------------------------------------------------^
+
+/home/estudiante/eule/androidFlows/jif-src/test/Callbacks_Button1/Button1-out.jif:34: 
+    The exception "java.lang.NullPointerException" must either be caught or 
+    declared to be thrown.
+        imei = telephonyManager.getDeviceId();
+               ^----------------------------^
+
+/home/estudiante/eule/androidFlows/jif-src/test/Callbacks_Button1/Button1-out.jif:40: 
+    The exception "java.lang.NullPointerException" must either be caught or 
+    declared to be thrown.
+        sms.sendTextMessage("+49", null, imei, null, null);
+        ^------------------------------------------------^
+
+3 errors.

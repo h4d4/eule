@@ -1,0 +1,6 @@
+/home/estudiante/eule/androidFlows/jif-src/test/AndroidSpecific_PrivateDataLeak3/MainActivity-out.jif:57: 
+    Could not find type "Menu".
+    public boolean onCreateOptionsMenu{}(Menu {}menu) {
+                                         ^--^
+
+1 error.
