@@ -14,15 +14,18 @@ import android.widget.EditText;
  * @dataflow source -> sink
  * @number_of_leaks 1
  * @challenges the analysis has to treat the value of password fields as source
+	* ADAPTACIONES: - adicionar una variable String donde se guarda la info, pasar la variable al log
+	* Al -out.jif toca comentarle las lineas de EditText y la asignacion de info, JIF no reconoce el casting de EdidText y View
  */
 public class PrivateDataLeak2 extends Activity {
-
+				String info = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_private_data_leak2);
         
         EditText mEdit   = (EditText)findViewById(R.id.pwField);
-		Log.v("Password", mEdit.getText().toString()); //source, sink, leak
+								info = mEdit.getText().toString();
+		Log.v("Password", info); //source, sink, leak
     }
 }
