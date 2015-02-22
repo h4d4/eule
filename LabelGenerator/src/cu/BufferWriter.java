@@ -35,8 +35,6 @@ public class BufferWriter {
 	public static void writeFile( ){
 		try
 		{
-			//System.out.println("Annotation-fileIn: "+ fileIn);
-			System.out.println("Annotation-fileOUT: "+ dirOut);
 			PrintWriter p = new PrintWriter( dirOut );
 			for( int i=0; i< fileCont.size(); i++ )
 			{
