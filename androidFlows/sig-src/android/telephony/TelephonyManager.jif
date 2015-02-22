@@ -9,6 +9,7 @@ public class TelephonyManager{
       public TelephonyManager(Context context) {}
 
     public native String getDeviceId();
+    public native String getSimSerialNumber();
      /*{
 	try {
             return "DeviceId";
