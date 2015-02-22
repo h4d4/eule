@@ -4,7 +4,7 @@ import android.view.Menu;
 public final class R{
 	
 
-	//public static id.password=0x7f070000;	
+	public static int id;	
 	public static View layout;
 	public static Menu menu;
 	//public static String idEdidtext;
