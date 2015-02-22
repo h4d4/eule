@@ -15,6 +15,7 @@ import android.util.Log;
  * @dataflow source -> deviceid -> sink
  * @number_of_leaks 1
  * @challenges the analysis has to discover that the unit is not called
+	* ADAPTACIONES: adcicion de Excepciones; quitar getBaseContext() no se pude soportar en JIF
  */
 public class UnreachableCode extends Activity {
 
@@ -26,10 +27,13 @@ public class UnreachableCode extends Activity {
 
     //this method is never called
   	private void unreachable(){
-  		TelephonyManager tm =(TelephonyManager)getBaseContext().getSystemService(Context.TELEPHONY_SERVICE);
-  		String deviceid = tm.getDeviceId(); //source
+				try{
+  		    TelephonyManager tm =(TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+  		     String deviceid = tm.getDeviceId(); //source
   		
-  		Log.i("INFO", deviceid); //sink
+  		     Log.i("INFO", deviceid); //sink
+								}catch(ClassCastException e) {
+								}catch(NullPointerException e) {}
   	}
     
 }
