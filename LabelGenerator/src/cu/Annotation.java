@@ -332,43 +332,7 @@ public class Annotation {
 			
 		}
      }
-	
-	/*public static class ChangeArraysMethosSources extends VoidVisitorAdapter<Object> {//obtener nombre arrays methos sources
-		@Override
-        public void visit(MethodDeclaration n, Object arg) {
-			for( String s : methodsSources ){
-				if( n.getName().toString().equals(s) ){
-					BlockStmt b = n.getBody();
-					Statement s1 = new Statement();
-					List<Statement> listStm = n.getBody().getStmts();
-					if( listStm != null && !listStm.isEmpty() ){
-						for( int i=0; i<listStm.size(); i++ ){
-							System.out.println("stm"+i+"      "+listStm.get(i));
-							listStm.set(0, "");
-						}
-					}
-					List<Statement> test = null;
-					test.add(listStm.get(0));
-					n.setBody(b);
-					
-					String statements= n.getBody().getStmts().toString();
-					CharSequence c1= "[]";
-					if(statements.contains(c1)){ 
-						String cad[] = statements.split(";");
-						for(int i =0; i<cad.length; i++){
-							if( cad[i].contains(c1) ){
-								arraysSources.add(cad[i].split("\\[\\]")[1].split("=")[0]);
-							}
-							
-						}
-						
-					}
-				}
-					
-			}
-			
-		}
-     }*/
+
 	public static class VariableDeclarationVisitor extends VoidVisitorAdapter<Object> {
 		  @Override
 		  public void visit(VariableDeclarator n, Object arg)

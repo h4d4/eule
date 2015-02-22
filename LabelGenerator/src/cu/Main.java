@@ -56,7 +56,7 @@ public class Main {
 				String doutmp = fi[0].toString().substring( 0, fi[0].toString().lastIndexOf('/'));
 				String dout2 = doutmp.substring(doutmp.lastIndexOf('/') );
 				String f = dout2+dout1 ;
-				new File(dirOut+dout2).mkdir();
+				new File(dirOut+dout2).mkdir(); 
 				filesOut.add( dirOut+f );
 			}
 		}
@@ -65,12 +65,14 @@ public class Main {
 	
 	public static void main(String[] args) throws ParseException, IOException {
 		
-		// /home/h4d4/Escritorio/Debug/inLabelDebug/@/home/h4d4/Escritorio/Debug/outLabelDebug/
-		// /home/h4d4/Escritorio/inLabelGenerator/@/home/h4d4/Escritorio/outLabelGenerator/
+		// /home/h4d4/Escritorio/Debug/inLabelDebug/@/home/h4d4/Escritorio/Debug/outLabelDebug/  // /home/h4d4/Escritorio/inLabelGenerator/@/home/h4d4/Escritorio/outLabelGenerator/
+		
+		// /home/h4d4/Escritorio/eule/InputLabelGenerator/@/home/h4d4/Escritorio/outLabelGenerator/
 		String fileIn, fileOut;
 		ReadPath();
 		for( int f =0; f<filesIn.size(); f++ ){
 			fileIn = filesIn.get(f);
+			System.out.println("FileIN: "+ fileIn);
 			fileOut = filesOut.get(f);
 			Source.varSources.clear();//P1-A: Identificar variables sources
 			Source.getSources(fileIn);
@@ -89,8 +91,6 @@ public class Main {
 				Annotation.printFile();
 				BufferWriter.init(fileOut.toString(), fileOut.toString());
 			}else{	//Annotation AA
-				
-				new Annotation.VariableDeclarationVisitor().visit(Annotation.cu, null);
 				new Annotation.MethodCallsVisitor().visit(Annotation.cu, null);
 				Annotation.filterMethodsCalls();
 				Annotation.methodsCallsSources();
@@ -125,5 +125,6 @@ public class Main {
 			Annotation.methodsSources.clear();
 			Annotation.arraysSources.clear();
 		}
+		System.out.println("FINISH...........");
 	}
 }
