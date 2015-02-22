@@ -1,6 +1,30 @@
-/home/estudiante/eule/androidFlows/jif-src/test/Lifecycle_BroadcastReceiverLifecycle1/TestReceiver-out.jif:3: 
-    Class "android.content.BroadcastReceiver" not found.
-import android.content.BroadcastReceiver;
-^---------------------------------------^
+/home/estudiante/eule/androidFlows/jif-src/test/Lifecycle_BroadcastReceiverLifecycle1/TestReceiver-out.jif:28: 
+    Unsatisfiable constraint
+    	general constraint:
+    		init.nv <= label of local variable imei
+    	in this context:
+    		{_->_; _<-_ ⊔ context} <= {Alice->}
+    	cannot satisfy equation:
+    		{context} ⊑ {Alice->}
+    	in environment:
+    		{this} ⊑ {caller_pc}
+    		[]
+
+    Label Descriptions
+    ------------------
+     - init.nv = label of successful evaluation of initializing expression
+     - init.nv = {_->_; _<-_ ⊔ context}
+     - label of local variable imei = {Alice->}
+     - context = polymorphic label of formal argument context of method 
+    onReceive (bounded above by {*->})
+     - this = label of the special variable "this" in test.TestReceiver
+     - caller_pc = The pc at the call site of this method (bounded above by 
+    {})
+
+    More information is revealed by the successful evaluation of the 
+    intializing expression than is allowed to flow to the local variable 
+    imei.
+		String {Alice:}imei = ((TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE)).getDeviceId();
+		                       ^-----------------------------------------------------------------------------------^
 
 1 error.
