@@ -1,0 +1,5 @@
+package android.os;
+
+public interface IBinder {
+	static int __JIF_SIG_OF_JAVA_CLASS$20030619 = 0;
+}
