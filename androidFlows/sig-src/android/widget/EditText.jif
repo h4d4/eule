@@ -1,12 +1,12 @@
 package android.widget;
 import android.content.Context;
-//import android.text.Editable;
+import android.text.Editable;
 
 public class EditText{
 	private  static int __JIF_SIG_OF_JAVA_CLASS$20030619 = 0;
         public EditText(Context context) {}
 		
-	//public Editable native getText();
+	public native CharSequence getText();
 
 
 
