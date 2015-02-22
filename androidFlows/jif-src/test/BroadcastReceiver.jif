@@ -1,0 +1,9 @@
+package test;
+
+import android.content.Intent;
+import android.content.Context;
+
+public abstract class BroadcastReceiver {
+
+	public abstract void onReceive{}(Context {}context, Intent {}intent);
+}
