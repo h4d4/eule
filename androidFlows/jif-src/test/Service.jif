@@ -4,7 +4,7 @@ import android.os.IBinder;
 
 public abstract class Service{
 	
-	public native int onStartCommand{}(Intent intent, int flags, int startId);
-	public abstract IBinder onBind{}(Intent intent);
+	public native int onStartCommand{}(Intent{} intent, int{} flags, int{} startId);
+	public abstract IBinder onBind{}(Intent{} intent);
 	public native void onLowMemory{}();
 }
