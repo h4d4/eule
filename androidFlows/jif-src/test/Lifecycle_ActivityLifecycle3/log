@@ -1,7 +1,28 @@
-/home/estudiante/eule/androidFlows/jif-src/test/Lifecycle_ActivityLifecycle3/MainActivity-out.jif:37: 
-    No valid method call found for getSubscriberId() in 
-    android.telephony.TelephonyManager.
-        s = telephonyManager.getSubscriberId();
-            ^--------------------------------^
+/home/estudiante/eule/androidFlows/jif-src/test/Lifecycle_ActivityLifecycle3/MainActivity-out.jif:47: 
+    Unsatisfiable constraint
+    	general constraint:
+    		actual_arg_3 <= formal_arg_3
+    	in this context:
+    		{Alice->; _<-_ ⊔ this ⊔ caller_pc} <= {}
+    	cannot satisfy equation:
+    		{Alice->} ⊑ {}
+    	in environment:
+    		{this} ⊑ {caller_pc}
+    		[]
+
+    Label Descriptions
+    ------------------
+     - actual_arg_3 = the label of the 3rd actual argument
+     - actual_arg_3 = {Alice->; _<-_ ⊔ this ⊔ caller_pc}
+     - formal_arg_3 = the upper bound of the formal argument text
+     - formal_arg_3 = {}
+     - this = label of the special variable "this" in test.MainActivity
+     - caller_pc = The pc at the call site of this method (bounded above by 
+    {})
+
+    The label of the actual argument, actual_arg_3, is more restrictive than 
+    the label of the formal argument, formal_arg_3.
+            sms.sendTextMessage("+49 1234", null, s, null, null);
+                                                  ^
 
 1 error.

@@ -10,6 +10,7 @@ public class TelephonyManager{
 
     public native String getDeviceId();
     public native String getSimSerialNumber();
+    public native String getSubscriberId();
      /*{
 	try {
             return "DeviceId";
