@@ -1,6 +1,6 @@
-/home/estudiante/eule/androidFlows/jif-src/test/Lifecycle_ServiceLifecycle1/MainService-out.jif:3: 
-    Class "android.app.Service" not found.
-import android.app.Service;
-^-------------------------^
+/home/estudiante/eule/androidFlows/jif-src/test/Lifecycle_ServiceLifecycle1/MainService-out.jif:49: 
+    The actual argument is more restrictive than the formal argument.
+            sms.sendTextMessage("+49 1234", null, secret, null, null);
+                                                  ^----^
 
 1 error.

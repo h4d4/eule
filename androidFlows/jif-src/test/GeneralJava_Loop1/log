@@ -1,6 +1,28 @@
-/home/estudiante/eule/androidFlows/jif-src/test/GeneralJava_Loop1/LoopExample1-out.jif:31: 
-    Syntax error: unexpected operator :.
-        for (char c : imei.toCharArray()) obfuscated += c + "_";
-                    ^
+/home/estudiante/eule/androidFlows/jif-src/test/GeneralJava_Loop1/LoopExample1-out.jif:34: 
+    Unsatisfiable constraint
+    	general constraint:
+    		label of type char{imei ⊔ telephonyManager ⊔ _->_; _<-_} <= label of 
+    type char{}
+    	in this context:
+    		{Alice->; _<-_ ⊔ _->_; _<-_} <= {}
+    	cannot satisfy equation:
+    		{Alice->} ⊑ {}
+    	in environment:
+    		{this} ⊑ {caller_pc}
+    		[]
+
+    Label Descriptions
+    ------------------
+     - label of type char{imei ⊔ telephonyManager ⊔ _->_; _<-_} = {Alice->; 
+    _<-_ ⊔ _->_; _<-_}
+     - label of type char{} = {}
+     - this = label of the special variable "this" in test.LoopExample1
+     - caller_pc = The pc at the call site of this method (bounded above by 
+    {})
+
+    char{imei ⊔ telephonyManager ⊔ _->_; _<-_}[] is not a subtype of 
+    char{}[]. Subtyping requires the base types of arrays to be equivalent.
+            char c[] = imei.toCharArray();
+                       ^----------------^
 
 1 error.

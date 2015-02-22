@@ -1,4 +1,4 @@
-/home/estudiante/eule/androidFlows/jif-src/test/AndroidSpecific_Obfuscation1/MainActivity-out.jif:36: 
+/home/estudiante/eule/androidFlows/jif-src/test/AndroidSpecific_Obfuscation1/MainActivity-out.jif:38: 
     Unsatisfiable constraint
     	general constraint:
     		actual_arg_3 <= formal_arg_3
@@ -22,7 +22,7 @@
 
     The label of the actual argument, actual_arg_3, is more restrictive than 
     the label of the formal argument, formal_arg_3.
-        sms.sendTextMessage("+49", null, imei, null, null);
-                                         ^--^
+            sms.sendTextMessage("+49", null, imei, null, null);
+                                             ^--^
 
 1 error.

