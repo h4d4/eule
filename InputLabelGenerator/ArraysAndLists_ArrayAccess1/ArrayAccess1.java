@@ -28,14 +28,29 @@ public class ArrayAccess1 extends Activity {
         
         arrayData = new String[3];
 		
-		arrayData[0] = "element 1 is tainted:";
-		arrayData[1] = ((TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE)).getDeviceId(); //source
-		//arrayData[2] is not tainted
-		arrayData[2] = "neutral text";
+		try{
+							arrayData[0] = "element 1 is tainted:";
+					}catch(ArrayIndexOutOfBoundsException  e){
+					}catch( NullPointerException e){}
+
+		try{
+							arrayData[1] = ((TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE)).getDeviceId(); //source
+					}catch(ArrayIndexOutOfBoundsException  e){
+					}catch(ClassCastException e){
+					}catch( NullPointerException e){}
+	
+				//arrayData[2] is not tainted
+				try{
+								arrayData[2] = "neutral text";
+					}catch(ArrayIndexOutOfBoundsException  e){
+					}catch( NullPointerException e){}
 		
-		SmsManager sms = SmsManager.getDefault();
-		
-		//no data leak: 3rd argument of sendTextmessage() is not tainted
-        sms.sendTextMessage("+49 1234", null, arrayData[2], null, null);  //sink, no leak
+				try{
+		  SmsManager sms = SmsManager.getDefault();
+				//no data leak: 3rd argument of sendTextmessage() is not tainted
+    sms.sendTextMessage("+49 1234", null, arrayData[2], null, null);  //sink, no leak
+				}catch(ArrayIndexOutOfBoundsException  e){
+				}catch( NullPointerException e){}
+
     }    
 }

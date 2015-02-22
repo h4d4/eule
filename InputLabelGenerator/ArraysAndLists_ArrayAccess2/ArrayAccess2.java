@@ -26,13 +26,22 @@ public class ArrayAccess2 extends Activity {
         setContentView(R.layout.activity_array_access2);
         
         String[] array = new String[10];
-		TelephonyManager telephonyManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE); //source
-		array[5] = telephonyManager.getDeviceId();
-		array[4] = "no taint";
-		
-		SmsManager sm = SmsManager.getDefault();
-		sm.sendTextMessage("+49 1234", null, array[calculateIndex()], null, null); //sink, no leak
-		
+		try{
+						TelephonyManager telephonyManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE); //source
+						try{
+											array[5] = telephonyManager.getDeviceId();
+									}catch(ArrayIndexOutOfBoundsException  e){
+									}catch( NullPointerException e){}
+									try{
+													array[4] = "no taint";
+												}catch(ArrayIndexOutOfBoundsException  e){
+												}catch( NullPointerException e){}
+									try{	
+													SmsManager sm = SmsManager.getDefault();
+													sm.sendTextMessage("+49 1234", null, array[calculateIndex()], null, null); //sink, no leak
+												}catch(ArrayIndexOutOfBoundsException  e){}
+					}catch(ClassCastException e){
+					}catch( NullPointerException e){}
 	}
 	
 	private int calculateIndex(){
