@@ -18,7 +18,11 @@ public class Main {
 	
 	static File dirIn = null, dirOut, dirsIn[];
 	static ArrayList<String> filesIn = new ArrayList<String>(),
+			test = new ArrayList<String>(),
 			filesOut = new ArrayList<String>();
+	static ArrayList<ArrayList<String>> allFilesIn = new ArrayList<ArrayList<String>>();
+	
+	static String xmlFileIn = null;
 	
 	private static void ReadPath() throws IOException{
 		String inputs;
@@ -50,16 +54,42 @@ public class Main {
 		
 		if( dirsIn.length >= 1 ){
 			for( int i =0; i<dirsIn.length; i++ ){
-				File[] fi = dirsIn[i].listFiles();
-				filesIn.add( fi[0].toString() );
+				File[] fi = dirsIn[i].listFiles(); 
+				//System.out.println( "fi.size ="+ fi.length);
+				ArrayList<String> tmp = new ArrayList<String>();
+				for( int k=0; k<fi.length; k++ ){
+					//System.out.println(fi[k].toString());
+					tmp.add(fi[k].toString());
+					/*test.add(fi[k].toString());
+					allFilesIn.add(test);*/
+					if( fi[k].toString().indexOf(".java") > -1 ){
+						String dout1 = fi[k].toString().substring(fi[0].toString().lastIndexOf('/'));
+						String doutmp = fi[k].toString().substring( 0, fi[0].toString().lastIndexOf('/'));
+						String dout2 = doutmp.substring(doutmp.lastIndexOf('/') );
+						String f = dout2+dout1 ;
+						new File(dirOut+dout2).mkdir(); 
+						filesOut.add( dirOut+f );
+					}
+				}
+				allFilesIn.add(tmp);
+				/*filesIn.add( fi[0].toString() );
 				String dout1 = fi[0].toString().substring(fi[0].toString().lastIndexOf('/'));
 				String doutmp = fi[0].toString().substring( 0, fi[0].toString().lastIndexOf('/'));
 				String dout2 = doutmp.substring(doutmp.lastIndexOf('/') );
 				String f = dout2+dout1 ;
 				new File(dirOut+dout2).mkdir(); 
-				filesOut.add( dirOut+f );
+				filesOut.add( dirOut+f );*/
 			}
 		}
+		/*for(int j=0;j<allFilesIn.size(); j++){
+			System.out.println("allFilesIn[ "+j+"]");
+			ArrayList<String> tmp = allFilesIn.get(j);
+			for(int m=0; m<tmp.size(); m++){
+				System.out.println("tmp["+m+"] = " +tmp.get(m));
+				
+			}
+		}
+		*/
 	}
 	
 	
@@ -68,16 +98,24 @@ public class Main {
 		// /home/h4d4/Escritorio/Debug/inLabelDebug/@/home/h4d4/Escritorio/Debug/outLabelDebug/  // /home/h4d4/Escritorio/inLabelGenerator/@/home/h4d4/Escritorio/outLabelGenerator/
 		
 		// /home/h4d4/Escritorio/eule/InputLabelGenerator/@/home/h4d4/Escritorio/outLabelGenerator/
-		String fileIn, fileOut;
+		String javaFileIn = null, fileOut;
 		ReadPath();
-		for( int f =0; f<filesIn.size(); f++ ){
-			fileIn = filesIn.get(f);
-			System.out.println("FileIN: "+ fileIn);
+		for( int f =0; f<allFilesIn.size(); f++ ){
+			ArrayList<String> tmp = allFilesIn.get(f);
+			for( int k=0;k<tmp.size(); k++ ){
+				if( tmp.get(k).indexOf(".java") > -1 )
+					javaFileIn = tmp.get(k);
+				else if( tmp.get(k).indexOf(".xml") > -1  )
+					xmlFileIn = tmp.get(k);
+			}
+			//javaFileIn = filesIn.get(f);
+			System.out.println("FileIN: "+ javaFileIn);
 			fileOut = filesOut.get(f);
 			Source.varSources.clear();//P1-A: Identificar variables sources
-			Source.getSources(fileIn);
+			//Source.getSources(javaFileIn);
+			Source.init(javaFileIn);
 			
-			Annotation.setFiles(fileIn, fileOut);//inicializar archivos clase Annotation
+			Annotation.setFiles(javaFileIn, fileOut);//inicializar archivos clase Annotation
 			Annotation.generateCu();
 			new Annotation.MethodVisitor().visit(Annotation.cu, null);//P1: identificar el total de metodos de la clase
 			Annotation.IsClass();
@@ -124,7 +162,7 @@ public class Main {
 			Annotation.methodsNoSources.clear();
 			Annotation.methodsSources.clear();
 			Annotation.arraysSources.clear();
-		}
+		}	
 		System.out.println("FINISH...........");
 	}
 }
