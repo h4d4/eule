@@ -1,11 +1,14 @@
 package cu;
 
 import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.lang.Character;
 import java.util.*;
 
@@ -17,6 +20,67 @@ public class Source {
 	 */
 	public static ArrayList<String> varSources = new ArrayList<String>();
 	public static ArrayList<String> tmpSources = new ArrayList<String>();
+	public static String nameEdit = null;
+	
+	
+	public static void finEditTextSource(String inFile) throws IOException{
+		BufferedReader in = null;
+		File fileIn = new File( inFile );  
+		ArrayList<String> fileCont = new ArrayList<String>();
+		try {
+			in = new BufferedReader(new InputStreamReader(new FileInputStream(fileIn)));			
+		} catch (FileNotFoundException e) { e.printStackTrace(); System.exit(-1); }
+		
+		String line = null; 
+		do {
+			 line = in.readLine(); 
+			 
+			 if( line != null) {
+				 fileCont.add(line);
+		     }
+		} while (line != null);	
+		
+		ArrayList<String> idsEditPasswd = XmlExtract.getIdTextEdit( Main.xmlFileIn ),
+		nameVars = new ArrayList<String>(); 
+		
+		
+		for( int i=0; i<fileCont.size(); i++ ){
+			String line1 = fileCont.get(i);
+			if( line1.indexOf("findViewById") > -1 ){
+				String tmp = line1.substring(line1.indexOf("findViewById"));
+				boolean vnt =false;
+				//System.out.println(tmp.split("\\(")[1].split("\\)")[0].split("\\.")[2]);
+				String idR = tmp.split("\\(")[1].split("\\)")[0].split("\\.")[2];
+				for( int k=0; k<idsEditPasswd.size(); k++ ){
+					if( idsEditPasswd.get(k).equals(idR) ){
+						System.out.println("Passwd Field: "+ line1);
+						vnt = true;
+						break;
+					}
+				}
+				if(vnt){
+					if( line1.indexOf("=") > -1 ){
+						String[] t = line1.split("=")[0].split("\\s+");
+						System.out.println("t.size "+t.length);
+						for( int p=0; p<t.length; p++ ){
+							System.out.println("t["+p+"] = "+ t[p]);
+						}
+						if( t.length >= 1 ){
+							if( t[0].isEmpty() ){
+								nameVars.add( t[t.length-1] );
+							}else{
+								nameVars.add(t[0]);
+							}
+							
+						}
+					}
+				}
+			}
+		}
+		System.out.println("NameVar"+ nameVars.get(0));
+		nameEdit = nameVars.get(0);
+		
+	}
 	
 	public static void getSources( String fileIn ){
 
@@ -25,15 +89,32 @@ public class Source {
     BufferedInputStream bis = null;
     DataInputStream dis = null;
 
-    String sources[] = new String[7];
+    ArrayList<String> sources = new  ArrayList<String>();
+    sources.add("getDeviceId");
+    sources.add("getSimSerialNumber");
+    sources.add("findViewById");
+    sources.add("getLatitude");
+    sources.add("getLongitude");
+    sources.add("getSubscriberId()");
+    //sources.add("getText().toString()");
+    
+    if( !nameEdit.isEmpty() ){
+    	sources.add(nameEdit);
+    }
+    
+   /* String sources[] = new String[7];
     sources[0] = "getDeviceId";
     sources[1] = "getSimSerialNumber";
     sources[2] = "findViewById";
     sources[3] = "getLatitude";
     sources[4] = "getLongitude";
-    sources[5] = "getText().toString()";
-    sources[6] = "getSubscriberId()";
-
+    //sources[5] = "getText().toString()";
+    sources[5] = "getSubscriberId()";
+    
+    if( !editText.isEmpty() ){
+    	sources[6] = editText;
+    }*/
+    
     //ArrayList<String> meSource = new ArrayList<String>();
 
     try {
@@ -46,16 +127,18 @@ public class Source {
         @SuppressWarnings("deprecation")
 		String line = dis.readLine();
 
-        for (int i = 0; i < sources.length; ++i) {
+        for (int i = 0; i < sources.size(); ++i) {
+        	
           int pos = 0;
 
           while (pos < line.length()) {
             String ssub = line.substring(pos).trim();
             char sub[] = ssub.toCharArray();
-            pos = ssub.indexOf( sources[i] );
+            pos = ssub.indexOf( sources.get(i) );
 
             if (pos == -1) break;
             if (sub[pos - 1] == '.') {
+            	//System.out.println("ssub: "+ssub);
               int j = pos - 2;
               while ( j > 0 && Character.isLetter(sub[j])) j--;
               int a = j + 1;
@@ -76,8 +159,14 @@ public class Source {
                 name = name.replaceAll("\\s+","");
                 varSources.add(name);
               }
+            }else if( sub[pos+sources.get(i).length()] == '.' ){
+            		if( ssub.substring( pos+sources.get(i).length()+1 ).indexOf("getText()") > -1 )
+            				System.out.println("ssub: "+ssub);
+            		else if( ssub.substring( pos+sources.get(i).length()+1 ).indexOf("toString()") > -1 )
+            			System.out.println("ssub: "+ssub);
             }
-            pos += sources[i].length() + 1;
+            
+            pos += sources.get(i).length() + 1;
           }
         }
       }
@@ -92,15 +181,21 @@ public class Source {
       e.printStackTrace();
     }
     //cleanSpaces();
-    /*System.out.println("Me sources: ");
+    System.out.println("Me sources: ");
     for (String i : varSources) {
       System.out.println(i);
-    }*/
+    }
     
     //return meSource;
   }
 
-   /*public static void cleanSpaces(){
+ public static void init( String fileIn) throws IOException{
+	 finEditTextSource(fileIn);
+	 getSources( fileIn );
+	 
+ }
+
+	/*public static void cleanSpaces(){
 	   for(int i=0; i<tmpSources.size(); i++){
 		   char caracteres[] = tmpSources.get(i).toCharArray();
 		   String tmp;

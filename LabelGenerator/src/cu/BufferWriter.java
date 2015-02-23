@@ -251,9 +251,11 @@ public class BufferWriter {
 			}
 	}
 	
+	
 	public static void init(String in, String out) throws IOException{
 		SetPath( in, out );
 		putFileToArray();
+		
 		if( Source.varSources.size() >= 1 ){
 			for( int i=0; i<Source.varSources.size(); i++ ){
 				String var = Source.varSources.get(i);
