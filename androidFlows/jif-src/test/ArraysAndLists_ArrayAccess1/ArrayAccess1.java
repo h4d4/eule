@@ -30,10 +30,27 @@ public class ArrayAccess1 extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout);
         arrayData = new String[3];
-        arrayData[0] = "element 1 is tainted:";
-        arrayData[1] = ((TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE)).getDeviceId();
-        arrayData[2] = "neutral text";
-        SmsManager sms = SmsManager.getDefault();
-        sms.sendTextMessage("+49 1234", null, arrayData[2], null, null);
+        try {
+            arrayData[0] = "element 1 is tainted:";
+        } catch (ArrayIndexOutOfBoundsException e) {
+        } catch (NullPointerException e) {
+        }
+        try {
+            arrayData[1] = ((TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE)).getDeviceId();
+        } catch (ArrayIndexOutOfBoundsException e) {
+        } catch (ClassCastException e) {
+        } catch (NullPointerException e) {
+        }
+        try {
+            arrayData[2] = "neutral text";
+        } catch (ArrayIndexOutOfBoundsException e) {
+        } catch (NullPointerException e) {
+        }
+        try {
+            SmsManager sms = SmsManager.getDefault();
+            sms.sendTextMessage("+49 1234", null, arrayData[2], null, null);
+        } catch (ArrayIndexOutOfBoundsException e) {
+        } catch (NullPointerException e) {
+        }
     }
 }

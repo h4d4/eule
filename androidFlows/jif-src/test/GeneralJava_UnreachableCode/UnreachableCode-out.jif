@@ -18,6 +18,7 @@ import jif.runtime.Runtime;
  * @dataflow source -> deviceid -> sink
  * @number_of_leaks 1
  * @challenges the analysis has to discover that the unit is not called
+	* ADAPTACIONES: adcicion de Excepciones; quitar getBaseContext() no se pude soportar en JIF
  */
 public class UnreachableCode extends Activity {
 static Context context;
@@ -28,8 +29,12 @@ static Context context;
     }
 
     private void unreachable{}() {
-        TelephonyManager tm = (TelephonyManager) getBaseContext().context.getSystemService(Context.TELEPHONY_SERVICE);
-        String {Alice:}deviceid = tm.getDeviceId();
-        Log.i("INFO", deviceid);
+        try {
+            TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+            String {Alice:}deviceid = tm.getDeviceId();
+            Log.i("INFO", deviceid);
+        } catch (ClassCastException e) {
+        } catch (NullPointerException e) {
+        }
     }
 }
