@@ -24,6 +24,7 @@ public class Source {
 	
 	
 	public static void finEditTextSource(String inFile) throws IOException{
+		
 		BufferedReader in = null;
 		File fileIn = new File( inFile );  
 		ArrayList<String> fileCont = new ArrayList<String>();
@@ -79,7 +80,6 @@ public class Source {
 		}
 		System.out.println("NameVar"+ nameVars.get(0));
 		nameEdit = nameVars.get(0);
-		
 	}
 	
 	public static void getSources( String fileIn ){
@@ -98,7 +98,7 @@ public class Source {
     sources.add("getSubscriberId()");
     //sources.add("getText().toString()");
     
-    if( !nameEdit.isEmpty() ){
+    if( nameEdit != null && !nameEdit.isEmpty() ){
     	sources.add(nameEdit);
     }
     
@@ -190,8 +190,12 @@ public class Source {
   }
 
  public static void init( String fileIn) throws IOException{
-	 finEditTextSource(fileIn);
+	 
+	 if( Main.xmlFileIn != null && !Main.xmlFileIn.isEmpty())
+		 finEditTextSource(fileIn);
+	 
 	 getSources( fileIn );
+	 nameEdit = null;
 	 
  }
 

@@ -162,6 +162,7 @@ public class Main {
 			Annotation.methodsNoSources.clear();
 			Annotation.methodsSources.clear();
 			Annotation.arraysSources.clear();
+			xmlFileIn = null;
 		}	
 		System.out.println("FINISH...........");
 	}

@@ -228,7 +228,14 @@ public class Annotation {
         	}else if( n.getName().toString().matches("android.telephony.SmsManager")  ){
         		Expression newExp = ASTHelper.createNameExpr("test.SmsManager");
         		n.setName((NameExpr) newExp);
+        	}else if( n.getName().toString().matches("android.app.Service")  ){
+        		Expression newExp = ASTHelper.createNameExpr("test.Service");
+        		n.setName((NameExpr) newExp);
+        	}else if( n.getName().toString().matches("android.content.BroadcastReceiver")  ){
+        		Expression newExp = ASTHelper.createNameExpr("test.BroadcastReceiver");
+        		n.setName((NameExpr) newExp);
         	}
+        	
         }
 	}
 	
