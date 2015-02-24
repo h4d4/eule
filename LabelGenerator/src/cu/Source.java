@@ -159,12 +159,12 @@ public class Source {
                 name = name.replaceAll("\\s+","");
                 varSources.add(name);
               }
-            }else if( sub[pos+sources.get(i).length()] == '.' ){
+            }/*else if( sub[pos+sources.get(i).length()] == '.' ){
             		if( ssub.substring( pos+sources.get(i).length()+1 ).indexOf("getText()") > -1 )
             				System.out.println("ssub: "+ssub);
             		else if( ssub.substring( pos+sources.get(i).length()+1 ).indexOf("toString()") > -1 )
             			System.out.println("ssub: "+ssub);
-            }
+            }*/
             
             pos += sources.get(i).length() + 1;
           }

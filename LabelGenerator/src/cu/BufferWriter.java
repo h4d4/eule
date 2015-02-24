@@ -197,6 +197,43 @@ public class BufferWriter {
 			 }
 		}
 	}
+	
+	
+	
+	
+	
+	public static void findVarSource2( String nameVar ){
+		for( int i=0; i< fileCont.size(); i++ ){
+			 String line = fileCont.get(i), tokens[];
+			 String type = "boolean|byte|char|short|int|float|long|double";
+			 String identifier = "[A-Za-z][\\w]*";
+			 int initVar = line.indexOf(nameVar);
+			 boolean esVar = false;
+			 if( initVar > -1 ){
+				 if( line.indexOf("=") > -1 ){	//si la var source esta inicializada
+					 tokens = line.split("="); 
+					 if( tokens.length == 2 ){
+						 String f[] = tokens[0].split("\\s+"); 
+						 if( f[f.length-1].equals(nameVar)){		//tomar penultima posicion
+							 if( f[f.length-2].matches(type) | f[f.length-2].matches(identifier) )
+								 esVar = true;
+						 }
+					 }
+				 }else{	//si var source no esta inicializada 
+					 tokens = line.split(";")[0].split("\\s+"); 
+					 if( tokens[tokens.length-1].equals(nameVar) ){
+						 if( tokens[tokens.length-2].matches(type) | tokens[tokens.length-2].matches(identifier))
+							 esVar = true;;
+					 	}
+				 }	 
+			 }
+			 if( esVar ){
+				 StringBuffer sb = new StringBuffer(line);
+			     sb.insert(initVar,"{Alice:}");
+			     fileCont.set(i, sb.toString());
+			 }
+		}
+	}
 
 	public static void commenOverride(){
 		for( int i =0; i<fileCont.size(); i++){
@@ -259,7 +296,7 @@ public class BufferWriter {
 		if( Source.varSources.size() >= 1 ){
 			for( int i=0; i<Source.varSources.size(); i++ ){
 				String var = Source.varSources.get(i);
-				findVarSource( var );
+				findVarSource2( var );
 			}
 		}
 		//addInstances() ;

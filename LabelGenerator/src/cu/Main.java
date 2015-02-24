@@ -20,7 +20,7 @@ public class Main {
 	static ArrayList<String> filesIn = new ArrayList<String>(),
 			test = new ArrayList<String>(),
 			filesOut = new ArrayList<String>();
-	static ArrayList<ArrayList<String>> allFilesIn = new ArrayList<ArrayList<String>>();
+	static ArrayList<ArrayList<String>> allFilesIn = new ArrayList<ArrayList<String>>(); 
 	
 	static String xmlFileIn = null;
 	
@@ -166,4 +166,5 @@ public class Main {
 		}	
 		System.out.println("FINISH...........");
 	}
+	
 }
