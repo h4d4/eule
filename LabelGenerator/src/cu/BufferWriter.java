@@ -144,67 +144,6 @@ public class BufferWriter {
 	public static void findVarSource( String nameVar ){
 		for( int i=0; i< fileCont.size(); i++ ){
 			 String line = fileCont.get(i), tokens[];
-			 int initVar = line.indexOf(nameVar);
-			 boolean esVar = false;
-			 if( initVar > -1 ){
-				 if( line.indexOf("=") > -1 ){	//si la var source está inicializada
-					 tokens = line.split("="); 
-					 if( tokens.length == 2 ){
-						 String f[] = tokens[0].split("\\s+"); 
-						 if( f[f.length-1].equals(nameVar)){
-							 if( f[0].isEmpty() ){
-								 if( f.length ==3  || f.length ==4 || f.length ==5){ 
-									 char tmp[] = f[f.length-2].trim().toCharArray(); 
-					 				 String t = Character.toString(tmp[0]).toUpperCase();
-					 				 if( Character.toString(tmp[0]).equals(t) ){ 
-					 					 esVar = true;}
-								 }
-							 }else{
-								 	if( f.length ==2  || f.length ==3 || f.length ==4){
-								 		char tmp[] = tokens[tokens.length-2].trim().toCharArray();
-						 				 String t = Character.toString(tmp[0]).toUpperCase();
-						 				 if( Character.toString(tmp[0]).equals(t) )
-						 					 esVar = true;
-								 }
-							 }
-						 }
-					 }
-				 }else{	//si var source no esta inicializada 
-					 	tokens = line.split(";")[0].split("\\s+"); 
-					 	if( tokens[tokens.length-1].equals(nameVar) ){
-					 		if( tokens[0].isEmpty() ){
-					 			 if( tokens.length ==3  || tokens.length ==4 || tokens.length ==5){
-					 				 char tmp[] = tokens[tokens.length-2].trim().toCharArray();
-					 				 String t = Character.toString(tmp[0]).toUpperCase();
-					 				 if( Character.toString(tmp[0]).equals(t) )
-					 					  esVar = true;
-								 }
-					 		}else{
-					 			if( tokens.length ==2  || tokens.length ==3 || tokens.length ==4){
-					 				char tmp[] = tokens[tokens.length-2].trim().toCharArray();
-					 				 String t = Character.toString(tmp[0]).toUpperCase();
-					 				 if( Character.toString(tmp[0]).equals(t) )
-					 					esVar = true;
-					 			}
-					 		} 
-					 	}
-				 }	 
-			 }
-			 if( esVar ){
-				 StringBuffer sb = new StringBuffer(line);
-			     sb.insert(initVar,"{Alice:}");
-			     fileCont.set(i, sb.toString());
-			 }
-		}
-	}
-	
-	
-	
-	
-	
-	public static void findVarSource2( String nameVar ){
-		for( int i=0; i< fileCont.size(); i++ ){
-			 String line = fileCont.get(i), tokens[];
 			 String type = "boolean|byte|char|short|int|float|long|double";
 			 String identifier = "[A-Za-z][\\w]*";
 			 int initVar = line.indexOf(nameVar);
@@ -296,7 +235,7 @@ public class BufferWriter {
 		if( Source.varSources.size() >= 1 ){
 			for( int i=0; i<Source.varSources.size(); i++ ){
 				String var = Source.varSources.get(i);
-				findVarSource2( var );
+				findVarSource( var );
 			}
 		}
 		//addInstances() ;
