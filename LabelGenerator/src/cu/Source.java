@@ -104,25 +104,9 @@ public class Source {
     	System.out.println("nameEdit  "+ nameEdit);
     	flag = true;
     }
-    
-   /* String sources[] = new String[7];
-    sources[0] = "getDeviceId";
-    sources[1] = "getSimSerialNumber";
-    sources[2] = "findViewById";
-    sources[3] = "getLatitude";
-    sources[4] = "getLongitude";
-    //sources[5] = "getText().toString()";
-    sources[5] = "getSubscriberId()";
-    
-    if( !editText.isEmpty() ){
-    	sources[6] = editText;
-    }*/
-    
-    //ArrayList<String> meSource = new ArrayList<String>();
 
     try {
       fis = new FileInputStream(file);
-
       bis = new BufferedInputStream(fis);
       dis = new DataInputStream(bis);
 
@@ -131,16 +115,16 @@ public class Source {
 		String line = dis.readLine();
 
         for (int i = 0; i < sources.size(); ++i) {
-        	
           int pos = 0;
-
           while (pos < line.length()) {
-        	  
-            String ssub = line.substring(pos).trim();
+            String ssub = line.trim();
+            ssub = ssub.substring(pos);
+            
             char sub[] = ssub.toCharArray();
             pos = ssub.indexOf( sources.get(i) );
 
             if (pos == -1) break;
+            
             if (sub[pos - 1] == '.') {
               int j = pos - 2;
               while ( j > 0 && Character.isLetter(sub[j])) j--;
@@ -162,9 +146,7 @@ public class Source {
                 name = name.replaceAll("\\s+","");
                 varSources.add(name);
               }
-            }
-            else if(flag && (pos+sources.get(i).length() < line.length()) && sub[pos+sources.get(i).length()] == '.' ){
-            	System.out.println("vvvvvvvvvvvv  "+line);
+            }else if(flag && (pos+sources.get(i).length() < line.length()) && sub[pos+sources.get(i).length()] == '.' ){
             	boolean f = false;
             	if((pos+sources.get(i).length()+1 < line.length()) && ssub.substring( pos+sources.get(i).length()+1 ).indexOf("getText()") > -1 )
             		f = true;
@@ -172,21 +154,20 @@ public class Source {
             		f = true;
             		//System.out.println("ssub: "+ssub);
             	if (f){
-            		
             		int j = pos;
             		while (sub[j] != '=') j --;
-            		j --;
+            		if (j > 0) j --;
             		while ( j > 0 && sub[j] == ' ') j--;
             		int end = j;
             		while ( j > 0 && Character.isLetter(sub[j]) ) j--;
-            		System.out.println(j + " %%%% " + end + " -----" + line.length());
             		String name = ssub.substring(j, end+1);
                     name = name.replaceAll("\\s+","");
                     System.out.println("--->>>>>> " + name);
                     varSources.add(name);
+                    //sub[-1] = 'd';
             	} 
-            }else{System.out.println("NAAAAAAAAAAAAAAAAAAAA  "+line);}
-            
+            }
+            else break;
             pos += sources.get(i).length() + 1;
           }
         }
