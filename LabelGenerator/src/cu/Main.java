@@ -136,9 +136,10 @@ public class Main {
 				Annotation.printFile();
 				BufferWriter.init(fileOut.toString(), fileOut.toString());
 			}else{	//Annotation AA
-				new Annotation.MethodCallsVisitor().visit(Annotation.cu, null);
-				Annotation.filterMethodsCalls();
-				Annotation.methodsCallsSources();
+				//new Annotation.MethodCallsVisitor().visit(Annotation.cu, null);
+				new Annotation.MethodCallsVisitor2().visit(Annotation.cu, null);
+				Annotation.filterMethodsCalls2();
+				Annotation.methodsCallsSources2();
 				Annotation.filterMethodsNoSources();
 				new Annotation.ArraysMethosSources().visit(Annotation.cu, null);
 				//new Annotation.VisitorArrayDeclaration().visit(Annotation.cu, null);
