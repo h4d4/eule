@@ -20,7 +20,7 @@ public class Main {
 	static ArrayList<String> filesIn = new ArrayList<String>(),
 			test = new ArrayList<String>(),
 			filesOut = new ArrayList<String>();
-	static ArrayList<ArrayList<String>> allFilesIn = new ArrayList<ArrayList<String>>();
+	static ArrayList<ArrayList<String>> allFilesIn = new ArrayList<ArrayList<String>>(); 
 	
 	static String xmlFileIn = null;
 	
@@ -54,17 +54,24 @@ public class Main {
 		
 		if( dirsIn.length >= 1 ){
 			for( int i =0; i<dirsIn.length; i++ ){
-				File[] fi = dirsIn[i].listFiles(); 
+				ArrayList<File> fi = new ArrayList<File>();
+				File[] fit = dirsIn[i].listFiles(); 
+				for( int fs=0; fs<fit.length; fs++ ){ //clean shadow files
+					if( ! fit[fs].toString().endsWith("~") && !fit[fs].isHidden() )//clean temporary and shadow files
+						fi.add( fit[fs] );
+				}
+				//File[] fi = dirsIn[i].listFiles(); 
+				//for( int f=0; f<fi.length; f++ ){System.out.println( "##############################  fi["+f+"]  "+ fi[f] );}
 				//System.out.println( "fi.size ="+ fi.length);
 				ArrayList<String> tmp = new ArrayList<String>();
-				for( int k=0; k<fi.length; k++ ){
+				for( int k=0; k<fi.size(); k++ ){
 					//System.out.println(fi[k].toString());
-					tmp.add(fi[k].toString());
+					tmp.add(fi.get(k).toString());
 					/*test.add(fi[k].toString());
 					allFilesIn.add(test);*/
-					if( fi[k].toString().indexOf(".java") > -1 ){
-						String dout1 = fi[k].toString().substring(fi[0].toString().lastIndexOf('/'));
-						String doutmp = fi[k].toString().substring( 0, fi[0].toString().lastIndexOf('/'));
+					if( fi.get(k).toString().indexOf(".java") > -1 ){
+						String dout1 = fi.get(k).toString().substring(fi.get(0).toString().lastIndexOf('/'));
+						String doutmp = fi.get(k).toString().substring( 0, fi.get(0).toString().lastIndexOf('/'));
 						String dout2 = doutmp.substring(doutmp.lastIndexOf('/') );
 						String f = dout2+dout1 ;
 						new File(dirOut+dout2).mkdir(); 
@@ -163,7 +170,10 @@ public class Main {
 			Annotation.methodsSources.clear();
 			Annotation.arraysSources.clear();
 			xmlFileIn = null;
-		}	
+		}
+		//clean .java files in out dirs
+		
 		System.out.println("FINISH...........");
 	}
+	
 }
