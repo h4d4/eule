@@ -1,0 +1,40 @@
+Using '/home/estudiante/android-sdks/platforms//android-17/android.jar' as android.jar
+Warning: java.lang.ref.Finalizer is a phantom class!
+[Call Graph] For information on where the call graph may be incomplete, use the verbose option to the cg phase.
+[Spark] Pointer Assignment Graph in 0.0 seconds.
+[Spark] Type masks in 0.0 seconds.
+[Spark] Pointer Graph simplified in 0.0 seconds.
+[Spark] Propagation in 0.0 seconds.
+[Spark] Solution found in 0.0 seconds.
+Callback analysis done.
+Found 0 layout controls in file res/layout/activity_main.xml
+Found 0 layout controls
+Using '/home/estudiante/android-sdks/platforms//android-17/android.jar' as android.jar
+Warning: java.lang.ref.Finalizer is a phantom class!
+[Call Graph] For information on where the call graph may be incomplete, use the verbose option to the cg phase.
+[Spark] Pointer Assignment Graph in 0.0 seconds.
+[Spark] Type masks in 0.0 seconds.
+[Spark] Pointer Graph simplified in 0.0 seconds.
+[Spark] Propagation in 0.0 seconds.
+[Spark] Solution found in 0.0 seconds.
+Running incremental callback analysis for 1 components...
+Incremental callback analysis done.
+Found 0 layout controls
+Found 1 callback methods for 1 components
+Entry point calculation done.
+Created a SourceSinkManager with 127 sources, 61 sinks, and 1 callback methods.
+Running data flow analysis...
+Running data flow analysis on /home/estudiante/Development/DroidbenchSource/DroidBench-master/apk/AndroidSpecific/DirectLeak1.apk with 127 sources and 61 sinks...
+Starting infoflow computation...
+Using '/home/estudiante/android-sdks/platforms//android-17/android.jar' as android.jar
+Warning: java.lang.ref.Finalizer is a phantom class!
+[Call Graph] For information on where the call graph may be incomplete, use the verbose option to the cg phase.
+[Spark] Pointer Assignment Graph in 0.0 seconds.
+[Spark] Type masks in 0.0 seconds.
+[Spark] Pointer Graph simplified in 0.0 seconds.
+[Spark] Propagation in 0.0 seconds.
+[Spark] Solution found in 0.0 seconds.
+Found a flow to sink virtualinvoke $r2.<android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)>("+49 1234", null, $r3, null, null), from the following sources:
+	- virtualinvoke $r5.<android.telephony.TelephonyManager: java.lang.String getDeviceId()>() (in <de.ecspride.MainActivity: void onCreate(android.os.Bundle)>)
+		on Path [$r3 = virtualinvoke $r5.<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(), virtualinvoke $r2.<android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)>("+49 1234", null, $r3, null, null)]
+Analysis has run for 4.382028732 seconds

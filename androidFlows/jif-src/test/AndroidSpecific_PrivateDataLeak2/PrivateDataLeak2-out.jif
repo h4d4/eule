@@ -22,14 +22,14 @@ import jif.runtime.Runtime;
  */
 public class PrivateDataLeak2 extends Activity {
 
-    String {Alice:}info = "";
-
 //    @Override
     protected void onCreate{}(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout);
-        //EditText mEdit = (EditText) findViewById(R.id.pwField);
-        //info = mEdit.getText().toString();
+        String {Alice:}info = "";
+//        EditText mEdit = (EditText) findViewById(R.id.pwField);
+//        info = mEdit.getText().toString();
+        info  = "pwd"; 
         Log.v("Password", info);
     }
 }

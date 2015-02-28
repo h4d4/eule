@@ -1,0 +1,119 @@
+[main] INFO soot.jimple.infoflow.taintWrappers.EasyTaintWrapper - Loaded wrapper entries for 49 classes and 4 exclusions.
+[main] INFO soot.jimple.infoflow.android.SetupApplication - ARSC file parsing took 0.010365889 seconds
+[main] WARN soot.jimple.infoflow.entryPointCreators.AndroidEntryPointCreator - Cannot create valid constructor for android.content.Context, because it is abstract and cannot substitute with subclass
+[main] INFO soot.jimple.infoflow.entryPointCreators.AndroidEntryPointCreator - Generated main method:
+    public static void dummyMainMethod()
+    {
+        int $i0;
+        de.ecspride.TestReceiver $r0;
+        android.content.Intent $r1;
+
+        $i0 = 0;
+
+     label0:
+        if $i0 == 0 goto label2;
+
+        $r0 = new de.ecspride.TestReceiver;
+        specialinvoke $r0.<de.ecspride.TestReceiver: void <init>()>();
+        if $i0 == 1 goto label2;
+
+        $r1 = new android.content.Intent;
+        specialinvoke $r1.<android.content.Intent: void <init>()>();
+
+     label1:
+        virtualinvoke $r0.<de.ecspride.TestReceiver: void onReceive(android.content.Context,android.content.Intent)>(null, $r1);
+        $r1 = null;
+        if $i0 == 2 goto label1;
+
+     label2:
+        if $i0 == 3 goto label0;
+
+        return;
+    }
+
+[main] WARN soot.jimple.infoflow.entryPointCreators.AndroidEntryPointCreator - Cannot create valid constructor for android.content.Context, because it is abstract and cannot substitute with subclass
+[main] INFO soot.jimple.infoflow.entryPointCreators.AndroidEntryPointCreator - Generated main method:
+    public static void dummyMainMethod()
+    {
+        int $i0;
+        de.ecspride.TestReceiver $r0;
+        android.content.Intent $r1;
+
+        $i0 = 0;
+
+     label0:
+        if $i0 == 0 goto label2;
+
+        $r0 = new de.ecspride.TestReceiver;
+        specialinvoke $r0.<de.ecspride.TestReceiver: void <init>()>();
+        if $i0 == 1 goto label2;
+
+        $r1 = new android.content.Intent;
+        specialinvoke $r1.<android.content.Intent: void <init>()>();
+
+     label1:
+        virtualinvoke $r0.<de.ecspride.TestReceiver: void onReceive(android.content.Context,android.content.Intent)>(null, $r1);
+        $r1 = null;
+        if $i0 == 2 goto label1;
+
+     label2:
+        if $i0 == 3 goto label0;
+
+        return;
+    }
+
+[main] INFO soot.jimple.infoflow.Infoflow - Resetting Soot...
+[main] INFO soot.jimple.infoflow.Infoflow - Basic class loading done.
+[main] ERROR soot.jimple.infoflow.Infoflow - Only phantom classes loaded, skipping analysis...
+[main] WARN soot.jimple.infoflow.entryPointCreators.AndroidEntryPointCreator - Cannot create valid constructor for android.content.Context, because it is abstract and cannot substitute with subclass
+[main] INFO soot.jimple.infoflow.entryPointCreators.AndroidEntryPointCreator - Generated main method:
+    public static void dummyMainMethod()
+    {
+        int $i0;
+        de.ecspride.TestReceiver $r0;
+        android.content.Intent $r1;
+
+        $i0 = 0;
+
+     label0:
+        if $i0 == 0 goto label2;
+
+        $r0 = new de.ecspride.TestReceiver;
+        specialinvoke $r0.<de.ecspride.TestReceiver: void <init>()>();
+        if $i0 == 1 goto label2;
+
+        $r1 = new android.content.Intent;
+        specialinvoke $r1.<android.content.Intent: void <init>()>();
+
+     label1:
+        virtualinvoke $r0.<de.ecspride.TestReceiver: void onReceive(android.content.Context,android.content.Intent)>(null, $r1);
+        $r1 = null;
+        if $i0 == 2 goto label1;
+
+     label2:
+        if $i0 == 3 goto label0;
+
+        return;
+    }
+
+[main] INFO soot.jimple.infoflow.Infoflow - Callgraph has 17 edges
+[main] INFO soot.jimple.infoflow.Infoflow - Looking for sources and sinks...
+[main] INFO soot.jimple.infoflow.Infoflow - Source lookup done, found 3 sources and 1 sinks.
+[main] INFO soot.jimple.infoflow.Infoflow - Taint wrapper hits: 0
+[main] INFO soot.jimple.infoflow.Infoflow - Taint wrapper misses: 6
+[main] INFO soot.jimple.infoflow.Infoflow - IFDS problem solved, processing results...
+[main] INFO soot.jimple.infoflow.Infoflow - Obtainted 2 connections between sources and sinks
+[main] INFO soot.jimple.infoflow.Infoflow - Building path 1
+[main] INFO soot.jimple.infoflow.Infoflow - Building path 2
+[main] INFO soot.jimple.infoflow.Infoflow - The sink virtualinvoke $r3.<android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)>("+49 1234", null, $r4, null, null) in method <de.ecspride.TestReceiver: void onReceive(android.content.Context,android.content.Intent)> was called with values from the following sources:
+[main] INFO soot.jimple.infoflow.Infoflow - - $r4 = virtualinvoke $r6.<android.telephony.TelephonyManager: java.lang.String getDeviceId()>() in method <de.ecspride.TestReceiver: void onReceive(android.content.Context,android.content.Intent)>
+[main] INFO soot.jimple.infoflow.Infoflow - 	on Path: 
+[main] INFO soot.jimple.infoflow.Infoflow - 		 -> $r4 = virtualinvoke $r6.<android.telephony.TelephonyManager: java.lang.String getDeviceId()>()
+[main] INFO soot.jimple.infoflow.Infoflow - 		 -> virtualinvoke $r3.<android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)>("+49 1234", null, $r4, null, null)
+[main] INFO soot.jimple.infoflow.Infoflow - - $r1 := @parameter0: android.content.Context in method <de.ecspride.TestReceiver: void onReceive(android.content.Context,android.content.Intent)>
+[main] INFO soot.jimple.infoflow.Infoflow - 	on Path: 
+[main] INFO soot.jimple.infoflow.Infoflow - 		 -> $r1 := @parameter0: android.content.Context
+[main] INFO soot.jimple.infoflow.Infoflow - 		 -> $r5 = virtualinvoke $r1.<android.content.Context: java.lang.Object getSystemService(java.lang.String)>("phone")
+[main] INFO soot.jimple.infoflow.Infoflow - 		 -> $r6 = (android.telephony.TelephonyManager) $r5
+[main] INFO soot.jimple.infoflow.Infoflow - 		 -> $r4 = virtualinvoke $r6.<android.telephony.TelephonyManager: java.lang.String getDeviceId()>()
+[main] INFO soot.jimple.infoflow.Infoflow - 		 -> virtualinvoke $r3.<android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)>("+49 1234", null, $r4, null, null)

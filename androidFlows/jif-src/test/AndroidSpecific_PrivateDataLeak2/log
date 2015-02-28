@@ -3,7 +3,7 @@
     	general constraint:
     		actual_arg_2 <= formal_arg_2
     	in this context:
-    		{Alice->; _<-_ ⊔ this} <= {}
+    		{Alice->; _<-_ ⊔ caller_pc} <= {}
     	cannot satisfy equation:
     		{Alice->} ⊑ {}
     	in environment:
@@ -13,12 +13,12 @@
     Label Descriptions
     ------------------
      - actual_arg_2 = the label of the 2nd actual argument
-     - actual_arg_2 = {Alice->; _<-_ ⊔ this}
+     - actual_arg_2 = {Alice->; _<-_ ⊔ caller_pc}
      - formal_arg_2 = the upper bound of the formal argument msg
      - formal_arg_2 = {}
-     - this = label of the special variable "this" in test.PrivateDataLeak2
      - caller_pc = The pc at the call site of this method (bounded above by 
     {})
+     - this = label of the special variable "this" in test.PrivateDataLeak2
 
     The label of the actual argument, actual_arg_2, is more restrictive than 
     the label of the formal argument, formal_arg_2.
