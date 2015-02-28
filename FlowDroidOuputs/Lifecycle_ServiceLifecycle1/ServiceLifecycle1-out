@@ -1,0 +1,159 @@
+[main] INFO soot.jimple.infoflow.taintWrappers.EasyTaintWrapper - Loaded wrapper entries for 49 classes and 4 exclusions.
+[main] INFO soot.jimple.infoflow.android.SetupApplication - ARSC file parsing took 0.009660803 seconds
+[main] INFO soot.jimple.infoflow.entryPointCreators.AndroidEntryPointCreator - Generated main method:
+    public static void dummyMainMethod()
+    {
+        int $i0, $i1;
+        de.ecspride.MainService $r0;
+        android.content.Intent $r1, $r2;
+        android.os.IBinder $r3;
+
+        $i0 = 0;
+
+     label0:
+        if $i0 == 0 goto label2;
+
+        $r0 = new de.ecspride.MainService;
+        specialinvoke $r0.<de.ecspride.MainService: void <init>()>();
+        $r1 = new android.content.Intent;
+        specialinvoke $r1.<android.content.Intent: void <init>()>();
+        $i1 = virtualinvoke $r0.<de.ecspride.MainService: int onStartCommand(android.content.Intent,int,int)>($r1, 0, 0);
+        $r1 = null;
+        $r2 = new android.content.Intent;
+        specialinvoke $r2.<android.content.Intent: void <init>()>();
+        $r3 = virtualinvoke $r0.<de.ecspride.MainService: android.os.IBinder onBind(android.content.Intent)>($r2);
+        $r2 = null;
+
+     label1:
+        if $i0 == 1 goto label2;
+
+        if $i0 == 2 goto label1;
+
+     label2:
+        if $i0 == 3 goto label0;
+
+        return;
+    }
+
+[main] INFO soot.jimple.infoflow.entryPointCreators.AndroidEntryPointCreator - Generated main method:
+    public static void dummyMainMethod()
+    {
+        int $i0, $i1;
+        de.ecspride.MainService $r0;
+        android.content.Intent $r1, $r2;
+        android.os.IBinder $r3;
+
+        $i0 = 0;
+
+     label0:
+        if $i0 == 0 goto label5;
+
+        $r0 = new de.ecspride.MainService;
+        specialinvoke $r0.<de.ecspride.MainService: void <init>()>();
+        $r1 = new android.content.Intent;
+        specialinvoke $r1.<android.content.Intent: void <init>()>();
+        $i1 = virtualinvoke $r0.<de.ecspride.MainService: int onStartCommand(android.content.Intent,int,int)>($r1, 0, 0);
+        $r1 = null;
+
+     label1:
+        if $i0 == 1 goto label2;
+
+        virtualinvoke $r0.<de.ecspride.MainService: void onLowMemory()>();
+
+     label2:
+        if $i0 == 2 goto label1;
+
+        $r2 = new android.content.Intent;
+        specialinvoke $r2.<android.content.Intent: void <init>()>();
+        $r3 = virtualinvoke $r0.<de.ecspride.MainService: android.os.IBinder onBind(android.content.Intent)>($r2);
+        $r2 = null;
+
+     label3:
+        if $i0 == 3 goto label4;
+
+        virtualinvoke $r0.<de.ecspride.MainService: void onLowMemory()>();
+
+     label4:
+        if $i0 == 4 goto label3;
+
+        if $i0 == 5 goto label5;
+
+        if $i0 == 6 goto label3;
+
+     label5:
+        if $i0 == 7 goto label0;
+
+        return;
+    }
+
+[main] INFO soot.jimple.infoflow.Infoflow - Resetting Soot...
+[main] INFO soot.jimple.infoflow.Infoflow - Basic class loading done.
+[main] ERROR soot.jimple.infoflow.Infoflow - Only phantom classes loaded, skipping analysis...
+[main] INFO soot.jimple.infoflow.entryPointCreators.AndroidEntryPointCreator - Generated main method:
+    public static void dummyMainMethod()
+    {
+        int $i0, $i1;
+        de.ecspride.MainService $r0;
+        android.content.Intent $r1, $r2;
+        android.os.IBinder $r3;
+
+        $i0 = 0;
+
+     label0:
+        if $i0 == 0 goto label5;
+
+        $r0 = new de.ecspride.MainService;
+        specialinvoke $r0.<de.ecspride.MainService: void <init>()>();
+        $r1 = new android.content.Intent;
+        specialinvoke $r1.<android.content.Intent: void <init>()>();
+        $i1 = virtualinvoke $r0.<de.ecspride.MainService: int onStartCommand(android.content.Intent,int,int)>($r1, 0, 0);
+        $r1 = null;
+
+     label1:
+        if $i0 == 1 goto label2;
+
+        virtualinvoke $r0.<de.ecspride.MainService: void onLowMemory()>();
+
+     label2:
+        if $i0 == 2 goto label1;
+
+        $r2 = new android.content.Intent;
+        specialinvoke $r2.<android.content.Intent: void <init>()>();
+        $r3 = virtualinvoke $r0.<de.ecspride.MainService: android.os.IBinder onBind(android.content.Intent)>($r2);
+        $r2 = null;
+
+     label3:
+        if $i0 == 3 goto label4;
+
+        virtualinvoke $r0.<de.ecspride.MainService: void onLowMemory()>();
+
+     label4:
+        if $i0 == 4 goto label3;
+
+        if $i0 == 5 goto label5;
+
+        if $i0 == 6 goto label3;
+
+     label5:
+        if $i0 == 7 goto label0;
+
+        return;
+    }
+
+[main] INFO soot.jimple.infoflow.Infoflow - Callgraph has 28 edges
+[main] INFO soot.jimple.infoflow.Infoflow - Looking for sources and sinks...
+[main] INFO soot.jimple.infoflow.Infoflow - Source lookup done, found 5 sources and 1 sinks.
+[main] INFO soot.jimple.infoflow.Infoflow - Taint wrapper hits: 12
+[main] INFO soot.jimple.infoflow.Infoflow - Taint wrapper misses: 10
+[main] INFO soot.jimple.infoflow.Infoflow - IFDS problem solved, processing results...
+[main] INFO soot.jimple.infoflow.Infoflow - Obtainted 1 connections between sources and sinks
+[main] INFO soot.jimple.infoflow.Infoflow - Building path 1
+[main] INFO soot.jimple.infoflow.Infoflow - The sink virtualinvoke $r1.<android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)>("+49 1234", null, $r3, null, null) in method <de.ecspride.MainService: void onLowMemory()> was called with values from the following sources:
+[main] INFO soot.jimple.infoflow.Infoflow - - $r3 = virtualinvoke $r4.<android.telephony.TelephonyManager: java.lang.String getSimSerialNumber()>() on line 16 in method <de.ecspride.MainService: int onStartCommand(android.content.Intent,int,int)>
+[main] INFO soot.jimple.infoflow.Infoflow - 	on Path: 
+[main] INFO soot.jimple.infoflow.Infoflow - 		 -> $r3 = virtualinvoke $r4.<android.telephony.TelephonyManager: java.lang.String getSimSerialNumber()>()
+[main] INFO soot.jimple.infoflow.Infoflow - 		 -> $r0.<de.ecspride.MainService: java.lang.String secret> = $r3
+[main] INFO soot.jimple.infoflow.Infoflow - 		 -> $i1 = virtualinvoke $r0.<de.ecspride.MainService: int onStartCommand(android.content.Intent,int,int)>($r1, 0, 0)
+[main] INFO soot.jimple.infoflow.Infoflow - 		 -> virtualinvoke $r0.<de.ecspride.MainService: void onLowMemory()>()
+[main] INFO soot.jimple.infoflow.Infoflow - 		 -> $r3 = $r0.<de.ecspride.MainService: java.lang.String secret>
+[main] INFO soot.jimple.infoflow.Infoflow - 		 -> virtualinvoke $r1.<android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)>("+49 1234", null, $r3, null, null)
