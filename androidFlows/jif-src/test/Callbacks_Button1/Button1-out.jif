@@ -6,7 +6,7 @@ import android.os.Bundle;
 import test.SmsManager;
 import android.telephony.TelephonyManager;
 import android.view.View;
-import android.widget.Toast;
+import test.Toast;
 import test.R;
 import jif.runtime.Runtime;
 
@@ -24,6 +24,7 @@ import jif.runtime.Runtime;
  */
 public class Button1 extends Activity {
 static Context context;
+
     private static String {Alice:}imei = null;
 
 //    @Override
@@ -35,8 +36,12 @@ static Context context;
     }
 
     public void sendMessage{}(View {}view) {
-        Toast.makeText(this, imei, Toast.LENGTH_LONG).show();
+        String {} t = "";
+	Toast.makeText(this, t, Toast.LENGTH_LONG).show();
         SmsManager sms = SmsManager.getDefault();
         sms.sendTextMessage("+49", null, imei, null, null);
     }
+
+
+
 }
