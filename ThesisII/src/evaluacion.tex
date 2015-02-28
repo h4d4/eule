@@ -6,3 +6,95 @@ Si aplica, evaluación de desempeño.  \newline
 Si aplica, evaluación de usabilidad.  
 Hay otras soluciones similares? \newline 
 Cuáles son las diferencias y las ventajas y desventajas con respecto a esas soluciones. 
+
+\section{Evaluación conjunto de aplicaciones}
+
+Se considera con nivel de seguridad alto, variables y métodos que almacenan y
+modificam(respectivamente), información consiereada como
+privada(Sources).\newline 
+Se considera con nivel de seguridad bajo, canales para envío de mensajes,
+muestra de logs y canales creados durante el flujo del programa.
+
+\begin{table}[H]
+\small\addtolength{\tabcolsep}{-3pt}
+\caption{Descripción aplicaciones de Prueba}
+\label{tb:descripApps}
+\begin{tabular}{|p{13cm}|p{1cm}|}
+	\hline
+	\multicolumn{2}{|>{\columncolor[gray]{0.8}}c|}{\textbf{AndroidSpecific\_DirectLeak1}}\\
+	\hline
+	\textbf{Descripción} & \textbf{Leaks}\\
+	\hline
+	La variable \textit{\textbf{mrg}} tiene un nivel de seguridad alto,
+	almacena información retornada por el método source getDeviceId(). Se genera
+	flujo de información directo entre información con nivel de seguridad alto e
+	información con nivel de seguridad bajo, al enviar como parámetro del método
+	\textit{\textbf{sendTextMessage}}, información de la variable
+	\textit{\textbf{mrg}} & 1
+	\\
+	\hline
+	\hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\small\addtolength{\tabcolsep}{-3pt}
+\caption{Comparación Precisión entre FlowDroid y Prototipo}
+\label{tb:comparacion}
+\begin{tabular}{|p{5.8cm}|p{1cm}|p{2.1cm}|p{2.1cm}|p{1cm}|p{1cm}|}
+	\hline
+	\textbf{Testcase} & \textbf{Leaks} & \textbf{FlowDroid} &
+	\textbf{Prototipo} & \textbf{ t F} & 
+	\textbf{t P}\\
+	\hline
+	AndroidSpecific\_DirectLeak1 & 1 & detecta leak & detecta leak &5.371s &2.063s\\
+	\hline
+	AndroidSpecific\_InactiveActivity & 0 & cero leaks & FP  &3.255s &2.469s\\
+	\hline
+	AndroidSpecific\_LogNoLeak & 0 & cero leaks & cero leaks &5.505s &2.946s\\
+	\hline
+	 AndroidSpecific\_Obfuscation1 & 1 & detecta leak & detecta leak &6.734s
+	 &2.706s\\
+	\hline
+	 AndroidSpecific\_PrivateDataLeak2 & 1 & detecta leak & detecta leak &
+	 6.144s &2.644s\\
+	\hline
+	 ArraysAndLists\_ArrayAccess1 & 0 & & & &\\
+	\hline
+	 ArraysAndLists\_ArrayAccess2 & 0 & & & &\\
+	 \hline
+	 GeneralJava\_Exceptions1 & 1 & detecta leak & detecta leak &6.397s &2.755s\\
+	\hline
+	 GeneralJava\_Exceptions2 & 1 & detecta leak & detecta leak &5.887s &1.980s\\
+	\hline
+	GeneralJava\_Exceptions3 & 0 & FP & FP &6.008s &2.032s\\
+	\hline
+	GeneralJava\_Exceptions4 & 1 & detecta leak & detecta leak &5.731s &2.313s\\
+	\hline
+	GeneralJava\_Loop1 & 1 & detecta leak & detecta leak\footnote{} &5.605s
+	&2.800s\\
+	\hline
+	GeneralJava\_Loop2 & 1 & detecta leak & detecta leak\footnote{} &4.719s
+	&1.361s\\
+	\hline
+	GeneralJava\_UnreachableCode& 1 & cero leaks & FP &3.792s &1.197s\\
+	\hline
+	ImplicitFlows\_ImplicitFlow1 & 1 & FN & detecta leak &4.853s &1.331s\\
+	\hline
+	ImplicitFlows\_ImplicitFlow2 & 1 & FN & detecta leak &4.496s &1.212s\\
+	\hline
+	ImplicitFlows\_ImplicitFlow4 & 1 & FN & detecta leak &4.375s &1.224s\\
+	\hline
+	Lifecycle\_ActivityLifecycle3 & 1 & detecta leak & detecta leak &4.792s
+	&1.222s\\
+	\hline
+	Lifecycle\_BroadcastReceiverLifecycle1 & 1 & detecta leak & detecta leak
+	&4.456s &1.061s\\
+	\hline
+	Lifecycle\_ServiceLifecycle1 & 1 & detecta leak &detecta leak &5.225ss
+	&1.180s\\
+	\hline
+	& 0 & & & &\\
+	\hline
+\end{tabular}
+\end{table}
