@@ -15,7 +15,8 @@
 \contentsline {section}{\numberline {3.2}Dise\IeC {\~n}o de la soluci\IeC {\'o}n}{18}{section.3.2}
 \contentsline {chapter}{\numberline {4}Evaluaci\IeC {\'o}n}{21}{chapter.4}
 \contentsline {section}{\numberline {4.1}Consideraciones de evaluaci\IeC {\'o}n}{21}{section.4.1}
-\contentsline {chapter}{\numberline {5}Trabajo Futuro y Conclusiones}{22}{chapter.5}
-\contentsline {section}{\numberline {5.1}Discusi\IeC {\'o}n}{22}{section.5.1}
-\contentsline {section}{\numberline {5.2}Trabajo Futuro}{22}{section.5.2}
-\contentsline {section}{\numberline {5.3}Conclusiones}{22}{section.5.3}
+\contentsline {section}{\numberline {4.2}Evaluaci\IeC {\'o}n conjunto de aplicaciones}{21}{section.4.2}
+\contentsline {chapter}{\numberline {5}Trabajo Futuro y Conclusiones}{23}{chapter.5}
+\contentsline {section}{\numberline {5.1}Discusi\IeC {\'o}n}{23}{section.5.1}
+\contentsline {section}{\numberline {5.2}Trabajo Futuro}{23}{section.5.2}
+\contentsline {section}{\numberline {5.3}Conclusiones}{23}{section.5.3}
