@@ -20,6 +20,7 @@ import jif.runtime.Runtime;
  * @number_of_leaks 1
  * @challenges the analysis must be able to handle the activity lifecycle correctly,
  *  in particular the less common instanceState callbacks
+	*  ADAPACIONES: catch NullPointerException ClassCastException
  */
 public class MainActivity extends Activity {
 static Context context;
@@ -37,7 +38,8 @@ static Context context;
             TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
             s = telephonyManager.getSubscriberId();
         } catch (NullPointerException e) {
-        }catch(ClassCastException ignore){}
+        } catch (ClassCastException ignore) {
+        }
     }
 
 //    @Override
