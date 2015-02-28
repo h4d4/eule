@@ -29,10 +29,12 @@ public class ImplicitFlow4 extends Activity {
     }
 
     public void checkUsernamePassword{}(View {}view) {
-        EditText editPassword = (EditText) findViewById(R.id.password);
-        EditText editUsername = (EditText) findViewById(R.id.username);
-        String {Alice:}password = editPassword.getText().toString();
-        String {Alice:}username = editUsername.getText().toString();
+//        EditText editPassword = (EditText) findViewById(R.id.password);
+//        EditText editUsername = (EditText) findViewById(R.id.username);
+//        String {Alice:}password = editPassword.getText().toString();
+        String {Alice:}password  = "pwd"; 
+//        String username = editUsername.getText().toString();
+        String username  = "pwd"; 
         Log.i("TAG", "bevor try");
         try {
             boolean passwordCorrect = lookup(username, password);
