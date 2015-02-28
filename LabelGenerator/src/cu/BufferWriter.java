@@ -88,13 +88,24 @@ public class BufferWriter {
 		for( int i =0; i<fileCont.size(); i++){
 			String line = fileCont.get(i);
 			if( line.indexOf("(TelephonyManager)") >-1  && line.indexOf("getSystemService") >-1 ){
-				String s = line.substring(line.indexOf("getSystemService"));
-				String f = line.substring(0, line.indexOf("getSystemService"));
-				char tmp1[] = instance.trim().toCharArray();
-				String fc1 =  Character.toString( tmp1[0] ).toLowerCase();
-				String inst = fc1+instance.substring(1)+".";
-				String fs = f+inst+s;
-				fileCont.set(i, fs);
+				boolean ctx = false;
+				if( line.indexOf("getSystemService")+ 16 <= line.length() ){
+					char c = line.charAt(line.indexOf("getSystemService")-1);
+					if( c == '.'){
+						CharSequence cs = "context.getSystemService";
+						if( line.substring(0, line.indexOf("getSystemService")+ 16 ).contains(cs) )
+							ctx = true;
+					}
+				}
+				if( ! ctx ){
+					String s = line.substring(line.indexOf("getSystemService"));
+					String f = line.substring(0, line.indexOf("getSystemService"));
+					char tmp1[] = instance.trim().toCharArray();
+					String fc1 =  Character.toString( tmp1[0] ).toLowerCase();
+					String inst = fc1+instance.substring(1)+".";
+					String fs = f+inst+s;
+					fileCont.set(i, fs);
+				}
 			}
 		}
 	}
