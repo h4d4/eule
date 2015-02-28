@@ -10,6 +10,9 @@ public final class Log {
 	public static int v{Alice:}(String {Alice:}tag, String {}msg) {
 		return 1;
 	}
+	public static int d{Alice:}(String {Alice:}tag, String {}msg){
+		return 1;
+	}
 
 	/*public static int{} i{Alice:}(String{Alice:} tag, String{} msg){
 		return 1;
