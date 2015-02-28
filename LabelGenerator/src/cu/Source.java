@@ -124,8 +124,9 @@ public class Source {
             pos = ssub.indexOf( sources.get(i) );
 
             if (pos == -1) break;
-            
+            int ff = 0;
             if (sub[pos - 1] == '.') {
+              ff ++;
               int j = pos - 2;
               while ( j > 0 && Character.isLetter(sub[j])) j--;
               int a = j + 1;
@@ -136,15 +137,18 @@ public class Source {
                 name = ssub.substring(a, pos - 1);
                 name = name.replaceAll("\\s+","");
                 varSources.add(name);
+                ff ++;
               }
               else if (sub[j] == '=') {
                 j--;
                 while ( j > 0 && sub[j] == ' ') j--;
                 int end = j;
-                while ( j > 0 && Character.isLetter(sub[j]) ) j--;
-                name = ssub.substring(j, end+1);
-                name = name.replaceAll("\\s+","");
-                varSources.add(name);
+                if (Character.isLetter(sub[j])) {
+	                while ( j > 0 && Character.isLetter(sub[j]) ) j--;
+	                name = ssub.substring(j, end+1);
+	                name = name.replaceAll("\\s+","");
+	                varSources.add(name);
+                }
               }
             }else if(flag && (pos+sources.get(i).length() < line.length()) && sub[pos+sources.get(i).length()] == '.' ){
             	boolean f = false;
@@ -162,12 +166,26 @@ public class Source {
             		while ( j > 0 && Character.isLetter(sub[j]) ) j--;
             		String name = ssub.substring(j, end+1);
                     name = name.replaceAll("\\s+","");
-                    System.out.println("--->>>>>> " + name);
                     varSources.add(name);
                     //sub[-1] = 'd';
             	} 
             }
-            else break;
+            else if (ff != 1) break;
+            if (ff == 1) {
+            	int j = pos - 2;
+                while ( j > 0 && '=' != sub[j]) j--;
+                j --;
+                while ( j > 0 && sub[j] == ' ') j--;
+                System.out.println("j1 " + j);
+                int end = j;
+                while ( j > 0 && !Character.isLetter(sub[j]) ) j--;
+                while ( j > 0 && Character.isLetter(sub[j]) ) j--;
+                int a = j;
+                String name = ssub.substring(a, end+1);
+                name = name.replaceAll("\\s+","");
+                varSources.add(name);
+                break;
+            }
             pos += sources.get(i).length() + 1;
           }
         }
