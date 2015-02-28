@@ -1,19 +1,8 @@
-/home/estudiante/eule/androidFlows/jif-src/test/Callbacks_Button1/Button1-out.jif:33: 
-    The exception "java.lang.NullPointerException" must either be caught or 
-    declared to be thrown.
-        TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-                                                               ^-------------------------------------------------^
+/home/estudiante/eule/androidFlows/jif-src/test/Toast.jif:10: Cannot return 
+    expression of type int from method public static test.Toast{context ⊔ 
+    text ⊔ duration} makeText{*->}(android.content.Context{context}, 
+    java.lang.String{text}, int{duration}) : {*<-}.
+		return 1;
+		       ^
 
-/home/estudiante/eule/androidFlows/jif-src/test/Callbacks_Button1/Button1-out.jif:34: 
-    The exception "java.lang.NullPointerException" must either be caught or 
-    declared to be thrown.
-        imei = telephonyManager.getDeviceId();
-               ^----------------------------^
-
-/home/estudiante/eule/androidFlows/jif-src/test/Callbacks_Button1/Button1-out.jif:40: 
-    The exception "java.lang.NullPointerException" must either be caught or 
-    declared to be thrown.
-        sms.sendTextMessage("+49", null, imei, null, null);
-        ^------------------------------------------------^
-
-3 errors.
+1 error.
