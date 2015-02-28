@@ -157,6 +157,50 @@ public class BufferWriter {
 	
 	//busca la variable y la anota
 	public static void findVarSource( String nameVar ){
+		boolean esArray = false;
+		if( nameVar.indexOf('[') >-1  && nameVar.indexOf(']') >-1 ){
+			esArray = true;
+		}
+		if( esArray ){//revision para arrays 
+			nameVar = nameVar.split("\\[")[0];
+			for( int i=0; i< fileCont.size(); i++ ){
+				 String line = fileCont.get(i), tokens[], t0[];
+				 String type = "boolean|byte|char|short|int|float|long|double";
+				 String identifier = "[A-Za-z][\\w]*";
+				 int initVar = line.indexOf(nameVar);
+				 boolean esVar = false;
+				 if( initVar > -1 ){
+					 if( line.indexOf("=") > -1 ){	//si la var source esta inicializada
+						 //System.out.println("DEclarada  "+ nameVar);
+						 tokens = line.split("="); 
+						 if( tokens.length == 2 ){
+							 t0 = tokens[0].split("\\s+");
+							 if( t0.length == 3 ){
+								 for( int t=0; t<t0.length; t++  ){
+									 System.out.println("t0["+t+"] "+ t0[t]); 
+								 } 
+								 if( (t0[1].matches(type+"\\[\\]") || t0[1].matches(identifier+"\\[\\]")) && t0[2].matches(nameVar) ){
+									 System.out.println("t0[1] "+ t0[1]+t0[2] ); 
+								 }
+							 }
+						 }
+					 }else{	//si var source no esta inicializada 
+						/* tokens = line.split(";")[0].split("\\s+"); 
+						 if( tokens[tokens.length-1].equals(nameVar) ){
+							 if( tokens[tokens.length-2].matches(type) | tokens[tokens.length-2].matches(identifier))
+								 esVar = true;;
+						 	}*/
+					 }	 
+				 }
+				/* if( esVar ){
+					 //System.out.println("EsVaRRRRRRRRRRRRRRRRR: " + nameVar);
+					 StringBuffer sb = new StringBuffer(line);
+				     sb.insert(initVar,"{Alice:}");
+				     fileCont.set(i, sb.toString());
+				 }*/
+			}
+			
+		}
 		for( int i=0; i< fileCont.size(); i++ ){
 			 String line = fileCont.get(i), tokens[];
 			 String type = "boolean|byte|char|short|int|float|long|double";
@@ -165,6 +209,7 @@ public class BufferWriter {
 			 boolean esVar = false;
 			 if( initVar > -1 ){
 				 if( line.indexOf("=") > -1 ){	//si la var source esta inicializada
+					 //System.out.println("DEclarada  "+ nameVar);
 					 tokens = line.split("="); 
 					 if( tokens.length == 2 ){
 						 String f[] = tokens[0].split("\\s+"); 
@@ -182,6 +227,7 @@ public class BufferWriter {
 				 }	 
 			 }
 			 if( esVar ){
+				 //System.out.println("EsVaRRRRRRRRRRRRRRRRR: " + nameVar);
 				 StringBuffer sb = new StringBuffer(line);
 			     sb.insert(initVar,"{Alice:}");
 			     fileCont.set(i, sb.toString());
