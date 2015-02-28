@@ -1,6 +1,0 @@
-/home/estudiante/eule/androidFlows/jif-src/test/AndroidSpecific_LogNoLeak/LogNoLeak-out.jif:4: 
-    Class "android.os.Bundle" not found.
-import android.os.Bundle;
-^-----------------------^
-
-1 error.
