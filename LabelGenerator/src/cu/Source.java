@@ -78,7 +78,7 @@ public class Source {
 				}
 			}
 		}
-		System.out.println("NameVar"+ nameVars.get(0));
+		//System.out.println("NameVar  "+ nameVars.get(0));
 		nameEdit = nameVars.get(0);
 	}
 	
@@ -88,6 +88,7 @@ public class Source {
     FileInputStream fis = null;
     BufferedInputStream bis = null;
     DataInputStream dis = null;
+    boolean flag = false;
 
     ArrayList<String> sources = new  ArrayList<String>();
     sources.add("getDeviceId");
@@ -100,6 +101,8 @@ public class Source {
     
     if( nameEdit != null && !nameEdit.isEmpty() ){
     	sources.add(nameEdit);
+    	System.out.println("nameEdit  "+ nameEdit);
+    	flag = true;
     }
     
    /* String sources[] = new String[7];
@@ -132,13 +135,13 @@ public class Source {
           int pos = 0;
 
           while (pos < line.length()) {
+        	  
             String ssub = line.substring(pos).trim();
             char sub[] = ssub.toCharArray();
             pos = ssub.indexOf( sources.get(i) );
 
             if (pos == -1) break;
             if (sub[pos - 1] == '.') {
-            	//System.out.println("ssub: "+ssub);
               int j = pos - 2;
               while ( j > 0 && Character.isLetter(sub[j])) j--;
               int a = j + 1;
@@ -159,12 +162,30 @@ public class Source {
                 name = name.replaceAll("\\s+","");
                 varSources.add(name);
               }
-            }/*else if( sub[pos+sources.get(i).length()] == '.' ){
-            		if( ssub.substring( pos+sources.get(i).length()+1 ).indexOf("getText()") > -1 )
-            				System.out.println("ssub: "+ssub);
-            		else if( ssub.substring( pos+sources.get(i).length()+1 ).indexOf("toString()") > -1 )
-            			System.out.println("ssub: "+ssub);
-            }*/
+            }
+            else if(flag && (pos+sources.get(i).length() < line.length()) && sub[pos+sources.get(i).length()] == '.' ){
+            	System.out.println("vvvvvvvvvvvv  "+line);
+            	boolean f = false;
+            	if((pos+sources.get(i).length()+1 < line.length()) && ssub.substring( pos+sources.get(i).length()+1 ).indexOf("getText()") > -1 )
+            		f = true;
+            	else if( (pos+sources.get(i).length()+1 < line.length()) && ssub.substring( pos+sources.get(i).length()+1 ).indexOf("toString()") > -1 )
+            		f = true;
+            		//System.out.println("ssub: "+ssub);
+            	if (f){
+            		
+            		int j = pos;
+            		while (sub[j] != '=') j --;
+            		j --;
+            		while ( j > 0 && sub[j] == ' ') j--;
+            		int end = j;
+            		while ( j > 0 && Character.isLetter(sub[j]) ) j--;
+            		System.out.println(j + " %%%% " + end + " -----" + line.length());
+            		String name = ssub.substring(j, end+1);
+                    name = name.replaceAll("\\s+","");
+                    System.out.println("--->>>>>> " + name);
+                    varSources.add(name);
+            	} 
+            }else{System.out.println("NAAAAAAAAAAAAAAAAAAAA  "+line);}
             
             pos += sources.get(i).length() + 1;
           }
@@ -190,7 +211,7 @@ public class Source {
   }
 
  public static void init( String fileIn) throws IOException{
-	 
+	 //System.out.println("nameEditvvvvvvvvvvvvvvvvvvvvvvvvvvv " +nameEdit );
 	 if( Main.xmlFileIn != null && !Main.xmlFileIn.isEmpty())
 		 finEditTextSource(fileIn);
 	 
