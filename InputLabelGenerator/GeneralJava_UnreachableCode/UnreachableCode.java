@@ -15,7 +15,7 @@ import android.util.Log;
  * @dataflow source -> deviceid -> sink
  * @number_of_leaks 1
  * @challenges the analysis has to discover that the unit is not called
-	* ADAPTACIONES: adcicion de Excepciones; quitar getBaseContext() no se pude soportar en JIF
+	* ADAPTACIONES: adicion de Excepciones; quitar getBaseContext() no se pude soportar en JIF
  */
 public class UnreachableCode extends Activity {
 

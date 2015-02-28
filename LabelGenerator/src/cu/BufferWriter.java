@@ -1,6 +1,7 @@
 package cu;
 
 import japa.parser.ParseException;
+import japa.parser.ast.expr.Expression;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -10,6 +11,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 //ANOTAR VARIABLES SOURCE E INSTANCIAR CLASES
@@ -227,6 +231,43 @@ public class BufferWriter {
 			}
 	}
 	
+	public static void cleanEditText(){ //actua solo cuando existe EditText
+		ArrayList<String>varsToFound = new ArrayList<String>(), varstoMod = new ArrayList<String>();
+		CharSequence cs1 = "EditText", cs2 = "(EditText)";
+		for( int i=0; i<fileCont.size(); i++ ){
+			String line  = fileCont.get(i);
+			if( line.contains(cs1) && line.contains(cs2) ){
+				String tmp [] = line.split("=")[0].split("\\s+");
+				varsToFound.add(tmp[2]);
+				fileCont.set(i, "//"+line);
+			}
+		}
+		if( varsToFound.size() >= 1  ){
+			Map<Integer,String>addLinesComment = new HashMap<Integer,String>();
+			for( int i=0; i<fileCont.size(); i++ ){
+				String line  = fileCont.get(i);
+				for( int j=0; j< varsToFound.size(); j++){
+					CharSequence cseq1 = varsToFound.get(j)+".getText().toString()";
+					CharSequence cseq2 = varsToFound.get(j)+".getText()";
+					CharSequence cseq3 = varsToFound.get(j)+".toString()";
+					if( line.contains(cseq1) || line.contains(cseq2) || line.contains(cseq3) ){
+						String tmp[]=line.split("=");
+						if( tmp.length == 2 ){
+							String tpm2[] = tmp[0].split("\\s+");
+							varstoMod.add( tpm2[tpm2.length-1] );
+							fileCont.set(i, line.split("=")[0]+" = \"pwd\"; ");
+							addLinesComment.put(i, "//"+line);
+						}
+					}
+			 }
+		}
+		if( !addLinesComment.isEmpty() ){
+			for (Map.Entry<Integer, String> entry : addLinesComment.entrySet()) {
+				fileCont.add(entry.getKey(), entry.getValue());
+			}
+		}
+	}
+}
 	
 	public static void init(String in, String out) throws IOException{
 		SetPath( in, out );
@@ -242,6 +283,8 @@ public class BufferWriter {
 		typeContext();
 		commenOverride();
 		arraysMethodsSources();
+		//limpiar EditText antes de imprimir
+		cleanEditText();
 		writeFile( );
 		Annotation.clearInstances();
 		fileCont.clear();

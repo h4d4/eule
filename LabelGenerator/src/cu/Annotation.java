@@ -66,7 +66,8 @@ public class Annotation {
 			methodClassCall = new HashMap<String,String>();	//llamadas solo a metodos de la clase	
 	static Set<String> methodsSources = new HashSet<String>(), //methodos a anotar con source
 		   arraysSources = new HashSet<String>();
-	
+	static Map<String,List<Expression>> methodsCalls2 = new HashMap<String,List<Expression>>(),
+			methodClassCall2 = new HashMap<String,List<Expression>>();
 	static Map<String,String> varsDeclaration = new HashMap<String,String>();
 	
 	
@@ -118,10 +119,18 @@ public class Annotation {
 	public static class MethodCallsVisitor extends VoidVisitorAdapter<Object> {//todas las llamadas a metodos
         @Override
         public void visit(MethodCallExpr n, Object arg) {
+        	
         	methodsCalls.put(n.getName(), n.toString());
         } 
 	}
 
+	public static class MethodCallsVisitor2 extends VoidVisitorAdapter<Object> {//todas las llamadas a metodos
+        @Override
+        public void visit(MethodCallExpr n, Object arg) {
+        	
+        	methodsCalls2.put(n.getName(), n.getArgs());
+        } 
+	}
 	
 	public static class commentOverride extends VoidVisitorAdapter<Object> {//NO FUNCIONA!!!!!!!!!!1
 		@Override
@@ -267,7 +276,7 @@ public class Annotation {
 					break;
 				}
 			}
-			if (!f) 
+			if (!f)
 				methodsNoSources.add( declaredMethods.get(i) );
 		}
 	}
@@ -277,7 +286,7 @@ public class Annotation {
         public void visit(MethodDeclaration n, Object arg) {
 			for( String s : methodsSources ){
 				if( s.equals(n.getName()) ){
-					//System.out.println( n.getName() );
+					//System.out.println( "Annotation Methods Sources         "+n.getName() );
 					n.setName("{Alice:}"+n.getName()+"{Alice:}");
 					java.util.List<japa.parser.ast.body.Parameter> parameters = n.getParameters(); 
 		            for (japa.parser.ast.body.Parameter param : parameters){
@@ -465,21 +474,71 @@ public class Annotation {
 			}
 		}
 	}
+	public static void filterMethodsCalls2(){		//detectar llamadas solo a metodos declarados en la clase
+		for (Map.Entry<String, List<Expression>> entry : methodsCalls2.entrySet()) {
+			for( int i=0; i<declaredMethods.size(); i++ ){
+				if( entry.getKey().equals(declaredMethods.get(i)) ){
+					methodClassCall2.put( entry.getKey() ,  entry.getValue() );
+				}
+			}
+		}
+	}
 	
 	public static void methodsCallsSources(){ //guarda llamadas a metodos de la clase que tienen en sus argumentos un source
 		for( int i=0; i<Source.varSources.size(); i++ ){
 			for (Map.Entry<String, String> entry : methodClassCall.entrySet()) {
+				
+			/*	String tmp = entry.getValue().split("\\(")[1];
+				String tmp2[] = tmp.split("\\)");
+				if( tmp2.length ==1  ){
+					char c = ',';
+					if( tmp2[0].indexOf(c) >-1 )//mas de un parametro
+						String params[] = tmp2[0].split(",");
+					else
+						;
+				}else
+					continue;
+				
+				System.out.println(tmp2.length+"**************" +entry.getValue());
+				
+				System.out.println("tmpppppppppppppppp "+ tmp);
+				if(!tmp.isEmpty()){
+					
+				System.out.println(tmp+" fff "+Source.varSources.get(i));
+				if(  Source.varSources.get(i).equals(tmp)){
+					System.out.println("matches "+entry.getKey());
+					methodsSources.add(entry.getKey());
+				}}*/
+				
 				if(  entry.getValue().indexOf( Source.varSources.get(i) )  > -1 ){
+					methodsSources.add(entry.getKey());
+				}
+				
+			}
+			
+		}
+	}
+	public static void methodsCallsSources2(){ //guarda llamadas a metodos de la clase que tienen en sus argumentos un source
+		for( int i=0; i<Source.varSources.size(); i++ ){
+			for (Map.Entry<String, List<Expression>> entry : methodClassCall2.entrySet()) {
+				List<Expression> parameters = entry.getValue();
+				boolean isSource = false;
+				if( !(parameters == null) && !parameters.isEmpty()){
+					for( int k=0; k<parameters.size(); k++ ){
+						if(parameters.get(k).toString().equals(Source.varSources.get(i))){
+							isSource = true;
+						    break;
+						}
+					}
+				}
+				
+				if( isSource ){
 					methodsSources.add(entry.getKey());
 				}
 			}
 			
 		}
-		/*for (String s : methodsSources) {
-		    System.out.println("MS: "+s);
-		}*/
 	}
-
 	
 	public static void printFile(){
 		//System.out.println(cu.toString());
@@ -508,6 +567,18 @@ public class Annotation {
 		for (Map.Entry<String, String> entry : map.entrySet()) {
 		     	System.out.println("Key = " + entry.getKey() + ", "
 		     		+ "Value = " + entry.getValue());
+		}
+	}
+	public static void checkStringListMaps( Map< String,List<Expression> > map ){
+		for (Map.Entry<String,List<Expression> > entry : map.entrySet()) {
+		     	System.out.println("Key = " + entry.getKey() );
+		     	List<Expression> parameters = entry.getValue();
+		     	if( !(parameters == null) && !parameters.isEmpty() ){
+		     		for( int i=0; i<parameters.size(); i++  ){
+			     		System.out.println(parameters.get(i).toString() );
+			     	}
+		     	}
+		     	
 		}
 	}
 	public static void checkBooleanMaps( Map<String,Boolean> map ){
