@@ -177,13 +177,16 @@ public class Source {
                 j --;
                 while ( j > 0 && sub[j] == ' ') j--;
                 System.out.println("j1 " + j);
+                System.out.println("*" + ssub + "*");
                 int end = j;
                 while ( j > 0 && !Character.isLetter(sub[j]) ) j--;
                 while ( j > 0 && Character.isLetter(sub[j]) ) j--;
                 int a = j;
-                String name = ssub.substring(a, end+1);
-                name = name.replaceAll("\\s+","");
-                varSources.add(name);
+                if(a >= 0 && end >= 0){
+                	String name = ssub.substring(a, end+1);
+                	name = name.replaceAll("\\s+","");
+                	varSources.add(name);
+                }
                 break;
             }
             pos += sources.get(i).length() + 1;

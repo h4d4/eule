@@ -162,44 +162,52 @@ public class BufferWriter {
 			esArray = true;
 		}
 		if( esArray ){//revision para arrays 
+			boolean initialized = false, declared = false;
 			nameVar = nameVar.split("\\[")[0];
 			for( int i=0; i< fileCont.size(); i++ ){
-				 String line = fileCont.get(i), tokens[], t0[];
-				 String type = "boolean|byte|char|short|int|float|long|double";
-				 String identifier = "[A-Za-z][\\w]*";
+				 String line = fileCont.get(i), tokens[] = null, t0[], type = "boolean|byte|char|short|int|float|long|double";
+				 String identifier = "[A-Za-z][\\w]*", head = null, complete;
 				 int initVar = line.indexOf(nameVar);
-				 boolean esVar = false;
 				 if( initVar > -1 ){
 					 if( line.indexOf("=") > -1 ){	//si la var source esta inicializada
-						 //System.out.println("DEclarada  "+ nameVar);
 						 tokens = line.split("="); 
 						 if( tokens.length == 2 ){
 							 t0 = tokens[0].split("\\s+");
-							 if( t0.length == 3 ){
-								 for( int t=0; t<t0.length; t++  ){
-									 System.out.println("t0["+t+"] "+ t0[t]); 
-								 } 
+							 if( t0.length == 3 ){ 
 								 if( (t0[1].matches(type+"\\[\\]") || t0[1].matches(identifier+"\\[\\]")) && t0[2].matches(nameVar) ){
-									 System.out.println("t0[1] "+ t0[1]+t0[2] ); 
+									 head = (t0[1].split("\\[")[0])+"{Alice:}[] "+t0[2];
+									 initialized = true;
+								 }else if( (t0[1].matches(type) || t0[1].matches(identifier)) && t0[2].matches(nameVar+"\\[\\]") ){
+									 head = t0[1]+"{Alice:} "+t0[2];
+									 initialized = true;
 								 }
 							 }
-						 }
+						 } 
 					 }else{	//si var source no esta inicializada 
-						/* tokens = line.split(";")[0].split("\\s+"); 
-						 if( tokens[tokens.length-1].equals(nameVar) ){
-							 if( tokens[tokens.length-2].matches(type) | tokens[tokens.length-2].matches(identifier))
-								 esVar = true;;
-						 	}*/
-					 }	 
+						 tokens = line.split(";")[0].split("\\s+");
+						 if( tokens[tokens.length-1].equals(nameVar) && (tokens[tokens.length-2].matches(type+"\\[\\]") || tokens[tokens.length-2].matches(identifier+"\\[\\]")) ){
+							 String penult = tokens[tokens.length-2].split("\\[")[0]+"{Alice:}[]";
+							 head = line.substring(0, line.indexOf(tokens[tokens.length-2]))+penult+tokens[tokens.length-1]+";"; 
+							 declared = true;
+						 }else if( tokens[tokens.length-1].equals(nameVar+"[]") && (tokens[tokens.length-2].matches(type) || tokens[tokens.length-2].matches(identifier))){
+							 String penult = tokens[tokens.length-2];
+							 head = line.substring(0, line.indexOf(penult))+penult+"{Alice:} "+tokens[tokens.length-1]+";";
+							 declared = true;
+						 }
+					 }
 				 }
-				/* if( esVar ){
-					 //System.out.println("EsVaRRRRRRRRRRRRRRRRR: " + nameVar);
-					 StringBuffer sb = new StringBuffer(line);
-				     sb.insert(initVar,"{Alice:}");
-				     fileCont.set(i, sb.toString());
-				 }*/
-			}
-			
+				 if( initialized ){
+					 if( head!=null && tokens!=null ){
+						 complete = head + " = "+tokens[1];
+						 fileCont.set(i, complete);
+					 }
+				 }
+				 if( declared ){
+					 if( head!=null && tokens!=null ){
+						 fileCont.set(i, head); 
+					 }
+				 }
+			}	
 		}
 		for( int i=0; i< fileCont.size(); i++ ){
 			 String line = fileCont.get(i), tokens[];
@@ -209,7 +217,6 @@ public class BufferWriter {
 			 boolean esVar = false;
 			 if( initVar > -1 ){
 				 if( line.indexOf("=") > -1 ){	//si la var source esta inicializada
-					 //System.out.println("DEclarada  "+ nameVar);
 					 tokens = line.split("="); 
 					 if( tokens.length == 2 ){
 						 String f[] = tokens[0].split("\\s+"); 
@@ -227,7 +234,6 @@ public class BufferWriter {
 				 }	 
 			 }
 			 if( esVar ){
-				 //System.out.println("EsVaRRRRRRRRRRRRRRRRR: " + nameVar);
 				 StringBuffer sb = new StringBuffer(line);
 			     sb.insert(initVar,"{Alice:}");
 			     fileCont.set(i, sb.toString());
