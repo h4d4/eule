@@ -338,38 +338,13 @@ public class Annotation {
 							if( cad[i].contains(c1) ){
 								arraysSources.add(cad[i].split("\\[\\]")[1].split("=")[0].trim());
 							}
-							
 						}
-						
 					}
 				}
-					
 			}
-			
 		}
      }
 
-	public static class VariableDeclarationVisitor extends VoidVisitorAdapter<Object> {
-		  @Override
-		  public void visit(VariableDeclarator n, Object arg)
-		  {  
-			 
-		      String myVars =  n.getId().getName(); 
-		     /* if( myVars != null && !myVars.isEmpty() ){
-		    	  if( myVars.size() >=1 ){
-		    		  for (VariableDeclarator vars: myVars){
-				    	  varsDeclaration.put( vars.toString(), vars.toString()); 
-				    	  System.out.println("Variabledeclarator: "+vars.toString());
-				    	  //varsDeclaration.put( vars.getId().getName(), vars.getInit().toString());
-				    	  
-				       }  
-		    	  }
-		    	  
-		      }*/
-		      System.out.println("Variabledeclarator: "+n);
-		      
-		  }
-	 }
 	public static class arraysVariables extends VoidVisitorAdapter<Object>  {
 		
 	    public void visit(MethodDeclaration method, Object arg) {
@@ -389,7 +364,6 @@ public class Annotation {
 		    			}
 				      }  
 		    	  }
-		    	  
 		      }
 	    }
 	   

@@ -88,13 +88,24 @@ public class BufferWriter {
 		for( int i =0; i<fileCont.size(); i++){
 			String line = fileCont.get(i);
 			if( line.indexOf("(TelephonyManager)") >-1  && line.indexOf("getSystemService") >-1 ){
-				String s = line.substring(line.indexOf("getSystemService"));
-				String f = line.substring(0, line.indexOf("getSystemService"));
-				char tmp1[] = instance.trim().toCharArray();
-				String fc1 =  Character.toString( tmp1[0] ).toLowerCase();
-				String inst = fc1+instance.substring(1)+".";
-				String fs = f+inst+s;
-				fileCont.set(i, fs);
+				boolean ctx = false;
+				if( line.indexOf("getSystemService")+ 16 <= line.length() ){
+					char c = line.charAt(line.indexOf("getSystemService")-1);
+					if( c == '.'){
+						CharSequence cs = "context.getSystemService";
+						if( line.substring(0, line.indexOf("getSystemService")+ 16 ).contains(cs) )
+							ctx = true;
+					}
+				}
+				if( ! ctx ){
+					String s = line.substring(line.indexOf("getSystemService"));
+					String f = line.substring(0, line.indexOf("getSystemService"));
+					char tmp1[] = instance.trim().toCharArray();
+					String fc1 =  Character.toString( tmp1[0] ).toLowerCase();
+					String inst = fc1+instance.substring(1)+".";
+					String fs = f+inst+s;
+					fileCont.set(i, fs);
+				}
 			}
 		}
 	}
@@ -146,6 +157,58 @@ public class BufferWriter {
 	
 	//busca la variable y la anota
 	public static void findVarSource( String nameVar ){
+		boolean esArray = false;
+		if( nameVar.indexOf('[') >-1  && nameVar.indexOf(']') >-1 ){
+			esArray = true;
+		}
+		if( esArray ){//revision para arrays 
+			boolean initialized = false, declared = false;
+			nameVar = nameVar.split("\\[")[0];
+			for( int i=0; i< fileCont.size(); i++ ){
+				 String line = fileCont.get(i), tokens[] = null, t0[], type = "boolean|byte|char|short|int|float|long|double";
+				 String identifier = "[A-Za-z][\\w]*", head = null, complete;
+				 int initVar = line.indexOf(nameVar);
+				 if( initVar > -1 ){
+					 if( line.indexOf("=") > -1 ){	//si la var source esta inicializada
+						 tokens = line.split("="); 
+						 if( tokens.length == 2 ){
+							 t0 = tokens[0].split("\\s+");
+							 if( t0.length == 3 ){ 
+								 if( (t0[1].matches(type+"\\[\\]") || t0[1].matches(identifier+"\\[\\]")) && t0[2].matches(nameVar) ){
+									 head = (t0[1].split("\\[")[0])+"{Alice:}[] "+t0[2];
+									 initialized = true;
+								 }else if( (t0[1].matches(type) || t0[1].matches(identifier)) && t0[2].matches(nameVar+"\\[\\]") ){
+									 head = t0[1]+"{Alice:} "+t0[2];
+									 initialized = true;
+								 }
+							 }
+						 } 
+					 }else{	//si var source no esta inicializada 
+						 tokens = line.split(";")[0].split("\\s+");
+						 if( tokens[tokens.length-1].equals(nameVar) && (tokens[tokens.length-2].matches(type+"\\[\\]") || tokens[tokens.length-2].matches(identifier+"\\[\\]")) ){
+							 String penult = tokens[tokens.length-2].split("\\[")[0]+"{Alice:}[]";
+							 head = line.substring(0, line.indexOf(tokens[tokens.length-2]))+penult+tokens[tokens.length-1]+";"; 
+							 declared = true;
+						 }else if( tokens[tokens.length-1].equals(nameVar+"[]") && (tokens[tokens.length-2].matches(type) || tokens[tokens.length-2].matches(identifier))){
+							 String penult = tokens[tokens.length-2];
+							 head = line.substring(0, line.indexOf(penult))+penult+"{Alice:} "+tokens[tokens.length-1]+";";
+							 declared = true;
+						 }
+					 }
+				 }
+				 if( initialized ){
+					 if( head!=null && tokens!=null ){
+						 complete = head + " = "+tokens[1];
+						 fileCont.set(i, complete);
+					 }
+				 }
+				 if( declared ){
+					 if( head!=null && tokens!=null ){
+						 fileCont.set(i, head); 
+					 }
+				 }
+			}	
+		}
 		for( int i=0; i< fileCont.size(); i++ ){
 			 String line = fileCont.get(i), tokens[];
 			 String type = "boolean|byte|char|short|int|float|long|double";
