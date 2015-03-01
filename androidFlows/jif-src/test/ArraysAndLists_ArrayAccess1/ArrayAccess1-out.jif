@@ -23,7 +23,7 @@ import jif.runtime.Runtime;
  */
 public class ArrayAccess1 extends Activity {
 static Context context;
-    public static String[] arrayData;
+    public static String{Alice:}[]arrayData;
 
 //    @Override
     protected void onCreate{}(Bundle savedInstanceState) {
