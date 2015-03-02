@@ -27,7 +27,7 @@ static Context context;
     protected void onCreate{}(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout);
-        String[] array = new String[10];
+String{Alice:}[] array =  new String[10];
         try {
             TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
             try {
