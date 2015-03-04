@@ -1,6 +1,0 @@
-/home/estudiante/eule/androidFlows/jif-src/test/FieldAndObjectSensitivity_ObjectSensitivity1/ObjectSensitivity1-out.jif:30: 
-    Syntax error: unexpected operator <.
-        LinkedList<String> list1 = new LinkedList<String>();
-                  ^
-
-1 error.

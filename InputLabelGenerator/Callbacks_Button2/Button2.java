@@ -58,5 +58,6 @@ public class Button2 extends Activity {
 		TelephonyManager telephonyManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
 		imei = telephonyManager.getDeviceId(); //source
 		Log.i("TAG", "Button3: " + imei);
+
 	}
 }
