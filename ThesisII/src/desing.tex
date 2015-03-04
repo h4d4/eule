@@ -55,11 +55,12 @@ del programa, mensajes de texto y mensajes de Log).
 
 \textit{Información considerada con nivel de seguridad alto:}\newline
 Para verificar el cumplimiento de la política de seguridad a evaluar se parte de
-un conjunto de sources, este conjunto se caracteriza por dar a conocer
-información del usuario considerada como privada o sencible. Los métodos
-que integran el conjunto de sources a evaluar son: getDeviceId,
-getSimSerialNumber, findViewById, getLatitude, getLongitude y getSubscriberId.
-
+un conjunto de sources, caracterizados por dar a conocer información del
+usuario, considerada como privada o sensible. Los métodos que integran el
+conjunto de sources son: getDeviceId, getSimSerialNumber, findViewById,
+getLatitude, getLongitude y getSubscriberId. Adicional a estos métodos, se
+incluye el campo EditText, si y sólo si, es de tipo textPassword, es decir, un
+campo que almacena passwords.
 
 \begin{figure}[h!]
 	\begin{center}
