@@ -241,19 +241,57 @@ para la técnica de análisis utilizada por FlowDroid y la técnica de análisis
 	\textbf{Descripción} & \textbf{Leaks}\\
 	\hline
 	 La variable \textit{userInputPassword} con nivel de segurida alto, almacena
-	 información de un campo EditText tipo textPassword. Se generan flujos de
-	 información indebidos: al tratar de asignar información a la variable
-	 passwordCorrect con nivel de seguridad bajo, a partir de la comparación de
-	 información con nivel de seguridad alto(variable textPassword), después, al
-	 tratar de mostrar en el \textit{log} información que depende de tal
-	 comparación. & 1
-	 \\
+	 información de un campo EditText tipo textPassword(password suministrado por
+	 el usuario). Se generan flujos de información indebidos: al tratar de asignar
+	 información a la variable passwordCorrect con nivel de seguridad bajo, a
+	 partir de la comparación de información con nivel de seguridad alto(variable
+	 textPassword), después, al tratar de mostrar en el \textit{log} información
+	 que depende de tal comparación. & 1\\
 	\hline
 	\multicolumn{2}{|>{\columncolor[gray]{0.8}}c|}{\textbf{ImplicitFlows\_ImplicitFlow4}}\\
 	\hline
 	\textbf{Descripción} & \textbf{Leaks}\\
 	\hline
-	 & \\
+	La variable \textit{password} con nivel de seguridad alto, almacena información
+	de un campo EditText tipo textPassword(password suministrado por el usuario).
+	\textit{password} es utilizada como parte de los parámetros para invocar el
+	método \textit{lookup} que busca identificar el password sumisnitrado por el
+	usuario. Se genera un flujo de información indebido, cuando se compara lo
+	retornado por el método para mostrar en el \textit{log} información del
+	password. & 1 \\
+	\hline
+	\multicolumn{2}{|>{\columncolor[gray]{0.8}}c|}{\textbf{Lifecycle\_ActivityLifecycle3}}\\
+	\hline
+	\textbf{Descripción} & \textbf{Leaks}\\
+	\hline
+	 El flujo de información entre información con nivel de seguridad alto e
+	 información con nivel de seguridad bajo, tiene lugar a través de dos
+	 métodos del ciclo de vida de la actividad: onSaveInstanceState y
+	 onRestoreInstanceState. En onSaveInstanceState, se asigna información con
+	 nivel de seguridad alto a la variable \textit{s}, la información que almacene
+	 este método es utilizada durante la reanudación de la actividad, a través del
+	 método onRestoreInstanceState, donde se muestra en el \textit{log} información
+	 de la variable \textit{s}. & 1\\
+	\hline
+	\multicolumn{2}{|>{\columncolor[gray]{0.8}}c|}{\textbf{Lifecycle\_BroadcastReceiverLifecycle1}}\\
+	\hline
+	\textbf{Descripción} & \textbf{Leaks}\\
+	\hline
+	 Se tiene un broadcast receiver  que muestra información con nivel de
+	 seguridad alto, contenida en la variable \textit{imei}(almacena información retornada por el
+	 método \textit{getDeviceId}) a través del \textit{log}. & 1 \\
+	\hline
+	\multicolumn{2}{|>{\columncolor[gray]{0.8}}c|}{\textbf{Lifecycle\_ServiceLifecycle1}}\\
+	\hline
+	\textbf{Descripción} & \textbf{Leaks}\\
+	\hline
+	 Se tiene un servicio que presenta flujo de información indebida mediante dos
+	 métos de su ciclo de vida. En el método que inicia el servicio
+	 onStartCommand, la variable con nivel de seguridad alto, almacena
+	 información devuelta por el método \textit{getDeviceId}. Luego el método
+	 onLowMemory, se envía información de la variable \textit{secret} a través de
+	 un mensaje msm. & 1
+	 \\
 	\hline
 \end{tabular}
 \end{table}
