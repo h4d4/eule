@@ -1,0 +1,20 @@
+package test;
+
+public class Test{
+
+	static String {Alice:} name = "";
+	static String {} sex = "";	
+
+	public static void test1(){
+		String age = "";
+	}
+	
+	public static String test2( String {}name ){
+		String var = name;
+		return var;
+	}	
+
+	public static void main{}(String[] args){
+
+	}
+}

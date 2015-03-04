@@ -1,0 +1,16 @@
+package test;
+
+import android.content.Context;
+//import jif.principals;
+public class Toast {
+	//private  static int __JIF_SIG_OF_JAVA_CLASS$20030619 = 0;
+	public static final int LENGTH_LONG = 1;
+	//public native Toast(Context context) {}
+	public static Toast makeText(Context context, String {Alice:}text, int {Alice:} duration){
+
+	};
+	public void show(){};
+
+}
+
+
