@@ -1,6 +1,0 @@
-/home/estudiante/eule/androidFlows/jif-src/test/Callbacks_RegisterGlobal2/MainActivity-out.jif:29: 
-    Could not find type "Menu".
-    public boolean onCreateOptionsMenu{}(Menu menu) {
-                                         ^--^
-
-1 error.

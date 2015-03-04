@@ -1,6 +1,0 @@
-/home/estudiante/eule/androidFlows/jif-src/test/AndroidSpecific_PrivateDataLeak1/PrivateDateLeakage-out.jif:50: 
-    Syntax error: unexpected operator :.
-            for (char c : password.toCharArray()) obfuscatedUsername += c + "_";
-                        ^
-
-1 error.
