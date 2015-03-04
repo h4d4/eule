@@ -5,14 +5,63 @@
 
 \section{Diseño de la solución} 
 Definición Política de seguridad:\newline
-Detectar si en un programa android se presentan flujos de información entre,
-información con niveles de seguridad alto e información con nivel de seguridad
-bajo.\newline 
+Detectar si una aplicación android(características conjunto de evaluación)
+presenta flujos de información entre, información con niveles de seguridad alto
+e información con nivel de seguridad bajo.\newline 
 Detectando fugas de información catalogada con nivel de seguridad alto, vía:
-canales creados durante el control de flujo del programa(flujos implicitos),
-mensajes de texto y mensajes de Log. \newline
+canales creados durante el control de flujo del programa(flujos implícitos),
+mensajes de texto y mensajes de Log. \newline 
+**enviar información a través de las siguientes clases de la
+API de Android: Log y SmsManager.\newline
 
-Cómo verificar el cumplimiento de está política mediante Jif?\newline
+
+
+Cómo verificar el cumplimiento de está política mediante
+Jif?\newline
+Consideraciones iniciales:\newline
+\textit{Diferencias entre una aplicación Android y una aplicación Java
+convencional:}\newline 
+En esencia, una aplicación Android es una aplicación Java con interfaces
+descritas en XML, que para ser ejecutada necesita del framwork de Android,
+porque este le provee acceso al hardware del dispositivo y funcionalidades del
+sistema.\newline 
+Por otro lado, JIF permite hacer seguiemiento al flujo de información de una
+aplicación Java, extendiendo el lenguaje mediante labels de seguridad.\newline
+Ahora, para analizar flujo de información de una aplicación Android mediante
+JIF, es importante mencionar las diferencias entre una aplicación Java convencional y
+una aplicación Android, pues aunque ambos tipos de aplicaciones implementan sus
+funcionalidades en lenguaje Java, se diferencian  en que: mientras una
+aplicación Java convencional cuenta con un único método como punto de entrada
+para inciar su ejecución(el método main de la clase principal). Una aplicación
+Android puede tener más de un punto de entrada, generados a partir de los
+diferentes tipos de componentes que la pueden integrar, estos son: Activity,
+Service, Content Provider y Broadcast Receiver. La necesidad de interacción del
+usuario para activar tales puntos de entrada varía acorde al tipo de
+componente, así, en el caso de componentes tipo Activity su ejecución sólo
+inicia hasta que el usuario interactue con la misma, y para ello cuenta con el
+método OnCreate. De otro modo, componentes tipo Service y Broadcast Receiver,
+inician su ejecución a través de los métodos OnStartCommand y OnReceive,
+respectivamente, sin necesidad de interacción del usuario.\newline
+{ \color{red} {Teniendo en cuenta lo anterior, se asume que la aplicación a
+evaluar tiene un único punto de entrada, que depende del tipo de componente que
+implemente.} }
+
+\textit{Evaluación del flujo de información:}\newline
+Para evaluar el flujo de información, se tienen en cuenta todos los métodos
+definidos dentro de la clase, se asume que todos los métodos son invocados, esto
+con el fin de evitar omisiones de flujo de información a través de los canales
+mencionados en la política a evaluar(canales creados durante el control de flujo
+del programa, mensajes de texto y mensajes de Log).
+
+\textit{Información considerada con nivel de seguridad alto:}\newline
+Para verificar el cumplimiento de la política de seguridad a evaluar se parte de
+un conjunto de sources, caracterizados por dar a conocer información del
+usuario, considerada como privada o sensible. Los métodos que integran el
+conjunto de sources son: getDeviceId, getSimSerialNumber, findViewById,
+getLatitude, getLongitude y getSubscriberId. Adicional a estos métodos, se
+incluye el campo EditText, si y sólo si, es de tipo textPassword, es decir, un
+campo que almacena passwords.
+
 \begin{figure}[h!]
 	\begin{center}
 	\includegraphics[width=12cm]{desingSol-steps1-2.jpg}
