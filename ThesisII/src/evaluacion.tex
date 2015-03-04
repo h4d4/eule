@@ -200,11 +200,10 @@ para la técnica de análisis utilizada por FlowDroid y la técnica de análisis
 	\hline
 	La variable \textit{imei} es de nivel de seguridad alto, almacena información
 	devuelta por el método \textit{getDeviceId}. Se busca ofuscar la información de
-	\textit{imei} mediante ciclos for anidados, allí se trata de asignar la
-	información de la varianle a un array con nivel de seguridad bajo. Luego se
-	envía la información ofuscada, como parámetro del método
-	\textit{sendTextMessage}, con nivel de seguridad bajo, gerendo otro flujo de
-	información indebido. & 1\\
+	\textit{imei} mediante ciclos for anidados, allí se asigna la información de la
+	varianle a un array con nivel de seguridad bajo. Luego se envía la información
+	ofuscada, como parámetro del método \textit{sendTextMessage}, con nivel de
+	seguridad bajo, gerendo otro flujo de información indebido. & 1\\
 	\hline
 \end{tabular}
 \end{table}
@@ -218,21 +217,43 @@ para la técnica de análisis utilizada por FlowDroid y la técnica de análisis
 	\hline
 	\textbf{Descripción} & \textbf{Leaks}\\
 	\hline
-	La variable \textit{deviceid} con nivel de seguridad alto, está contenida
-	dentro en un método que nunca es llamado, dentro del mismo, \textit{deviceid} 
-	es pasada como parámetro para invocar el método \textit{sendTextMessage},
-	con nivel de seguridad bajo. \textit{Observaciones:} para el análisis de
-	FlowDroid el programa no presenta leaks, ya que el método nunca es llamado.
+	La variable \textit{deviceid} con nivel de seguridad alto, está contenida en un
+	método que no es llamado, dentro del mismo, \textit{deviceid} es pasada como
+	parámetro para invocar el método \textit{sendTextMessage}, con nivel de
+	seguridad bajo. \textit{Observaciones:} para el análisis de FlowDroid el
+	programa no presenta leaks, ya que el método nunca es llamado.
 	Para nuestro análisis, el programa presenta leak porque se asume que todos los
-	métodos son llamados. & 0
-	\\
+	métodos son llamados. & 0\\
 	\hline
-	\multicolumn{2}{|>{\columncolor[gray]{0.8}}c|}{\textbf{GeneralJava\_UnreachableCode}}\\
+	\multicolumn{2}{|>{\columncolor[gray]{0.8}}c|}{\textbf{ImplicitFlows\_ImplicitFlow1}}\\
+	\hline
+	\textbf{Descripción} & \textbf{Leaks}\\
+	\hline
+	 La variable \textit{imei} almacena información devuelta por el método,
+	 \textit{getDeviceId}, con nivel de seguridad alto, \textit{imei} es pasada
+	 como parámetro al método obfuscateIMEI que devuelve la información ofuscada.
+	 Después se invoca el método WriteToLog, con la información ofuscada como
+	 parámetro para ser mostrada en el log. Al invocar el método WriteToLog con la
+	 información ofuscada, se genera un flujo de información indebido. & 1 \\
+	\hline
+	\multicolumn{2}{|>{\columncolor[gray]{0.8}}c|}{\textbf{ImplicitFlows\_ImplicitFlow2}}\\
+	\hline
+	\textbf{Descripción} & \textbf{Leaks}\\
+	\hline
+	 La variable \textit{userInputPassword} con nivel de segurida alto, almacena
+	 información de un campo EditText tipo textPassword. Se generan flujos de
+	 información indebidos: al tratar de asignar información a la variable
+	 passwordCorrect con nivel de seguridad bajo, a partir de la comparación de
+	 información con nivel de seguridad alto(variable textPassword), después, al
+	 tratar de mostrar en el \textit{log} información que depende de tal
+	 comparación. & 1
+	 \\
+	\hline
+	\multicolumn{2}{|>{\columncolor[gray]{0.8}}c|}{\textbf{ImplicitFlows\_ImplicitFlow4}}\\
 	\hline
 	\textbf{Descripción} & \textbf{Leaks}\\
 	\hline
 	 & \\
-	\hline
 	\hline
 \end{tabular}
 \end{table}
