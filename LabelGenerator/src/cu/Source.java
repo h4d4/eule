@@ -54,7 +54,7 @@ public class Source {
 				String idR = tmp.split("\\(")[1].split("\\)")[0].split("\\.")[2];
 				for( int k=0; k<idsEditPasswd.size(); k++ ){
 					if( idsEditPasswd.get(k).equals(idR) ){
-						System.out.println("Passwd Field: "+ line1);
+						//System.out.println("Passwd Field: "+ line1);
 						vnt = true;
 						break;
 					}
@@ -62,9 +62,9 @@ public class Source {
 				if(vnt){
 					if( line1.indexOf("=") > -1 ){
 						String[] t = line1.split("=")[0].split("\\s+");
-						System.out.println("t.size "+t.length);
+						//System.out.println("t.size "+t.length);
 						for( int p=0; p<t.length; p++ ){
-							System.out.println("t["+p+"] = "+ t[p]);
+							//System.out.println("t["+p+"] = "+ t[p]);
 						}
 						if( t.length >= 1 ){
 							if( t[0].isEmpty() ){
@@ -101,7 +101,7 @@ public class Source {
     
     if( nameEdit != null && !nameEdit.isEmpty() ){
     	sources.add(nameEdit);
-    	System.out.println("nameEdit  "+ nameEdit);
+    	//System.out.println("nameEdit  "+ nameEdit);
     	flag = true;
     }
 
@@ -176,8 +176,8 @@ public class Source {
                 while ( j > 0 && '=' != sub[j]) j--;
                 j --;
                 while ( j > 0 && sub[j] == ' ') j--;
-                System.out.println("j1 " + j);
-                System.out.println("*" + ssub + "*");
+                //System.out.println("j1 " + j);
+                //System.out.println("*" + ssub + "*");
                 int end = j;
                 while ( j > 0 && !Character.isLetter(sub[j]) ) j--;
                 while ( j > 0 && Character.isLetter(sub[j]) ) j--;
@@ -204,10 +204,10 @@ public class Source {
       e.printStackTrace();
     }
     //cleanSpaces();
-    System.out.println("Me sources: ");
+   /* System.out.println("Me sources: ");
     for (String i : varSources) {
       System.out.println(i);
-    }
+    }*/
     
     //return meSource;
   }
