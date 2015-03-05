@@ -11,7 +11,7 @@ No se consideran flujos de información vía interAppComunicación. Por ejemplo,
 varias aplicaciones que se comunican entre sí.
 
 \section{Evaluación conjunto de aplicaciones}
-Para la evaluación del prototipo se toman un grupo de testcases de DroidBech, el
+Para la evaluación del prototipo se toma un grupo de testcases de DroidBech, el
 benchmark de FlowDroid, aplicables para la evaluación de la política de
 seguridad establecida.\newline 
 Se considera con nivel de seguridad alto, variables y métodos que almacenan y
@@ -317,9 +317,9 @@ propuesta en el presente trabajo.\newline
 	 AndroidSpecific\_PrivateDataLeak2 & 1 & detecta leak & detecta leak &
 	 6.144s &2.644s\\
 	\hline
-	 ArraysAndLists\_ArrayAccess1 & 0 & & & &\\
+	 ArraysAndLists\_ArrayAccess1 & 0 & FP & detecta leak & 4.708s & 1.278s\\
 	\hline
-	 ArraysAndLists\_ArrayAccess2 & 0 & & & &\\
+	 ArraysAndLists\_ArrayAccess2 & 0 & FP & detecta leak & 4.4s &1.361s\\
 	 \hline
 	 GeneralJava\_Exceptions1 & 1 & detecta leak & detecta leak &6.397s &2.755s\\
 	\hline
@@ -329,10 +329,10 @@ propuesta en el presente trabajo.\newline
 	\hline
 	GeneralJava\_Exceptions4 & 1 & detecta leak & detecta leak &5.731s &2.313s\\
 	\hline
-	GeneralJava\_Loop1 & 1 & detecta leak & detecta leak\footnote{} &5.605s
+	GeneralJava\_Loop1 & 1 & detecta leak & detecta leak &5.605s
 	&2.800s\\
 	\hline
-	GeneralJava\_Loop2 & 1 & detecta leak & detecta leak\footnote{} &4.719s
+	GeneralJava\_Loop2 & 1 & detecta leak & detecta leak &4.719s
 	&1.361s\\
 	\hline
 	GeneralJava\_UnreachableCode & 1 & cero leaks & FP &3.792s &1.197s\\
@@ -352,7 +352,8 @@ propuesta en el presente trabajo.\newline
 	Lifecycle\_ServiceLifecycle1 & 1 & detecta leak &detecta leak &5.225ss
 	&1.180s\\
 	\hline
-	& 0 & & & &\\
-	\hline
 \end{tabular}
 \end{table}
+
+El tiempo que tarda cada herramienta en realizar el respectivo análisis, es
+medido con el comando \textit{time}.

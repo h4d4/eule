@@ -1,27 +1,26 @@
 \label{ch:anexos}
 \chapter{Anexos}
 \section{Instrucciones para uso del prototipo}
-Se cuenta con un ambiente de prueba, tanto para generar la versión JIF del
-testcase a evaluar mediante el generador de labels, como para evaluarlos con el
-compilador de JIF, ese ambiente esta alojado en el directorio:
-\textbf{\small{\ttfamily{/home/estudiante/eule}}}, de allí intersan los
-subdirectorios \textbf{\small{\ttfamily{androidFlows}}},
-\textbf{\small{\ttfamily{InputLabelGenerator}}} y el jar
-\textbf{\small{\ttfamily{LabelGenerator.jar}}}.
+En el directorio \small{\ttfamily{/home/estudiante/eule}} están los elementos
+necesarios para evaluar los casos de prueba, de allí interesan los
+subdirectorios \small{\ttfamily{androidFlows}},
+\small{\ttfamily{InputLabelGenerator}} y el jar
+\small{\ttfamily{LabelGenerator.jar}}.
 
-El subdirectorio \textbf{\small{\ttfamily{androidFlows}}} contiene la estructura
-de archivos necesaria para ejecutar JIF, donde:
-\textbf{\small{\ttfamily{sig-src}}} aloja clases java y clases de la API de
-android, anotadas para que JIF las reconozca de forma nativa.\newline
-\textbf{\small{\ttfamily{jif-src/test}}} están clases de la API de Android que
-han sido anotadas de forma no nativa(Activity.jif, BroadcastReceiver.jif,
-Log.jif, R.jif, Service.jif, SmsManager.jif). Allí se deben alojar las clases
-jif a ejecutar.\newline
-En {\small{\ttfamily{InputLabelGenerator}}} están los fuentes java que se pasan
-como entrada para el genenrador de labels, que devuleve la versión JIF de los
-mismos.\newline
-Instrucciones de ejecución:\newline
-(1) Ejecutar el jar para la generación de los labels:
+El subdirectorio \small{\ttfamily{androidFlows}} contiene la estructura de
+archivos necesaria para ejecutar un programa jif, así:
+\small{\ttfamily{sig-src}} aloja clases java y clases de la API de android, con
+signaturas para que jif las reconozca de forma nativa.
+\small{\ttfamily{jif-src/test}} tiene clases de la API de Android con
+anotaciones jif(Activity.jif, BroadcastReceiver.jif, Log.jif, R.jif,
+Service.jif, SmsManager.jif). Allí se deben alojar los programas jif a
+ejecutar.\newline 
+En {\small{\ttfamily{InputLabelGenerator}}} están los fuentes java a pasar como
+entrada para el genenrador de labels(LabelGenerator.jar), que devuleve la
+versión jif de los mismos.
+
+\textbf{Instrucciones de ejecución:}\newline
+\textbf{(1)} Ejecutar el jar para la generación de los labels:
 \begin{lstlisting}
 estudiante@debianJessie:~/eule$ java -jar LabelGenerator.jar
 \end{lstlisting}
@@ -38,17 +37,17 @@ Se deben pasar los directorios:
 InputLabelGenerator@androidFlows/jif-src/test
 \end{lstlisting}
 
-(2) Ejecutar el .jif generado:\newline
-En la ruta que se paso como directorio de salida en el punto
-anterior {\small{\ttfamily{androidFlows/jif-src/test}}}, se genera un
-subdirectorio por cada aplicación, cada uno con un .java y un *-out.jif.
-Se debe ejecutar el *-out.jif, los pasos para ello son:\newline
-(2a) ejecutar el script setup.sh
+\textbf{(2)} ejecutar el script setup.sh(basta con ejecutarlo una sóla vez)
 \begin{lstlisting}
 estudiante@debianJessie:~/eule/androidFlows$ ./setup.sh
 \end{lstlisting}
-(2b) ejecutar el caso de prueba a evaluar, por ejemplo, para
-evaluar el testcase ArraysAndLists\_ArrayAccess1, se debe ejecutar:
+
+\textbf{(3)}
+Ejecutar el .jif generado:\newline
+En la ruta pasada como directorio de salida en el punto anterior
+{\small{\ttfamily{androidFlows/jif-src/test}}}, se genera un subdirectorio por
+aplicación, con un .java y un *-out.jif. Se debe ejecutar el *-out.jif. Por
+ejemplo, para evaluar el testcase ArraysAndLists\_ArrayAccess1:
 \begin{lstlisting}
 estudiante@debianJessie:~/eule/androidFlows$ ./jifc-java-libraries.sh \
 jif-src/test/ArraysAndLists_ArrayAccess1/ArrayAccess1-out.jif
@@ -95,4 +94,20 @@ estudiante@debianJessie:~/eule/androidFlows$
 
 Cuando el caso de prueba no presenta flujos indebidos, el compilador no genera
 salidas, por ejemplo, al evaluar el testcase AndroidSpecific\_LogNoLeak, el
-compilador retorna el prom de la shell, sin ningún comentario.
+compilador retorna el prompt de la shell, sin ningún comentario.
+
+\section{Instrucciones para uso de FlowDroid}
+En el directorio \small{\ttfamily{/home/estudiante/eule}} también se encuentran
+los subdirectorios \small{\ttfamily{/FlowDroid}} y
+\small{\ttfamily{/DroidBench-master}} que contienen los elementos necesarios
+para probar los testcases con FlowDroid.\newline 
+Para ello se requiere ejecutar el jar de FlowDroid, indicando el apk a analizar,
+los apk están en el subdirectorio \tetxtit{DroidBench-master}.
+Por ejemplo, para analizar el testace ImplicitFlow4:
+\begin{lstlisting}
+estudiante@debianJessie:~/eule/FlowDroid$ java -jar FlowDroid.jar \
+../DroidBench-master/apk/ImplicitFlows/ImplicitFlow4.apk
+~/android-sdks/platforms/
+\end{lstlisting}
+El archivo \small{\ttfamily{howRunIt}} contenido en el directorio
+\small{\ttfamily{/FlowDroid}}, indica como se debe ejecutar.
