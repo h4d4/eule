@@ -212,14 +212,19 @@ public class Annotation {
 		    	ImportDeclaration imp = new ImportDeclaration();
 		    	Expression newExp = ASTHelper.createNameExpr("test.R");
 		    	imp.setName((NameExpr) newExp);
-		    	imports.add(imp);
+		    	if( imports != null && !imports.isEmpty() ){
+		    		imports.add(imp);
+		    	}
+		    	
 	}
 	public static void addImportsRuntime(  ){
 		List<ImportDeclaration> imports = cu.getImports();
 		ImportDeclaration imp = new ImportDeclaration();
     	Expression newExp2 = ASTHelper.createNameExpr("jif.runtime.Runtime");
     	imp.setName((NameExpr) newExp2);
-    	imports.add(imp);
+    	if( imports != null && !imports.isEmpty() ){
+    		imports.add(imp);
+    	}
 	}
 	public static void addImports(){
 		addImporClaseR();
