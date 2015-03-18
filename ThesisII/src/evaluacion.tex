@@ -300,12 +300,14 @@ resultados se califican como: Falso Positivo(FP) cuando se detecta un leak que
 no existe; Falso Negativo(FN) cuando no se detecta un leak existente; Verdadero
 Positivo(TP) cuando se detecta un leak existente; Verdadero Negativo(TN) cuando
 no existe leak que detectar.\newline 
-Se utiliza el comando \textit{time} para medir el tiempo requerido para
-realizar el análisis.
+El tiempo que tarda cada herramienta para evaluar el respectivo testcase es
+medido con el comando \textit{time}.
  
 \begin{table}[H]
 \small\addtolength{\tabcolsep}{-3pt}
-\caption{Comparación Precisión entre FlowDroid y Prototipo}
+\caption{Comparación Precisión entre FlowDroid y Prototipo. Los campos tF y tP,
+describen el tiempo que tarda Flowdroid y el Prototipo(respectivamente) en
+realizar el análisis para casos de prueba, evaluados. }
 \label{tb:comparacion}
 \begin{tabular}{|p{5.8cm}|p{1cm}|p{2.1cm}|p{2.1cm}|p{1cm}|p{1cm}|}
 	\hline
@@ -369,10 +371,51 @@ efectivamente se presentan FP, sin embargo, para la forma en que se deben
 implementar los programas en jif, donde se suele definir un nivel de seguridad
 para todo el array antes de almacenar los elementos en el mismo, podría decirse
 que no se trata de un FP, porque se revelo información que había sido
-catalogada.\newline 
+catalogada con nivel de seguridad alto.\newline 
 La detección de flujos implícitos podría ser un elemento diferenciador.\newline
 -\textit{Resultados de desempeño}\newline
 Se podría destacar como positivo que el análisis de flujo de información
 mediante técnicas de tipado de seguridad, requiere menos tiempo que la técnica
 de marcado de datos utilizada por FlowDroid.
+
+-\textit{Acerca de por qué FlowDroid no detecta flujos implícitos}\newline
+El análisis de FlowDroid utiliza técnicas DataFlow, específicamente, utiliza
+tainting análisis. Dependiendo de los criterios definidos para propagar el
+marcado de datos, el análisis mediante tainting puede enfocarse en el marcado de
+flujo de datos o en el marcado de control de flujo, o en ambos. En el caso de
+FlowDroid el análisis se concentra en el marcado de flujo de datos, esto
+significa que la herramienta está en capacidad de detectar flujos explicitos,
+pero no flujos implicítos generados a través del flujo de control del
+programa.xx
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
