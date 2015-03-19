@@ -4,24 +4,46 @@
 \section{Limitaciones técnicas para implementar el prototipo}
 Si bien, Jif posibilita la evaluación de políticas de confidencialidad e
 integridad en aplicativos Java, mediante anotaciones que extienden el lenguaje
-Java. Es necesario precisar que Jif no soporta las siguientes características
-del lenguaje Java: nested classes, initializer blocks y threads.\newline
+Java. Es necesario precisar que Jif no soporta las siguientes características de
+Java: nested classes, initializer blocks y threads.\newline 
 En consecuencia aplicaciones Android que presenten tales características son
-exclidas del grupo de aplicaciones a analizar mediante la herramienta
+excluidas del grupo de aplicaciones a analizar mediante la herramienta
 propuesta.\newline
 Adicional a las limitaciones propias de Jif frente al lenguaje Java, tras
 experimentar la anotación manual de una serie de aplicaciones Android, se
 identifican varias limitaciones técnicas para la anotación de código
 perteneciente a la API de Android. Entre las limitaciones identificadas
 están:\newline 
-- Sources y Sinks - JIF no reconoce el simbolo de anotación @,
-utilizado para la sobreescritura de varios métodos de la API de Android. \newline 
-- clase Context 
-- Casting de tipo edidtext y view
-- No se puede reconocer la clase nested R 
-
-- API para la que se ha implementado el prototipo
-
+- Sobreescritura de métodos: jif no reconoce el símbolo de anotación @,
+necesario para indicar que un método es sobreescrito(@Override). La construcción
+de aplicaciones Android requiere la sobreescritura de métodos, acorde al
+componente que se esté implementando, así cuando se define una actividad,
+métodos del ciclo de vida como onCreate deben ser sobreescritos(Qué se hace para
+resolverlo?).\newline 
+- Casting entre tipos EditText y View: el framework de Android cuenta con
+diferentes clases para manejar las interfaces graficas que presenta al usuario,
+entre las cuales se encuentran EditText y View. View es la clase principal para
+la creación de widgets, necesarios para la implementación de componentes
+interactivos en las interfaces de usuario. EditText permite adicionar campos de
+texto editables en interfaces UI. El casting entre los tipos de datos que
+representan ambas clases, suele usarse cuando la aplicación debe procesar datos
+provenientes de campos en las interfaces del usuario, por ejemplo como se
+observa a continuación:
+\begin{lstlisting}
+EditText editPassword = (EditText)findViewById(R.id.password);
+String password = editPassword.getText().toString();
+\end{lstlisting}
+la interfaz de usuario(que es de tipo View) contiene un campo R.id.password, y
+para manipular la información que almacena, debe ser de tipo EditText, siendo
+necesario un casting de View a tipo EditText.(Cómo lo solucionamos?)\newline
+- Clase nested R: el framework de Android utiliza identificadores para hacer
+referencia a recursos utilizados por la aplicación, recursos como strings,
+widgets y layouts, tales identificadores son autogenerados en la clase R.java,
+allí cada recuerso es descrito como una clase individual. Al tratarse de una
+clase tipo nested, la clase R no puede ser anota con jif(Cómo se soluciona?).\newline
+ 
+- API para la que se ha implementado el prototipo \newline 
+- Sources y Sinks \newline
 
 \section{Diseño de la solución} 
 \subsection{Definición de la política de seguridad}
