@@ -2,6 +2,26 @@
 \chapter{Diseño e Implementación}
 
 \section{Limitaciones técnicas para implementar el prototipo}
+Si bien, Jif posibilita la evaluación de políticas de confidencialidad e
+integridad en aplicativos Java, mediante anotaciones que extienden el lenguaje
+Java. Es necesario precisar que Jif no soporta las siguientes características
+del lenguaje Java: nested classes, initializer blocks y threads.\newline
+En consecuencia aplicaciones Android que presenten tales características son
+exclidas del grupo de aplicaciones a analizar mediante la herramienta
+propuesta.\newline
+Adicional a las limitaciones propias de Jif frente al lenguaje Java, tras
+experimentar la anotación manual de una serie de aplicaciones Android, se
+identifican varias limitaciones técnicas para la anotación de código
+perteneciente a la API de Android. Entre las limitaciones identificadas
+están:\newline 
+- Sources y Sinks - JIF no reconoce el simbolo de anotación @,
+utilizado para la sobreescritura de varios métodos de la API de Android. \newline 
+- clase Context 
+- Casting de tipo edidtext y view
+- No se puede reconocer la clase nested R 
+
+- API para la que se ha implementado el prototipo
+
 
 \section{Diseño de la solución} 
 \subsection{Definición de la política de seguridad}
