@@ -2,33 +2,41 @@
 \chapter{Diseño e Implementación}
 
 \section{Limitaciones técnicas para implementar el prototipo}
-Si bien, Jif posibilita la evaluación de políticas de confidencialidad e
-integridad en aplicativos Java, mediante anotaciones que extienden el lenguaje
-Java. Es necesario precisar que Jif no soporta las siguientes características de
-Java: nested classes, initializer blocks y threads.\newline 
+-\textit{Características del lenguaje Java no soportadas por jif:}\newline
+si bien, jif posibilita la evaluación de políticas de confidencialidad
+e integridad para aplicativos implementados en Java, mediante anotaciones que
+extienden el lenguaje. Es necesario precisar que jif no soporta las siguientes
+características de Java: nested classes(clases que son definidas dentro de
+otras clases), initializer blocks(bloques de código declarados dentro de la
+clase pero sin pertenecer a ningún método, dependiendo de si se trata de static
+initialization blocks, son lo primero que se ejecuta una vez se carga la clase,
+o si se trata de instance initialization blocks, se ejecutan cada vez que se crea
+una instancia de la clase) y threads.\newline 
 En consecuencia aplicaciones Android que presenten tales características son
-excluidas del grupo de aplicaciones a analizar mediante la herramienta
-propuesta.\newline
-Adicional a las limitaciones propias de Jif frente al lenguaje Java, tras
+excluidas del grupo de aplicaciones a analizar mediante la herramienta propuesta.\newline 
+Adicional a las limitaciones propias de jif frente al lenguaje Java, tras
 experimentar la anotación manual de una serie de aplicaciones Android, se
 identifican varias limitaciones técnicas para la anotación de código
-perteneciente a la API de Android. Entre las limitaciones identificadas
-están:\newline 
-- Sobreescritura de métodos: jif no reconoce el símbolo de anotación @,
-necesario para indicar que un método es sobreescrito(@Override). La construcción
-de aplicaciones Android requiere la sobreescritura de métodos, acorde al
-componente que se esté implementando, así cuando se define una actividad,
-métodos del ciclo de vida como onCreate deben ser sobreescritos(Qué se hace para
-resolverlo?).\newline 
-- Casting entre tipos EditText y View: el framework de Android cuenta con
-diferentes clases para manejar las interfaces graficas que presenta al usuario,
-entre las cuales se encuentran EditText y View. View es la clase principal para
-la creación de widgets, necesarios para la implementación de componentes
-interactivos en las interfaces de usuario. EditText permite adicionar campos de
-texto editables en interfaces UI. El casting entre los tipos de datos que
-representan ambas clases, suele usarse cuando la aplicación debe procesar datos
-provenientes de campos en las interfaces del usuario, por ejemplo como se
-observa a continuación:
+perteneciente a la API de Android. Entre las limitaciones identificadas están:\newline 
+- \textit{Símbolo para sobreescritura de métodos:}\newline
+jif no reconoce el símbolo de anotación @, necesario para indicar que un método
+es sobreescrito(@Override). La construcción de aplicaciones Android requiere la
+sobreescritura de métodos, acorde al componente que se esté implementando, así
+cuando se define una actividad, métodos del ciclo de vida como onCreate deben
+ser sobreescritos. La dificultad que se presenta está en que jif no reconoce el
+símbolo, puesto que las pruebas realizas señalan que jif permite la
+sobreescritura de métodos. Ante esto, la solución que se adopta para la
+implementación del prototipo es comentar las líneas del programa que contengan
+@Override.\newline 
+- \textit{Casting entre tipos EditText y View:}\newline
+el framework de Android cuenta con diferentes clases para manejar las interfaces
+graficas que presenta al usuario, entre las cuales se encuentran EditText y
+View. View es la clase principal para la creación de widgets, necesarios para la
+implementación de componentes interactivos en las interfaces de usuario.
+EditText permite adicionar campos de texto editables en interfaces UI. El
+casting entre los tipos de datos que representan ambas clases, suele usarse
+cuando la aplicación debe procesar datos provenientes de campos en las
+interfaces del usuario, por ejemplo como se observa a continuación:
 \begin{lstlisting}
 EditText editPassword = (EditText)findViewById(R.id.password);
 String password = editPassword.getText().toString();
@@ -36,14 +44,22 @@ String password = editPassword.getText().toString();
 la interfaz de usuario(que es de tipo View) contiene un campo R.id.password, y
 para manipular la información que almacena, debe ser de tipo EditText, siendo
 necesario un casting de View a tipo EditText.(Cómo lo solucionamos?)\newline
-- Clase nested R: el framework de Android utiliza identificadores para hacer
-referencia a recursos utilizados por la aplicación, recursos como strings,
-widgets y layouts, tales identificadores son autogenerados en la clase R.java,
-allí cada recuerso es descrito como una clase individual. Al tratarse de una
-clase tipo nested, la clase R no puede ser anota con jif(Cómo se soluciona?).\newline
- 
-- API para la que se ha implementado el prototipo \newline 
-- Sources y Sinks \newline
+- \textit{Clase nested R:}\newline
+el framework de Android utiliza identificadores para hacer referencia a recursos
+utilizados por la aplicación, recursos como strings, widgets y layouts, tales
+identificadores son autogenerados en la clase R.java, allí cada recuerso es
+descrito como una clase individual. Al tratarse de una clase nested, la clase R
+no puede ser anotada con jif(Cómo se soluciona?).\newline 
+- \textit{Sources y Sinks:}\newline
+en el diseño inicial de la solución, se
+planteó utilizar SuSi para clasificar los sources y sinks en las aplicaciones a analizar, sin embargo,
+partir del extenso conjunto de sources y sinks que SuSi clasifica para la API de
+Android, implica una mayor complejidad en el análisis, puesto que, en un
+aplicativo todo el código que le conforma puede hacer parte de sources o de
+sinks. Adicional a lo complejo que se puede tornar el análisis, los sources y
+sinks a considerar dependen de la política de seguridad a evaluar, en ese orden
+de ideas, partiendo de la política de seguridad que se defina, del listado
+proveído por SuSi, se selecciona un subconjunto específico de sources y sinks.\newline 
 
 \section{Diseño de la solución} 
 \subsection{Definición de la política de seguridad}
@@ -56,6 +72,15 @@ mensajes de texto y mensajes de Log.\newline
 
 \subsection{Consideraciones para verificar el cumplimiento de la política
 mediante Jif} 
+\textit{Versión de la API de Android:}\newline
+los experimentos previos a la implementación del prototipo y, la implementación
+del mismo se realiza partiendo de la versión Android 4.2.2(API Level 17).
+
+\textit{Versión del compilador de jif:}\newline
+se parte de la versión 3.4.2 del compilador de jif, para llevar a cabo tanto los
+experimentos previos como el análisis de las aplicaciones anotadas por el
+prototipo.
+
 \textit{Diferencia entre una aplicación Android y una aplicación Java
 convencional:}\newline 
 En esencia, una aplicación Android es una aplicación Java con interfaces
@@ -97,7 +122,7 @@ control de flujo del programa, tiene en común que debe poder ser conocida por
 terceros. En consecuencia, se considera que estos canales deben dar a conocer
 información con nivel de seguridad bajo.\newline
 En el caso de mensajes de texto y mensajes de Log, se hace referencia
-específicamente a las clases Log y SmsManager de la API de Android.\newline
+específicamente a las clases Log y SmsManager de la API de Android.
 
 \textit{Evaluación del flujo de información:}\newline
 Para evaluar el flujo de información, se tienen en cuenta todos los métodos
@@ -105,8 +130,10 @@ definidos dentro de la clase, se asume que todos los métodos son invocados, est
 con el fin de evitar omisiones de flujo de información a través de los canales
 previamente mencionados.
 
+\textit{Estructura de trabajo en JIF:}\newline
 
-\textit{Pasos para el diseño de la solución:}\newline
+
+\subsection{Pasos para el diseño de la solución}
 
 \begin{figure}[h!]
 	\begin{center}
@@ -230,5 +257,6 @@ D.\newline
 (7) Aplicar definición B. \newline
 (8) Aplicar definición A a listado del paso (1).
 
-
+\subsection{Descripción implementación prototipo}
+clases, qué aporta cada clase.
 
