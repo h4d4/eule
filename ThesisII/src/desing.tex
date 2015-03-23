@@ -5,29 +5,32 @@
 -\textit{Características del lenguaje Java no soportadas por jif:}\newline
 si bien, jif posibilita la evaluación de políticas de confidencialidad
 e integridad para aplicativos implementados en Java, mediante anotaciones que
-extienden el lenguaje. Es necesario precisar que jif no soporta las siguientes
-características de Java: nested classes(clases que son definidas dentro de
-otras clases), initializer blocks(bloques de código declarados dentro de la
-clase pero sin pertenecer a ningún método, dependiendo de si se trata de static
-initialization blocks, son lo primero que se ejecuta una vez se carga la clase,
-o si se trata de instance initialization blocks, se ejecutan cada vez que se crea
-una instancia de la clase) y threads.\newline 
-En consecuencia aplicaciones Android que presenten tales características son
-excluidas del grupo de aplicaciones a analizar mediante la herramienta propuesta.\newline 
+extienden el lenguaje, el manual de referencia de jif es claro en precisar
+características del lenguaje java no soportadas, estas son: nested
+classes(clases que son definidas dentro de otras clases), initializer
+blocks(bloques de código declarados dentro de la clase pero sin pertenecer a
+ningún método, dependiendo de si se trata de static initialization blocks, son
+lo primero que se ejecuta una vez se carga la clase, o si se trata de instance
+initialization blocks, se ejecutan cada vez que se crea una instancia de la
+clase) y threads.\newline 
+Partiendo de estas precisiones, aplicaciones Android que presenten tales
+características son excluidas del grupo de aplicaciones a analizar mediante la
+herramienta propuesta.\newline 
 Adicional a las limitaciones propias de jif frente al lenguaje Java, tras
 experimentar la anotación manual de una serie de aplicaciones Android, se
 identifican varias limitaciones técnicas para la anotación de código
 perteneciente a la API de Android. Entre las limitaciones identificadas están:\newline 
+- \textit{Sintaxis for-each:}\newline
 - \textit{Símbolo para sobreescritura de métodos:}\newline
-jif no reconoce el símbolo de anotación @, necesario para indicar que un método
-es sobreescrito(@Override). La construcción de aplicaciones Android requiere la
-sobreescritura de métodos, acorde al componente que se esté implementando, así
+jif no reconoce el símbolo de anotación @, utilizado para indicar que un método
+es sobreescrito(@Override). Según el componente que se esté implementando, la
+construcción de aplicaciones Android requiere la sobreescritura de métodos, así
 cuando se define una actividad, métodos del ciclo de vida como onCreate deben
 ser sobreescritos. La dificultad que se presenta está en que jif no reconoce el
-símbolo, puesto que las pruebas realizas señalan que jif permite la
-sobreescritura de métodos. Ante esto, la solución que se adopta para la
-implementación del prototipo es comentar las líneas del programa que contengan
-@Override.\newline 
+símbolo de anotación, y no en que jif no soporte la anotación de métodos, puesto
+que las pruebas realizas señalan que jif soporta tal característica. Ante esto,
+la solución que se adopta para la implementación del prototipo es comentar las
+líneas del programa que contengan @Override.\newline 
 - \textit{Casting entre tipos EditText y View:}\newline
 el framework de Android cuenta con diferentes clases para manejar las interfaces
 graficas que presenta al usuario, entre las cuales se encuentran EditText y
@@ -43,13 +46,18 @@ String password = editPassword.getText().toString();
 \end{lstlisting}
 la interfaz de usuario(que es de tipo View) contiene un campo R.id.password, y
 para manipular la información que almacena, debe ser de tipo EditText, siendo
-necesario un casting de View a tipo EditText.(Cómo lo solucionamos?)\newline
+necesario un casting de View a tipo EditText. La dificultad que se presenta con
+este tipo de casting es que para el sistema de anotaciones de jif no es válido.
+Una forma de superar esta limitación es asingar el valor contenido en tipos
+EditText, a variables tipo String, de modo que no se requiera el casting
+descrito.\newline
 - \textit{Clase nested R:}\newline
 el framework de Android utiliza identificadores para hacer referencia a recursos
 utilizados por la aplicación, recursos como strings, widgets y layouts, tales
-identificadores son autogenerados en la clase R.java, allí cada recuerso es
+identificadores son autogenerados en la clase R.java, allí cada recurso es
 descrito como una clase individual. Al tratarse de una clase nested, la clase R
-no puede ser anotada con jif(Cómo se soluciona?).\newline 
+no puede ser anotada con jif. Esto se soluciona definiendo una clase R que
+contenga los recursos definidos como variables y no como clases.\newline
 - \textit{Sources y Sinks:}\newline
 en el diseño inicial de la solución, se
 planteó utilizar SuSi para clasificar los sources y sinks en las aplicaciones a analizar, sin embargo,
@@ -59,7 +67,18 @@ aplicativo todo el código que le conforma puede hacer parte de sources o de
 sinks. Adicional a lo complejo que se puede tornar el análisis, los sources y
 sinks a considerar dependen de la política de seguridad a evaluar, en ese orden
 de ideas, partiendo de la política de seguridad que se defina, del listado
-proveído por SuSi, se selecciona un subconjunto específico de sources y sinks.\newline 
+proveído por SuSi, se selecciona un subconjunto específico de sources y sinks.
+
+Además de las limitaciones descritas anteriormente, para las cuales se propuso
+una solución, se identifican otras en que la solución sobrepasa los límites de
+la presente investigación, puesto que corresponden a sintaxis no aceptada por el
+compilador de jif.\newline
+
+- \textit{Sintaxis para hashmaps:}\newline 
+- \textit{Sintaxis para listas:}\newline 
+- \textit{Paso de statements dentro de los argumentos de un método
+(\{\}):}\newline
+- \textit{No soporte para LinkedLIst:}\newline
 
 \section{Diseño de la solución} 
 \subsection{Definición de la política de seguridad}
