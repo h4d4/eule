@@ -380,12 +380,19 @@ de marcado de datos utilizada por FlowDroid.
 
 -\textit{Acerca de por qué FlowDroid no detecta flujos implícitos}\newline
 El análisis de FlowDroid utiliza técnicas DataFlow, específicamente, utiliza
-tainting análisis. Dependiendo de los criterios para propagar la marca entre los
-datos, el análisis mediante tainting puede enfocarse en el marcado de flujo de
-datos o en el marcado de control de flujo, o en ambos. En el caso de FlowDroid
-el análisis se concentra en el marcado de flujo de datos, esto significa que la
-herramienta está en capacidad de detectar flujos explicitos, pero no flujos
-implicítos generados a través del flujo de control del programa.
+tainting análisis. Para hacer seguimiento al flujo de información de un
+programa, la técnica de análisis tainting se basa en: asociar una o más marcas
+con el valor de los datos en el programa, y en propagarlas. Dependiendo de los
+criterios definidos, la marca puede ser propagada a causa de flujos explícitos o
+de flujos implícitos. En flujos explícitos la propagación ocurre cuando el
+valor de una variable marcada está implicada en el calculo de otra varibale. En
+flujos implícitos la propagación tiene lugar a través de dependencias en el
+control de flujo del programa, por ejemplo, cuando el valor de un dato marcado
+afecta indirectamente otra varible.\newline
+En el caso de FlowDroid el análisis se concentra en el marcado de flujo de
+datos, esto significa que la herramienta está en capacidad de detectar flujos
+explicitos, pero no flujos implicítos generados a través del flujo de control
+del programa.
 
 
 
