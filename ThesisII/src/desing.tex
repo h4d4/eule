@@ -30,16 +30,15 @@ lenguaje Java, tras experimentar la anotación manual de una serie de
 aplicaciones Android, se identifican varias limitaciones técnicas para la
 anotación de de las mismas. Entre las limitaciones identificadas están:\newline 
 
-- \textit{Soporte a clase Override para sobreescritura de métodos:}\newline 
-jif no reconoce el statement @Override utilizado para indicar que un método
-es sobreescrito.\newline
+- \textit{Soporte para sobreescritura de métodos:}\newline 
 En la construccción de aplicaciones Android, según el componente que se esté
 implementando(activities, content providers, receivers, services), se requiere
-la sobreescritura de métodos de la clase que debe extender el componente. Así
+la sobreescritura para métodos de la clase que debe extender el componente. Así,
 cuando se define un componente tipo Activity, que debe extender de la clase
-Activiy.java, se sobreescriben métodos como Oncreate. Para indicar que el método
-es sobreescrito se utiliza el statement @Override. No obstante, al implementar
-la version Jif de aplicaciones android con dicho statement, el compilador de jif
+Activiy.java, se sobreescriben métodos como Oncreate. Cada que se sobreescribe
+un método se utiliza el statement @Override, con el cual se informa al
+compilador de Java que el método es sobreescrito. No obstante, al implementar la
+version Jif de aplicaciones Android con dicho statement, el compilador de Jif
 no lo reconoce. La dificultad que se presenta está en el reconocimiento del
 statement(caracter @ y clase Override), y no en la sobreescritura de métodos,
 puesto que jif soporta tal característica. El soporte para la sobreescritura de
@@ -55,8 +54,10 @@ Entre los directorios que conforman la distribución del compilador de Jif con
 que se esté trabajando, se encuentra el directorio sig-src, que contiene la
 versión Jif de las clases estandar Java soportadas, clases pertenecientes
 estandar de los paquetes io, lang, math, net y sql.\newline 
-La solución que se propone para la implementación del prototipo es comentar las
-líneas del programa que contengan @Override.\newline
+Una alternativa para permitir el análisis de flujo de información entre métodos
+que se sobreescriben, es comentar las líneas del programa que contengan
+la sentencia @Override, puesto que, al no ser reconocida por el compilador de
+Jif, es la generadora de errores de compilación.
 
 - \textit{Casting entre tipos EditText y View:}\newline
 el framework de Android cuenta con diferentes clases para manejar las interfaces
