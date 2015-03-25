@@ -1,36 +1,63 @@
 \label{ch:desing}
 \chapter{Diseño e Implementación}
 
+\section{Background}
+- código con ejemplo de componentes(Clases Activity, ..)
+
 \section{Limitaciones técnicas para implementar el prototipo}
 -\textit{Características del lenguaje Java no soportadas por jif:}\newline
-si bien, jif posibilita la evaluación de políticas de confidencialidad
-e integridad para aplicativos implementados en Java, mediante anotaciones que
-extienden el lenguaje, el manual de referencia de jif es claro en precisar
-características del lenguaje java no soportadas, estas son: nested
-classes(clases que son definidas dentro de otras clases), initializer
-blocks(bloques de código declarados dentro de la clase pero sin pertenecer a
-ningún método, dependiendo de si se trata de static initialization blocks, son
-lo primero que se ejecuta una vez se carga la clase, o si se trata de instance
-initialization blocks, se ejecutan cada vez que se crea una instancia de la
-clase) y threads.\newline 
+si bien, el sistema de anotaciones de Jif hace extenciones al lenguaje java,
+permitiendo la evaluación de políticas de confidencialidad e integridad para
+aplicativos implementados en dicho lenguaje, el manual de referencia de Jif es
+claro en precisar las características del lenguaje Java que no
+soporta\cite{jifRef}.
+Estas son:
+\begin{itemize}
+  \item nested classes. Clases que son definidas dentro de otras clases.
+  \item initializer blocks. Bloques de código declarados dentro de la clase pero
+  sin pertenecer a ningún método, dependiendo de si se trata de static
+  initialization blocks, su código es el primero en ejecutarse, una vez se
+  carga la clase; o si se trata de instance initialization blocks, su código se
+  ejecutan cada vez que se crea una instancia de la clase.
+\item threads.
+\end{itemize} 
 Partiendo de estas precisiones, aplicaciones Android que presenten tales
-características son excluidas del grupo de aplicaciones a analizar mediante la
-herramienta propuesta.\newline 
-Adicional a las limitaciones propias de jif frente al lenguaje Java, tras
-experimentar la anotación manual de una serie de aplicaciones Android, se
-identifican varias limitaciones técnicas para la anotación de código
-perteneciente a la API de Android. Entre las limitaciones identificadas están:\newline 
-- \textit{Sintaxis for-each:}\newline
-- \textit{Símbolo para sobreescritura de métodos:}\newline
-jif no reconoce el símbolo de anotación @, utilizado para indicar que un método
-es sobreescrito(@Override). Según el componente que se esté implementando, la
-construcción de aplicaciones Android requiere la sobreescritura de métodos, así
-cuando se define una actividad, métodos del ciclo de vida como onCreate deben
-ser sobreescritos. La dificultad que se presenta está en que jif no reconoce el
-símbolo de anotación, y no en que jif no soporte la anotación de métodos, puesto
-que las pruebas realizas señalan que jif soporta tal característica. Ante esto,
-la solución que se adopta para la implementación del prototipo es comentar las
-líneas del programa que contengan @Override.\newline 
+características son excluidas del grupo de aplicaciones a analizar(conjunto de
+aplicaciones evaluables) mediante la herramienta propuesta.
+
+Adicional a las limitaciones de jif frente a características propias del
+lenguaje Java, tras experimentar la anotación manual de una serie de
+aplicaciones Android, se identifican varias limitaciones técnicas para la
+anotación de de las mismas. Entre las limitaciones identificadas están:\newline 
+
+- \textit{Soporte a clase Override para sobreescritura de métodos:}\newline 
+jif no reconoce el statement @Override utilizado para indicar que un método
+es sobreescrito.\newline
+En la construccción de aplicaciones Android, según el componente que se esté
+implementando(activities, content providers, receivers, services), se requiere
+la sobreescritura de métodos de la clase que debe extender el componente. Así
+cuando se define un componente tipo Activity, que debe extender de la clase
+Activiy.java, se sobreescriben métodos como Oncreate. Para indicar que el método
+es sobreescrito se utiliza el statement @Override. No obstante, al implementar
+la version Jif de aplicaciones android con dicho statement, el compilador de jif
+no lo reconoce. La dificultad que se presenta está en el reconocimiento del
+statement(caracter @ y clase Override), y no en la sobreescritura de métodos,
+puesto que jif soporta tal característica. El soporte para la sobreescritura de
+métodos es confirmadado al anotar manualmente la clase Activity.java (con un
+único método, el método Ocreate), y una aplicación sencilla que implementa una
+actividad y sobreescribe el método Oncreate. Cuando se comenta la sentencia
+@Override, el compilador de Jif identifica la sobreescritura del método y
+reporta comentarios para el flujo de información.\newline 
+Al investigar el por qué Jif no reconoce tal sentencia, se encuentra que la
+clase java.lang.Override, no hace parte de las clases estandar de Java, para las
+que el compilador de Jif tiene anotaciones.\newline
+Entre los directorios que conforman la distribución del compilador de Jif con
+que se esté trabajando, se encuentra el directorio sig-src, que contiene la
+versión Jif de las clases estandar Java soportadas, clases pertenecientes
+estandar de los paquetes io, lang, math, net y sql.\newline 
+La solución que se propone para la implementación del prototipo es comentar las
+líneas del programa que contengan @Override.\newline
+
 - \textit{Casting entre tipos EditText y View:}\newline
 el framework de Android cuenta con diferentes clases para manejar las interfaces
 graficas que presenta al usuario, entre las cuales se encuentran EditText y
@@ -58,6 +85,7 @@ identificadores son autogenerados en la clase R.java, allí cada recurso es
 descrito como una clase individual. Al tratarse de una clase nested, la clase R
 no puede ser anotada con jif. Esto se soluciona definiendo una clase R que
 contenga los recursos definidos como variables y no como clases.\newline
+- \textit{Sintaxis for-each:}\newline 
 - \textit{Sources y Sinks:}\newline
 en el diseño inicial de la solución, se
 planteó utilizar SuSi para clasificar los sources y sinks en las aplicaciones a analizar, sin embargo,
@@ -92,7 +120,11 @@ mensajes de texto y mensajes de Log.\newline
 \subsection{Consideraciones para verificar el cumplimiento de la política
 mediante Jif} 
 \textit{Versión de la API de Android:}\newline
-los experimentos previos a la implementación del prototipo y, la implementación
+las aplicaciones utilizadas para los experimentos previos a la implementación
+del prototipo , y las aplicaciones anotar con el mismo, pertenec
+
+
+la implementación
 del mismo se realiza partiendo de la versión Android 4.2.2(API Level 17).
 
 \textit{Versión del compilador de jif:}\newline
@@ -164,6 +196,7 @@ previamente mencionados.
 
 -Paso uno: hacer que jif reconozca determinadas clases de la API de
 Android.\newline 
+
 Adicional al mecanismo de anotación que se maneja en jif, en que para hacer
 análisis al flujo de información de un programa java, se debe implementar la
 versión del respectivo programa para jif. También es posible adicionar clases
@@ -177,14 +210,17 @@ clase Android para verificar la política de seguridad establecida. Las clases
 Log y SmsManager, que representan canales para conocer información, son anotadas
 de forma no nativa. La opción de anotación nativa se utiliza para librerías
 Android, por ejemplo la clase TelephonyManager necesaria para utilizar el método
-getDeviceId.\newline A continuación se ilustran las clases anotadas.
+getDeviceId.\newline 
+La versión de la API de Android a la que corresponden las clases anotadas, es la
+versión 4.2.2(API Level 17).\newline 
+A continuación se ilustran las clases anotadas.
 
 \begin{figure}[h!]
 	\begin{center}
 	\includegraphics[width=14cm]{desingSol-step1-details.jpg}
 	\end{center}
 	\caption{Diseño de la solución paso 1. Ilustra las clases especificas de la
-	clase de Android, anotadas manualmente.}
+	API de Android, anotadas manualmente.}
 	\label{fig:desingSol-step1}
 \end{figure}
 
