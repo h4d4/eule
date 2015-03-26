@@ -63,51 +63,73 @@ Jif, es la generadora de errores de compilación.
 el framework de Android cuenta con diferentes clases para manejar las interfaces
 graficas que presenta al usuario, entre las cuales se encuentran EditText y
 View. View es la clase principal para la creación de widgets, necesarios para la
-implementación de componentes interactivos en las interfaces de usuario.
-EditText permite adicionar campos de texto editables en interfaces UI. El
-casting entre los tipos de datos que representan ambas clases, suele usarse
-cuando la aplicación debe procesar datos provenientes de campos en las
-interfaces del usuario, por ejemplo como se observa a continuación:
+implementación de componentes interactivos en las interfaces de usuario(UI).
+EditText permite adicionar campos de texto editables en UI. El casting entre los
+tipos de datos que representan ambas clases, se hace cuando la aplicación debe
+procesar datos provenientes de campos en las interfaces del usuario, por ejemplo
+como se observa a continuación:
 \begin{lstlisting}
 EditText editPassword = (EditText)findViewById(R.id.password);
 String password = editPassword.getText().toString();
 \end{lstlisting}
 la interfaz de usuario(que es de tipo View) contiene un campo R.id.password, y
 para manipular la información que almacena, debe ser de tipo EditText, siendo
-necesario un casting de View a tipo EditText. La dificultad que se presenta con
-este tipo de casting es que para el sistema de anotaciones de jif no es válido.
-Una forma de superar esta limitación es asingar el valor contenido en tipos
-EditText, a variables tipo String, de modo que no se requiera el casting
-descrito.\newline
+necesario un casting de tipo View a tipo EditText. La dificultad que se presenta
+con este tipo de casting es que para el sistema de anotaciones de jif no es
+válido. Luego de probar con la anotación manual de ambas clases, tratando de
+dar soporte a este tipo de casting, sin obtener resultados satisfactorios, se
+opta por ``simular'' estos casos, es decir, si el tipo de dato de una variable
+es de tipo EditText, se crea una varible tipo String con un valor determinado,
+así se omite el casting y se puede analizar el flujo de información.\newline
+
 - \textit{Clase nested R:}\newline
 el framework de Android utiliza identificadores para hacer referencia a recursos
 utilizados por la aplicación, recursos como strings, widgets y layouts, tales
 identificadores son autogenerados en la clase R.java, allí cada recurso es
 descrito como una clase individual. Al tratarse de una clase nested, la clase R
 no puede ser anotada con jif. Esto se soluciona definiendo una clase R que
-contenga los recursos definidos como variables y no como clases.\newline
-- \textit{Sintaxis for-each:}\newline 
+contenga los recursos definidos como variables y no como clases.
+
 - \textit{Sources y Sinks:}\newline
-en el diseño inicial de la solución, se
-planteó utilizar SuSi para clasificar los sources y sinks en las aplicaciones a analizar, sin embargo,
-partir del extenso conjunto de sources y sinks que SuSi clasifica para la API de
+en el diseño inicial de la solución se propone utilizar SuSi para clasificar
+los sources y sinks en las aplicaciones a analizar, sin embargo, partir del
+extenso conjunto de sources y sinks, clasificados por SuSi para la API de
 Android, implica una mayor complejidad en el análisis, puesto que, en un
 aplicativo todo el código que le conforma puede hacer parte de sources o de
 sinks. Adicional a lo complejo que se puede tornar el análisis, los sources y
-sinks a considerar dependen de la política de seguridad a evaluar, en ese orden
-de ideas, partiendo de la política de seguridad que se defina, del listado
-proveído por SuSi, se selecciona un subconjunto específico de sources y sinks.
+sinks a considerar deben depender de la política de seguridad a evaluar. En ese
+orden de ideas, resulta más viable tomar un subconjunto del listado proveído por
+SuSi, partiendo de los sources y sinks que evalué la política de seguridad que
+se defina.
 
-Además de las limitaciones descritas anteriormente, para las cuales se propuso
-una solución, se identifican otras en que la solución sobrepasa los límites de
-la presente investigación, puesto que corresponden a sintaxis no aceptada por el
-compilador de jif.\newline
+- \textit{Sintaxis for-each:}\newline
 
-- \textit{Sintaxis para hashmaps:}\newline 
-- \textit{Sintaxis para listas:}\newline 
+Además de las limitaciones descritas anteriormente, para las cuales se propone
+una solución, se identifica que Jif no soporta la sintaxis utilizada en Java
+para definición de HashMaps, LinkedList y Sets, que en java se definen de la
+siguiente manera:
+\begin{lstlisting}
+Map<String,String> hashMap = new HashMap<String, String>();
+List<String> listData;
+Set<String> phoneNumbers = new HashSet<String>();
+\end{lstlisting}
+Jif tampoco permite la definición de interfaces como argumentos de un método. El
+siguiente fragmento de código  muestra la definición de una interfaz pasada como
+parámetro al método setOnClickListener.
+\begin{lstlisting}
+   Button button1= (Button) findViewById(R.id.button1);
+   button1.setOnClickListener(new View.OnClickListener() {
+   ...
+   .....}  });
+\end{lstlisting}
+En estos casos, la dificultad está en encontrar una sintaxis que permita obtener
+la versión equivalente del programa que las contenga. A esto se suma, la falta
+de documentación disponible para solventar los mismos. En consecuencia, se omite
+del conjunto de aplicaciones evaluables, aplicaciones Androiod que presenten los
+casos descritos.\newline
+
 - \textit{Paso de statements dentro de los argumentos de un método
 (\{\}):}\newline
-- \textit{No soporte para LinkedLIst:}\newline
 
 \section{Diseño de la solución} 
 \subsection{Definición de la política de seguridad}
