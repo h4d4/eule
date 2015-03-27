@@ -102,7 +102,25 @@ orden de ideas, resulta más viable tomar un subconjunto del listado proveído p
 SuSi, partiendo de los sources y sinks que evalué la política de seguridad que
 se defina.
 
-- \textit{Sintaxis for-each:}\newline
+- \textit{Enhanced for loop:} Java da soporte para el buble for, por ejemplo:
+\begin{lstlisting}
+char c[] = imei.toCharArray();
+for (int i = 0; i < c.length; i++) {
+	obfuscated += c[i] + "_";
+}          
+\end{lstlisting}  
+También da soporte para el enhanced for, utilizado para simplificar la iteración
+en arrays y colecciones, por ejemplo:
+\begin{lstlisting}
+for(char c : imei.toCharArray())
+obfuscated += c + "_";
+\end{lstlisting}
+A diferencia de Java, Jif no soporta el enhanced for. Debido a que ambas
+sentencias de control son equivalentes, la solución que se propone para poder
+analizar flujo de información en los aplicativos Android que contengan dicha
+estructura de control es, es generar el equivalente del programa pero con el for
+sencillo, de este modo se cambia la sintaxis sin afectar la lógica del
+aplicativo a analizar.
 
 Además de las limitaciones descritas anteriormente, para las cuales se propone
 una solución, se identifica que Jif no soporta la sintaxis utilizada en Java
@@ -128,8 +146,8 @@ de documentación disponible para solventar los mismos. En consecuencia, se omit
 del conjunto de aplicaciones evaluables, aplicaciones Androiod que presenten los
 casos descritos.\newline
 
-- \textit{Paso de statements dentro de los argumentos de un método
-(\{\}):}\newline
+%- \textit{Paso de statements dentro de los argumentos de un método
+%(\{\}):}\newline
 
 \section{Diseño de la solución} 
 \subsection{Definición de la política de seguridad}
