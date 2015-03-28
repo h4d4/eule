@@ -15,19 +15,14 @@ Para la evaluación del prototipo se toma un grupo de testcases de DroidBech, el
 benchmark de FlowDroid, evaluables frente a la política de seguridad
 establecida.\newline 
 Se considera con nivel de seguridad alto, variables y métodos que almacenan y
-modifican(respectivamente), información considerada como privada(Sources).\newline 
+modifican(respectivamente), información catalogada como privada(Sources).\newline 
 Se considera con nivel de seguridad bajo, canales para envío de mensajes,
-muestra de logs y canales creados durante el control de flujo del
-programa.\newline
-
-En la tabla \ref{tb:muestra-descripApps} se describen algunos de los testcases a
-evaluar, la descripción completa de los casos de prueba, se encuentra
-en los anexos\ref{sc:testcases}.
-
-En los casos en que se requiere, se precisan observaciones entre los resultados
-de evaluación esperados para la técnica de análisis utilizada por FlowDroid y la técnica de análisis
-propuesta en el presente trabajo.\newline
-
+muestra de logs y canales creados durante el control de flujo del programa.\newline 
+La tabla \ref{tb:muestra-descripApps} describe parte del grupo de testcases a
+evaluar. En los casos en que se requiere, se precisan observaciones entre los
+resultados de evaluación esperados para la técnica de análisis utilizada por
+FlowDroid y la técnica de análisis propuesta en el presente trabajo.\newline 
+La descripción para el grupo completo de testcases está en los anexos\ref{sec:testcases}.
 
 \begin{table}[H]
 \small\addtolength{\tabcolsep}{-3pt}
@@ -102,21 +97,23 @@ propuesta en el presente trabajo.\newline
 \end{tabular}
 \end{table}
 
-
-
-La tabla\ref{tb:comparacion} presenta los resultados de analizar los casos de
-prueba previamente descritos, tanto con FlowDroid como con el prototipo. Los
-resultados se califican como: Falso Positivo(FP) cuando se detecta un leak que
-no existe; Falso Negativo(FN) cuando no se detecta un leak existente; Verdadero
-Positivo(TP) cuando se detecta un leak existente; Verdadero Negativo(TN) cuando
-no existe leak que detectar.\newline 
+Cada aplicación del conjunto de prueba es analizada con FlowDroid y con el
+Prototipo, los resultados obtenidos son presentados en la
+tabla\ref{tb:comparacion}. En esta, por cada caso de prueba se indica la
+cantidad de leaks que presenta, el resultado de análisis devuelto por
+la respectiva herramienta, y el tiempo que tarda el análisis mediante una u otra
+herramienta.
+Los resultados del análisis son calificados como: Falso Positivo(FP) cuando se
+detecta un leak que no existe; Falso Negativo(FN) cuando no se detecta un leak
+existente; Verdadero Positivo(TP) cuando se detecta un leak existente; Verdadero
+Negativo(TN) cuando no existe leak que detectar.\newline 
 El tiempo que tarda cada herramienta para evaluar el respectivo testcase es
 medido con el comando \textit{time}.
  
 \begin{table}[H]
 \small\addtolength{\tabcolsep}{-3pt}
-\caption{Comparación Precisión entre FlowDroid y Prototipo. Los campos tF y tP,
-describen el tiempo que tarda Flowdroid y el Prototipo(respectivamente) en
+\caption{XXXXX-Comparación Precisión entre FlowDroid y Prototipo. Los campos tF
+y tP, describen el tiempo que tarda Flowdroid y el Prototipo(respectivamente) en
 realizar el análisis para casos de prueba, evaluados. }
 \label{tb:comparacion}
 \begin{tabular}{|p{5.8cm}|p{1cm}|p{2.1cm}|p{2.1cm}|p{1cm}|p{1cm}|}
@@ -209,6 +206,17 @@ implícitos.
 % flujo de datos y no al flujo de control, puesto que si incluyen seguimiento al
 % flujo de control, se adiciona sobrecarga a la herramienta, la cual es de tipo
 % dinámico.
+
+\begin{tabular}{cc|c|c}
+\cline{2-3}
+& \multicolumn{0}{ |c|  }{\multirow{1}{*}{FlowDroid} } & Prototipo \\
+\cline{1-3}
+\multicolumn{0}{ |c|  }{\multirow{0}{*}{FP} }  & 2 & 3 &  \\ \cline{0-2}
+\multicolumn{0}{ |c|  }{\multirow{0}{*}{FN} }  & 3 & 0 &  \\ \cline{0-2}
+\multicolumn{0}{ |c|  }{\multirow{0}{*}{TP} }  & 12 & 2 &  \\ \cline{0-2}
+\multicolumn{0}{ |c|  }{\multirow{0}{*}{TN} }  & 2 & 1 &  \\ \cline{0-2}
+ 
+\end{tabular}
 
 -\textit{Qué tanto cambia la anotación del código original}
 - adición de catch.
