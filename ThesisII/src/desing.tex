@@ -167,49 +167,51 @@ mensajes de texto y mensajes de Log.\newline
 
 \subsection{Consideraciones para verificar el cumplimiento de la política
 mediante Jif} 
-\textit{Versión de la API de Android:}\newline
-las aplicaciones utilizadas para los experimentos previos a la implementación
-del prototipo, y las aplicaciones anotar con el mismo, se realiza partiendo de
+Teniendo definida la política de seguridad a verificar, se describen
+elementos influyentes en el diseño de la solución.
+
+\textit{Versión de la API de Android}\newline
+Las aplicaciones utilizadas para los experimentos previos a la implementación
+del prototipo, y las aplicaciones a anotar con el mismo, se realiza partiendo de
 la versión Android 4.2.2(API Level 17).
 
-\textit{Versión del compilador de jif:}\newline
+\textit{Versión del compilador de Jif}\newline
 se parte de la versión 3.4.2 del compilador de jif, para llevar a cabo tanto los
-experimentos previos como el análisis de las aplicaciones anotadas por el
-prototipo.
+experimentos previos como el análisis de las aplicaciones anotadas por el prototipo.
 
 \textit{Diferencia entre una aplicación Android y una aplicación Java
-convencional:}\newline 
+convencional}\newline 
 En esencia, una aplicación Android es una aplicación Java con interfaces
 descritas en XML, que para ser ejecutada necesita del framework de Android,
 porque este le provee acceso al hardware del dispositivo y funcionalidades del
 sistema.\newline 
-Por otro lado, jif permite hacer seguimiento al flujo de información de una
+Por otro lado, Jif permite hacer seguimiento al flujo de información de una
 aplicación Java, extendiendo el lenguaje mediante labels de seguridad.\newline
 Para analizar flujo de información de una aplicación Android mediante
-jif, es importante mencionar que mientras una aplicación Java convencional
-cuenta con un único método como punto de entrada para iniciar su ejecución(el
-método main de la clase principal); una aplicación Android puede tener más de un
-punto de entrada, generados a partir de los diferentes tipos de componentes que
-la pueden integrar(Activity, Service, Content Provider y Broadcast
+Jif, es importante mencionar que mientras una aplicación Java convencional
+cuenta con un único punto de entrada para iniciar su ejecución, esto es, la
+clase principal donde se implementa el método main; una aplicación Android puede
+tener más de un punto de entrada, generados a partir de los diferentes tipos de
+componentes que le integren(Activity, Service, Content Provider y Broadcast
 Receiver). La necesidad de interacción del usuario para activar tales puntos de
 entrada varía acorde al tipo de componente, así, en el caso de componentes tipo
 Activity su ejecución sólo inicia hasta que el usuario interactúe con la
-actividad, y para ello cuenta con el método OnCreate. De otro modo, componentes
-tipo Service y Broadcast Receiver, inician su ejecución a través de los métodos
-OnStartCommand y OnReceive, respectivamente, sin necesidad de interacción del
-usuario.\newline 
+actividad, y para manejar dicha interacción, la API Android provee el método
+OnCreate. De otro modo, componentes tipo Service y Broadcast Receiver, inician
+su ejecución a través de los métodos OnStartCommand y OnReceive,
+respectivamente, sin necesidad de interacción del usuario.\newline 
 { \color{black} {Teniendo en cuenta lo anterior, se asume que la aplicación a
 evaluar tiene un único punto de entrada, que depende del tipo de componente que
 implemente.} }
 
-\textit{Información considerada con nivel de seguridad alto:}\newline
+\textit{Información considerada con nivel de seguridad alto}\newline
 Para verificar el cumplimiento de la política de seguridad a evaluar se parte de
-un conjunto de sources, caracterizados por dar a conocer información del
-usuario, considerada como privada o sensible. Los métodos que integran el
-conjunto de sources son: getDeviceId, getSimSerialNumber, findViewById,
-getLatitude, getLongitude y getSubscriberId. Adicional a estos métodos, se
-incluye el campo EditText, si y sólo si, es de tipo textPassword, es decir, un
-campo que almacena contraseñas.
+un conjunto de sources, caracterizados por dar a conocer información del usuario, 
+considerada como privada o sensible. Los métodos que integran el conjunto de sources son: 
+getDeviceId, getSimSerialNumber, findViewById, getLatitude, getLongitude y
+getSubscriberId. Adicional a estos métodos, se incluye el tipo de dato EditText,
+si y sólo si, el campo UI al que referencia corresponde a un campo tipo
+textPassword, es decir, un campo que almacena contraseñas.
 
 \textit{Canales que muestran información con nivel de seguridad bajo}\newline
 La información enviada a través de mensajes de texto y la información conocida
@@ -220,18 +222,19 @@ información con nivel de seguridad bajo.\newline
 En el caso de mensajes de texto y mensajes de Log, se hace referencia
 específicamente a las clases Log y SmsManager de la API de Android.
 
-\textit{Evaluación del flujo de información:}\newline
-Para evaluar el flujo de información, se tienen en cuenta todos los métodos
-definidos dentro de la clase, se asume que todos los métodos son invocados, esto
-con el fin de evitar omisiones de flujo de información a través de los canales
-previamente mencionados.
-
-
-
+\textit{Evaluación del flujo de información}\newline
+Para evaluar el flujo de información, se asume que todos los métodos definidos
+en la clase serán invocados, y por tanto, todos son incluidos en
+el análisis.\newline 
+Esta decisión de análisis busca evitar el paso inadvertido de flujos de
+información, generados por omisión.
 
 \subsection{Pasos para el diseño de la solución}
+Una vez clarificadas las limitaciones técnicas y los elementos a considerar para
+el diseño de la solución, se describen los pasos necesarios para la
+implementación de la misma.
 
-\begin{figure}[h!]
+\begin{figure}[t!]
 	\begin{center}
 	\includegraphics[width=12cm]{desingSol-steps1-2.jpg}
 	\end{center}
@@ -239,14 +242,13 @@ previamente mencionados.
 	\label{fig:desingSol-steps1-2}
 \end{figure}
 
--Paso uno: hacer que jif reconozca determinadas clases de la API de
-Android.\newline 
-
-Adicional al mecanismo de anotación que se maneja en jif, en que para hacer
+\textit{Paso uno: hacer que jif reconozca determinadas clases de la API de
+Android}.\newline 
+Adicional al mecanismo de anotación que se maneja en Jif, en que para hacer
 análisis al flujo de información de un programa java, se debe implementar la
 versión del respectivo programa para jif. También es posible adicionar clases
 Java ya existentes, utilizando signaturas nativas para que el compilador jif las
-reconozca, esto es: generando una versión jif de la clase java, donde se
+reconozca, esto es: generando una versión Jif de la clase java, donde se
 declaran constructores y cuerpo de los métodos a utilizar de la clase fuente
 java.\newline
 Para el presente trabajo se utilizan ambas opciones de anotación. El criterio
@@ -260,7 +262,7 @@ La versión de la API de Android a la que corresponden las clases anotadas, es l
 versión 4.2.2(API Level 17).\newline 
 A continuación se ilustran las clases anotadas.
 
-\begin{figure}[h!]
+\begin{figure}[t!]
 	\begin{center}
 	\includegraphics[width=14cm]{desingSol-step1-details.jpg}
 	\end{center}
@@ -273,8 +275,8 @@ Los métodos de las clases Activity, Service y BroadcastReceiver, son métodos
 que se pueden sobreescribir, todo programa Android que extienda de tales clases
 debe poder utilizarlos.
 
--Paso dos: 
-Definir Autoridades y forma de anotación del programa Android a analizar.
+\textit{-Paso dos: Definir Autoridades y forma de anotación del programa Android
+a analizar.}\newline
 Una clase Android tendrá una Autoridad máxima(un principal), en este caso Alice,
 así que, información con nivel de seguridad alto deberá pertenecer a dicha
 autoridad.\newline
