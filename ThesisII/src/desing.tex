@@ -1,20 +1,23 @@
 \label{ch:desing}
 \chapter{Diseño e Implementación}
 
-\section{Background}
-- código con ejemplo de componentes(Clases Activity, ..)
-
 \section{Limitaciones técnicas para implementar el prototipo}
--\textit{Características del lenguaje Java no soportadas por jif:}\newline
-si bien, el sistema de anotaciones de Jif hace extenciones al lenguaje java,
+Como parte del diseño de la solución, se inicia con una etapa exploratoria. En
+esta se anotan manualmente varias aplicaciones de Android, y se identifican
+limitaciones del lenguaje Jif para anotar código del framework Android.
+Tales limitaciones son adicionales a las características del lenguaje Java no
+reconocidas por Jif, a continuación se describen tanto las encontradas, como las
+especificadas en el manual de referencia de Jif.
+
+-\textit{Características del lenguaje Java no soportadas por jif}\newline
+Si bien, el sistema de anotaciones de Jif hace extenciones al lenguaje java,
 permitiendo la evaluación de políticas de confidencialidad e integridad para
-aplicativos implementados en dicho lenguaje, el manual de referencia de Jif es
-claro en precisar las características del lenguaje Java que no
-soporta\cite{jifRef}.
-Estas son:
+aplicativos implementados en dicho lenguaje, el manual de referencia de Jif
+precisa las características del lenguaje Java no soportadas\cite{jifRef}. Estas
+son:
 \begin{itemize}
-  \item nested classes. Clases que son definidas dentro de otras clases.
-  \item initializer blocks. Bloques de código declarados dentro de la clase pero
+  \item nested classes: clases que son definidas dentro de otras clases.
+  \item initializer blocks: bloques de código declarados dentro de la clase pero
   sin pertenecer a ningún método, dependiendo de si se trata de static
   initialization blocks, su código es el primero en ejecutarse, una vez se
   carga la clase; o si se trata de instance initialization blocks, su código se
@@ -25,42 +28,43 @@ Partiendo de estas precisiones, aplicaciones Android que presenten tales
 características son excluidas del grupo de aplicaciones a analizar(conjunto de
 aplicaciones evaluables) mediante la herramienta propuesta.
 
-Adicional a las limitaciones de jif frente a características propias del
-lenguaje Java, tras experimentar la anotación manual de una serie de
-aplicaciones Android, se identifican varias limitaciones técnicas para la
-anotación de de las mismas. Entre las limitaciones identificadas están:\newline 
+% Adicional a las limitaciones de jif frente a características propias del
+% lenguaje Java, tras experimentar la anotación manual de una serie de
+% aplicaciones Android, se identifican varias limitaciones técnicas para la
+% anotación de de las mismas. Entre las limitaciones identificadas están:\newline 
 
-- \textit{Soporte para sobreescritura de métodos:}\newline 
+- \textit{Soporte para sobreescritura de métodos}\newline 
 En la construccción de aplicaciones Android, según el componente que se esté
 implementando(activities, content providers, receivers, services), se requiere
-la sobreescritura para métodos de la clase que debe extender el componente. Así,
-cuando se define un componente tipo Activity, que debe extender de la clase
-Activiy.java, se sobreescriben métodos como Oncreate. Cada que se sobreescribe
+sobreescribir métodos de la clase que extienda el componente. Así, cuando se
+define un componente tipo Activity, que debe extender de la clase Activiy.java, 
+se sobreescriben métodos como Oncreate. Cada que se sobreescribe
 un método se utiliza el statement @Override, con el cual se informa al
 compilador de Java que el método es sobreescrito. No obstante, al implementar la
 version Jif de aplicaciones Android con dicho statement, el compilador de Jif
 no lo reconoce. La dificultad que se presenta está en el reconocimiento del
 statement(caracter @ y clase Override), y no en la sobreescritura de métodos,
-puesto que jif soporta tal característica. El soporte para la sobreescritura de
-métodos es confirmadado al anotar manualmente la clase Activity.java (con un
-único método, el método Ocreate), y una aplicación sencilla que implementa una
-actividad y sobreescribe el método Oncreate. Cuando se comenta la sentencia
-@Override, el compilador de Jif identifica la sobreescritura del método y
-reporta comentarios para el flujo de información.\newline 
-Al investigar el por qué Jif no reconoce tal sentencia, se encuentra que la
-clase java.lang.Override, no hace parte de las clases estandar de Java, para las
-que el compilador de Jif tiene anotaciones.\newline
-Entre los directorios que conforman la distribución del compilador de Jif con
-que se esté trabajando, se encuentra el directorio sig-src, que contiene la
-versión Jif de las clases estandar Java soportadas, clases pertenecientes
-estandar de los paquetes io, lang, math, net y sql.\newline 
+puesto que Jif soporta tal característica. El soporte para la sobreescritura de
+métodos es confirmadado con una sencilla prueba, anotando la clase Activity.java
+del framework Android (con un único método, el método Ocreate), e implementando
+la versión Jif de una aplicación Android que extiende de tal clase, en la cual
+se define una actividad y sobreescribe el método Oncreate.
+Cuando se comenta la sentencia @Override, el compilador de Jif identifica la
+sobreescritura del método y reporta comentarios para el flujo de información.\newline 
+Al investigar el por qué Jif no reconoce tal sentencia, se encuentra que dentro
+de las clases Java estandar soportadas por el compilador de Jif, no está
+contenida la clase java.lang.Override.\newline
+Las clases Java estandar pertenecientes a los paquetes io, lang, math, net y
+sql; para las que el compilador Jif brinda soporte, vienen implementadas con
+anotaciones en el directorio sig-src, directorio que forma parte de la
+distribución del compilador de Jif con que se esté trabajando.\newline
 Una alternativa para permitir el análisis de flujo de información entre métodos
-que se sobreescriben, es comentar las líneas del programa que contengan
-la sentencia @Override, puesto que, al no ser reconocida por el compilador de
-Jif, es la generadora de errores de compilación.
+que se sobreescriben, es comentar las líneas del programa que contengan la
+sentencia @Override, puesto que, al no ser reconocida por el compilador de Jif,
+es la generadora de errores de compilación.
 
-- \textit{Casting entre tipos EditText y View:}\newline
-el framework de Android cuenta con diferentes clases para manejar las interfaces
+- \textit{Casting entre tipos EditText y View}\newline
+El framework de Android cuenta con diferentes clases para manejar las interfaces
 graficas que presenta al usuario, entre las cuales se encuentran EditText y
 View. View es la clase principal para la creación de widgets, necesarios para la
 implementación de componentes interactivos en las interfaces de usuario(UI).
@@ -80,18 +84,19 @@ válido. Luego de probar con la anotación manual de ambas clases, tratando de
 dar soporte a este tipo de casting, sin obtener resultados satisfactorios, se
 opta por ``simular'' estos casos, es decir, si el tipo de dato de una variable
 es de tipo EditText, se crea una varible tipo String con un valor determinado,
-así se omite el casting y se puede analizar el flujo de información.\newline
+así se omite el casting y se puede analizar el flujo de información.
 
-- \textit{Clase nested R:}\newline
-el framework de Android utiliza identificadores para hacer referencia a recursos
+- \textit{Clase nested R}\newline
+El framework de Android utiliza identificadores para hacer referencia a recursos
 utilizados por la aplicación, recursos como strings, widgets y layouts, tales
 identificadores son autogenerados en la clase R.java, allí cada recurso es
 descrito como una clase individual. Al tratarse de una clase nested, la clase R
-no puede ser anotada con jif. Esto se soluciona definiendo una clase R que
-contenga los recursos definidos como variables y no como clases.
+no puede ser anotada con jif. Esto puede solucionarse implementando una
+versión Jif generalizada de la clase R, que contenga los recursos utilizados en
+una aplicación, definidos como variables y no como clases.
 
-- \textit{Sources y Sinks:}\newline
-en el diseño inicial de la solución se propone utilizar SuSi para clasificar
+- \textit{Sources y Sinks}\newline
+En el diseño inicial de la solución se propone utilizar SuSi para clasificar
 los sources y sinks en las aplicaciones a analizar, sin embargo, partir del
 extenso conjunto de sources y sinks, clasificados por SuSi para la API de
 Android, implica una mayor complejidad en el análisis, puesto que, en un
@@ -102,38 +107,40 @@ orden de ideas, resulta más viable tomar un subconjunto del listado proveído p
 SuSi, partiendo de los sources y sinks que evalué la política de seguridad que
 se defina.
 
-- \textit{Enhanced for loop:} Java da soporte para el buble for, por ejemplo:
-\begin{lstlisting}
-char c[] = imei.toCharArray();
-for (int i = 0; i < c.length; i++) {
-	obfuscated += c[i] + "_";
-}          
-\end{lstlisting}  
-También da soporte para el enhanced for, utilizado para simplificar la iteración
-en arrays y colecciones, por ejemplo:
+- \textit{Enhanced for loop} \newline
+Además de soportar la estructura de control for, el lenguaje Java permite el uso
+de enhanced for, que es utilizado para simplificar la iteración en arrays y
+colecciones, por ejemplo:
+% \begin{lstlisting}
+% char c[] = imei.toCharArray();
+% for (int i = 0; i < c.length; i++) {
+% 	obfuscated += c[i] + "_";
+% }          
+% \end{lstlisting}  
 \begin{lstlisting}
 for(char c : imei.toCharArray())
 obfuscated += c + "_";
 \end{lstlisting}
-A diferencia de Java, Jif no soporta el enhanced for. Debido a que ambas
-sentencias de control son equivalentes, la solución que se propone para poder
-analizar flujo de información en los aplicativos Android que contengan dicha
-estructura de control es, es generar el equivalente del programa pero con el for
-sencillo, de este modo se cambia la sintaxis sin afectar la lógica del
-aplicativo a analizar.
+A diferencia de Java, Jif no soporta el enhanced for.\newline
+Debido a que ambas sentencias de control son equivalentes, la solución que se
+propone para poder analizar flujo de información en los aplicativos Android que
+contengan dicha estructura de control, es generar el equivalente del programa
+haciendo uso del for, de este modo se cambia la sintaxis sin afectar la lógica
+del aplicativo a analizar.
 
-Además de las limitaciones descritas anteriormente, para las cuales se propone
-una solución, se identifica que Jif no soporta la sintaxis utilizada en Java
-para definición de HashMaps, LinkedList y Sets, que en java se definen de la
-siguiente manera:
+- \textit{Otras limitaciones} \newline
+Adicional a las limitaciones descritas anteriormente, para las cuales se propone
+una solución, se identifica que Jif no soporta la sintaxis utilizada para
+definir estructuras de datos HashMaps, LinkedList y Sets, que en Java se definen
+de la siguiente manera:
 \begin{lstlisting}
 Map<String,String> hashMap = new HashMap<String, String>();
 List<String> listData;
 Set<String> phoneNumbers = new HashSet<String>();
 \end{lstlisting}
 Jif tampoco permite la definición de interfaces como argumentos de un método. El
-siguiente fragmento de código  muestra la definición de una interfaz pasada como
-parámetro al método setOnClickListener.
+siguiente fragmento de código  en una aplicación Android, muestra la definición
+de una interfaz pasada como parámetro al método setOnClickListener.
 \begin{lstlisting}
    Button button1= (Button) findViewById(R.id.button1);
    button1.setOnClickListener(new View.OnClickListener() {
@@ -141,10 +148,10 @@ parámetro al método setOnClickListener.
    .....}  });
 \end{lstlisting}
 En estos casos, la dificultad está en encontrar una sintaxis que permita obtener
-la versión equivalente del programa que las contenga. A esto se suma, la falta
+la versión equivalente del programa que las contenga. A lo que se suma, la falta
 de documentación disponible para solventar los mismos. En consecuencia, se omite
-del conjunto de aplicaciones evaluables, aplicaciones Androiod que presenten los
-casos descritos.\newline
+del conjunto de aplicaciones evaluables, aplicaciones Androiod que requieran en
+su implementación las estructuras de datos descritas.\newline
 
 %- \textit{Paso de statements dentro de los argumentos de un método
 %(\{\}):}\newline
@@ -162,11 +169,8 @@ mensajes de texto y mensajes de Log.\newline
 mediante Jif} 
 \textit{Versión de la API de Android:}\newline
 las aplicaciones utilizadas para los experimentos previos a la implementación
-del prototipo , y las aplicaciones anotar con el mismo, pertenec
-
-
-la implementación
-del mismo se realiza partiendo de la versión Android 4.2.2(API Level 17).
+del prototipo, y las aplicaciones anotar con el mismo, se realiza partiendo de
+la versión Android 4.2.2(API Level 17).
 
 \textit{Versión del compilador de jif:}\newline
 se parte de la versión 3.4.2 del compilador de jif, para llevar a cabo tanto los
@@ -222,7 +226,7 @@ definidos dentro de la clase, se asume que todos los métodos son invocados, est
 con el fin de evitar omisiones de flujo de información a través de los canales
 previamente mencionados.
 
-\textit{Estructura de trabajo en JIF:}\newline
+
 
 
 \subsection{Pasos para el diseño de la solución}
@@ -354,5 +358,6 @@ D.\newline
 (8) Aplicar definición A a listado del paso (1).
 
 \subsection{Descripción implementación prototipo}
-clases, qué aporta cada clase.
+clases, qué aporta cada clase. 
+-Diagrama de clases
 
