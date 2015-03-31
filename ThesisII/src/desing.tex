@@ -224,94 +224,78 @@ específicamente a las clases Log y SmsManager de la API de Android.
 
 \textit{Evaluación del flujo de información}\newline
 Para evaluar el flujo de información, se asume que todos los métodos definidos
-en la clase serán invocados, y por tanto, todos son incluidos en
-el análisis.\newline 
+en la clase serán invocados, y por tanto, todos son incluidos en el análisis.\newline 
 Esta decisión de análisis busca evitar el paso inadvertido de flujos de
 información, generados por omisión.
 
-\subsection{Pasos para el diseño de la solución}
-Una vez clarificadas las limitaciones técnicas y los elementos a considerar para
-el diseño de la solución, se describen los pasos necesarios para la
-implementación de la misma.
-
-\begin{figure}[t!]
-	\begin{center}
-	\includegraphics[width=12cm]{desingSol-steps1-2.jpg}
-	\end{center}
-	\caption{Pasos para el diseño de la solución.}
-	\label{fig:desingSol-steps1-2}
-\end{figure}
-
-\textit{Paso uno: hacer que jif reconozca determinadas clases de la API de
-Android}.\newline 
-Adicional al mecanismo de anotación que se maneja en Jif, en que para hacer
-análisis al flujo de información de un programa java, se debe implementar la
-versión del respectivo programa para jif. También es posible adicionar clases
-Java ya existentes, utilizando signaturas nativas para que el compilador jif las
-reconozca, esto es: generando una versión Jif de la clase java, donde se
-declaran constructores y cuerpo de los métodos a utilizar de la clase fuente
-java.\newline
-Para el presente trabajo se utilizan ambas opciones de anotación. El criterio
-para decidir que se anota de una u otra forma, depende de lo que represente la
-clase Android para verificar la política de seguridad establecida. Las clases
-Log y SmsManager, que representan canales para conocer información, son anotadas
-de forma no nativa. La opción de anotación nativa se utiliza para librerías
-Android, por ejemplo la clase TelephonyManager necesaria para utilizar el método
-getDeviceId.\newline 
-La versión de la API de Android a la que corresponden las clases anotadas, es la
-versión 4.2.2(API Level 17).\newline 
-A continuación se ilustran las clases anotadas.
-
-\begin{figure}[t!]
-	\begin{center}
-	\includegraphics[width=14cm]{desingSol-step1-details.jpg}
-	\end{center}
-	\caption{Diseño de la solución paso 1. Ilustra las clases especificas de la
-	API de Android, anotadas manualmente.}
-	\label{fig:desingSol-step1}
-\end{figure}
-
+\textit{Acceso a métodos de sobreescritura.}\newline
 Los métodos de las clases Activity, Service y BroadcastReceiver, son métodos
 que se pueden sobreescribir, todo programa Android que extienda de tales clases
 debe poder utilizarlos.
 
-\textit{-Paso dos: Definir Autoridades y forma de anotación del programa Android
+
+\subsection{Pasos para el diseño de la solución}
+\begin{figure}[t!]
+	\begin{center}
+	\includegraphics[width=7cm]{desingSolution.jpg}
+	\end{center}
+	\caption{Entradas y salidas para el generador de anotaciones.}
+	\label{fig:desingSolution} 
+\end{figure}
+Una vez clarificadas las limitaciones técnicas y los elementos a considerar para
+el diseño de la solución, se describen los pasos necesarios para la
+implementación de la misma. Como se ilustra en la figura
+\ref{fig:desingSolution}, la solución a implementar consiste en un anotador de
+aplicaciones Android, que recibe como entrada una aplicación
+Android(perteneciente al conjunto evaluable), y devuelve la versión Jif del
+mismo, el cual contiene las anotaciones para evaluar la política de seguridad
+definida.\newline
+
+\textit{Paso uno: hacer que Jif reconozca determinadas clases de la API de
+Android}.
+
+\begin{figure}[h!]
+	\begin{center}
+	\includegraphics[width=5cm]{desingSol-steps1.jpg}
+	\end{center}
+	\caption{Tipos de anotación necesarias para implementar la solución.}
+	\label{fig:desingSol-steps1}
+\end{figure}
+
+\begin{figure}[t!]
+	\begin{center}
+	\includegraphics[width=12cm]{desingSol-step1-details.jpg}
+	\end{center}
+	\caption{Diseño de la solución paso 1. Ilustra las clases especificas de la
+	API de Android, anotadas manualmente.}
+	\label{fig:desingSol-details}
+\end{figure}
+Adicional al mecanismo de anotación que se maneja en Jif, en que para hacer
+análisis al flujo de información de un programa Java, se debe implementar la
+versión del respectivo programa para Jif. También es posible adicionar clases
+Java ya existentes, utilizando signaturas nativas para que el compilador Jif las
+reconozca, esto es: generando una versión Jif de la clase java, donde se
+declaran constructores y cuerpo de los métodos a utilizar de la clase fuente
+Java.\newline
+Para el presente trabajo se utilizan ambas opciones de anotación. Tal como se
+ilustra en la figura \ref{fig:desingSol-steps1}. 
+El criterio para decidir que se anota de una u otra forma, depende de lo que
+represente la clase Android para verificar la política de seguridad establecida.
+Las clases Log y SmsManager, que representan canales para conocer información,
+son anotadas de forma no nativa. La opción de anotación nativa se utiliza para
+librerías Android, por ejemplo la clase TelephonyManager necesaria para utilizar
+el método getDeviceId. En la figura \ref{fig:desingSol-details} se especifican
+clases de la API Android a anotar.\newline
+
+\textit{Paso dos: Definir Autoridades y forma de anotación del programa Android
 a analizar.}\newline
 Una clase Android tendrá una Autoridad máxima(un principal), en este caso Alice,
 así que, información con nivel de seguridad alto deberá pertenecer a dicha
 autoridad.\newline
 Jif hace seguimiento al flujo de información del programa, asociando un label
 de seguridad al program counter de cada sentencia y expresión del programa,
-program counter(pc) label. Este pc se ve afectado por el label
-de seguridad que se especifique en la declaración de variables y
-métodos.\newline 
-La sintaxis para anotación de variables es: \newline 
-\emph{ type\{L\} varName; } \newline donde type especifica el tipo de dato que
-almacena la variable, \{L\} el label de seguridad  para especificar quien es el
-dueño de la variable, y name, el respectivo nombre de la variable.\newline
-Definición de arrays:\newline
-en jif un array cuenta con dos labels de seguridad, Base Label(BL) y Size
-Label(SL). BL indica el nivel de seguridad de los elementos que almacena el
-array, controlando quien puede conocer la información del mismo. SL especifica
-quienes pueden conocer la número de elementos almacenados.\newline
-Un método se escribe de la forma:\newline
-\emph{ type \{RTL\} methodName \{BL\} (arg1\{AL\},,, argn\{AL\}) :\{EL\}
-}\newline RTL, Return Type Label, indica el label de seguridad con que
-queda el tipo de dato devuelto por el método.\newline 
-BL begin label, representa el máximo nivel se seguridad del pc label desde donde
-se invoca el método, de este modo, el program counter label desde donde
-se invoca el método debe ser menor o igual de restrictivo que el BL del
-método.\newline 
-AL argument label, indica el máximo nivel de seguridad  para los argumentos con
-que se llama el método, así, los labels de los argumentos con que se invoca el
-método deben ser menor o igual de restrictivos que los AL con que han
-definido el método.\newline
-EL end label, indica el pc label en el punto de terminación del método, y
-representa la información que puede ser conocida.\newline
-Cuando un label no es especificado, Jif define unos por defecto. En el caso de
-RTL, jif hace un join entre los diferentes AL con que ha sido definido el
-método.\newline
-
+program counter(pc) label. Este pc es afectado por el label de seguridad que se
+especifique en la declaración de variables y métodos\ref{subsec:JifSintax}. 
 Partiendo de que Jif se fundamenta en labels de seguridad para hacer seguimiento
 al flujo de información del programa, es necesario definir los labels a
 anotar para métodos y variables del programa.\newline
@@ -319,24 +303,22 @@ En el caso de variables con nivel de seguridad  alto, la anotación debe
 ser:\newline
 \emph{ type\{Alice:\} varName; }\newline
 Para el resto de variables, entran a jugar las anotaciones definidas por Jif
-acorde al contexto donde están definidas.
-
-Ahora en el caso de los métodos, la anotación varía acorde a si el método debe
+acorde al contexto donde están definidas.\newline
+Ahora en el caso de los métodos, la anotación varía según si el método debe
 influenciar(acceder, modificar) o no, información anotada con nivel de seguridad
 alto.
-Partiendo de lo anterior, se define un algoritmo de anotación que se condensa en
-un generador de anotaciones.\newline 
-- Descripción criterios de anotación:\newline
-\textit{Definición A:} anotación de variables con nivel de seguridad alto:
-\newline 
-modifier type\{Alice:\} varName;\newline 
+
+En base a lo anterior, se define un algoritmo de anotación que se condensa en un
+generador de anotaciones; y se fundamentado en las siguientes
+definiciones:\newline \textit{Definición A:} anotación de variables con nivel de
+seguridad alto:\newline modifier type\{Alice:\} varName;\newline 
 \textit{Definición B:} métodos que se sobreescriben. El sistema de anotaciones
-de jif exige que el nivel de seguridad del método desde donde se invoca la
+de Jif exige que el nivel de seguridad del método desde donde se invoca la
 sobreescritura de un método, no debe ser menos restrictivo que el método a
-sobreescribir, y como se mencionó al final del paso uno, los métodos a
-sobreescribir deben poder ser invocados desde todo programa Android, siguiendo
-con este principio, y buscando que jif no limite el flujo de información, estos
-métodos deben ser anotados con BL público(\{\}).\newline 
+sobreescribir, y los métodos a sobreescribir deben poder ser invocados desde
+todo programa Android, siguiendo con este principio, y buscando que jif no
+limite el flujo de información, estos métodos deben ser anotados con BL
+público(\{\}).\newline 
 \textit{Definición C:} anotación de métodos con sources\newline
 Los labels para la definición del método(BL, EL, AL )se anotan de la
 siguiente manera:\newline modifier type
@@ -347,7 +329,8 @@ definen arrays, sus respectivos BL y SL, deben ser anotados así: modifier type\
 source. 
 nameMethod\textit{\{\}}(
 type\textit{\{Alice:\}}arg1,.....type\textit{\{Alice:\}}argn ) \{\}\newline
-- Pasos:\newline
+Teniendo claras las anteriores definiciones, los pasos para el algoritmo son los
+siguiente:\newline
 (1) Identificar sources de la clase. Si se encuentran sources continuar con
 los pasos (2) a (4), sino, continuar con paso (2) y aplicar definiciones B y
 D.\newline
@@ -360,6 +343,5 @@ D.\newline
 (8) Aplicar definición A a listado del paso (1).
 
 \subsection{Descripción implementación prototipo}
-clases, qué aporta cada clase. 
--Diagrama de clases
+-Diagrama de clases o descripción
 
