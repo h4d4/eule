@@ -1,0 +1,44 @@
+\section{Background}
+\label{sec:back}
+
+\subsection{Aplicaciones Android}
+código con ejemplo de componentes(Clases
+Activity, ..) 
+
+\subsection{Estructura de trabajo en JIF}
+- estructura de los directorios del compilador Jif y estructura de trabajo en
+Jif(para entender cómo funciona y cómo afecta el diseño de la
+solución).
+
+\subsection{Sintaxis de Anotación en Jif}
+\label{subsec:JifSintax}
+-Definición de variables: \newline 
+\emph{ type\{L\} varName; }\newline 
+donde type especifica el tipo de dato que
+almacena la variable, \{L\} el label de seguridad  para especificar quien es el
+dueño de la variable, y name, el respectivo nombre de la variable.
+
+-Definición de arrays:\newline
+en jif un array cuenta con dos labels de seguridad, Base Label(BL) y Size
+Label(SL). BL indica el nivel de seguridad de los elementos que almacena el
+array, controlando quien puede conocer la información del mismo. SL especifica
+quienes pueden conocer la número de elementos almacenados.
+
+-Definición de métodos.\newline
+\emph{ type \{RTL\} methodName \{BL\} (arg1\{AL\},,, argn\{AL\}) :\{EL\}
+}\newline 
+RTL, Return Type Label, indica el label de seguridad con que
+queda el tipo de dato devuelto por el método.\newline 
+BL begin label, representa el máximo nivel se seguridad del pc label desde donde
+se invoca el método, de este modo, el program counter label desde donde
+se invoca el método debe ser menor o igual de restrictivo que el BL del
+método.\newline 
+AL argument label, indica el máximo nivel de seguridad  para los argumentos con
+que se llama el método, así, los labels de los argumentos con que se invoca el
+método deben ser menor o igual de restrictivos que los AL con que han
+definido el método.\newline
+EL end label, indica el pc label en el punto de terminación del método, y
+representa la información que puede ser conocida.\newline
+Cuando un label no es especificado, Jif define unos por defecto. En el caso de
+RTL, jif hace un join entre los diferentes AL con que ha sido definido el
+método.\newline
