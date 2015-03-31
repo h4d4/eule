@@ -110,18 +110,19 @@ El tiempo que tarda cada herramienta para evaluar el respectivo testcase es
 medido con el comando \textit{time}.
  
 \begin{table}[H]
+\begin{center}
 \small\addtolength{\tabcolsep}{-3pt}
 \caption{Resultados de evaluación. Donde
 \textit{Testcase} especifica el nombre de la aplicación que se está evaluando;
 \textit{Leaks} indica si el testcase presenta fugas de información;
-\textit{FlowDroid} y  \textit{Prototipo} muetran los resultados devueltos por
-cada herramienta; \textit{tF} y \textit{tF}, señalan el tiempo que toma el
+\textit{F} y  \textit{P} muetran los resultados devueltos FlowDroid y por el
+Prototipo; \textit{tF} y \textit{tF}, señalan el tiempo(en segundos) que toma el
 análisis para Flowdroid y para el Prototipo, respectivamente.}
 \label{tb:resultados}
-\begin{tabular}{|p{5.8cm}|p{1cm}|p{2.1cm}|p{2.1cm}|p{1cm}|p{1cm}|}
+\begin{tabular}{|p{6cm}|p{1cm}|p{1cm}|p{1cm}|p{1cm}|p{1cm}|}
 	\hline
-	\textbf{Testcase} & \textbf{Leaks} & \textbf{FlowDroid} &
-	\textbf{Prototipo} & \textbf{ tF} & 
+	\textbf{Testcase} & \textbf{Leaks} & \textbf{F} &
+	\textbf{P} & \textbf{ tF} & 
 	\textbf{tP}\\
 	\hline
 	AndroidSpecific\_DirectLeak1 & 1 & TP & TP &5.371s &2.063s\\
@@ -165,6 +166,7 @@ análisis para Flowdroid y para el Prototipo, respectivamente.}
 	Lifecycle\_ServiceLifecycle1 & 1 & TP & TP &5.225s &1.180s\\
 	\hline
 \end{tabular}
+\end{center}
 \end{table}
 
 -\textit{Resultados de precisión}\newline
@@ -181,7 +183,8 @@ implementar los programas en jif, donde se suele definir un nivel de seguridad
 para todo el array antes de almacenar los elementos en el mismo, podría decirse
 que no se trata de un FP, porque se revelo información que había sido
 catalogada con nivel de seguridad alto.\newline 
-La detección de flujos implícitos podría ser un elemento diferenciador.\newline
+La detección de flujos implícitos podría ser un elemento diferenciador.
+
 -\textit{Resultados de desempeño}\newline
 Se podría destacar como positivo que el análisis de flujo de información
 mediante técnicas de tipado de seguridad, requiere menos tiempo que la técnica
@@ -197,7 +200,7 @@ flujos explícitos o de flujos implícitos, o a causa de ambos. En flujos
 explícitos la propagación ocurre cuando el valor de una variable marcada está
 implicada en el calculo de otra variable. En flujos implícitos la propagación
 tiene lugar a través de dependencias en el control de flujo del programa, por
-ejemplo, cuando el valor de un dato marcado afecta indirectamente otra varible.\newline 
+ejemplo, cuando el valor de un dato marcado afecta indirectamente otra variable.\newline 
 En el caso de FlowDroid, los criterios que fundamentan el análisis de la
 herramienta, hacen que el marcado de datos se propague para flujos explícitos y
 y no para flujos implícitos. Por consiguiente, FlowDroid no detecta flujos
@@ -212,7 +215,9 @@ implícitos.
 \subsubsection{Comparación de resultados}
 \begin{table}[H]
 \begin{center}
-\caption{Comparación de precisión entre FlowDroid y Prototipo}
+\caption{Comparación de precisión entre FlowDroid y Prototipo.\newline
+Resume el total de respuestas devuelta por cada herramienta, para cada uno de
+los cuatro tipos de calificación(FP, TP, TN, FN)}
 \label{tb:precision}
 \begin{tabular}{cc|c|c}
 \cline{2-3}
@@ -225,16 +230,15 @@ implícitos.
 \end{tabular}
 \end{center}
 \end{table}
-En la tabla \ref{tb:precision} se comparan los resultados del análisis.\newline
+
 El conjunto de prueba está conformado por 20 aplicaciones, de las cuales 14
 presentan leaks.
-Los resultados obtenidos señalan que de las 14 fugas existentes, el Prototipo
-las detecta todas, presenta 14 TP(verdaderos positivos); mientras que, FlowDroid
-deja pasar 3.\newline
+Los resultados obtenidos en la tabla \ref{tb:precision} señalan que de las 14
+fugas existentes, el Prototipo las detecta todas, presenta 14 TP(verdaderos
+positivos); mientras que, FlowDroid deja pasar 3.\newline
 Por otro lado, el Prototipo presenta más falsos positivos que FlowDroid, de los
 6 testcases que no presentan leaks, el prototipo identifica 5 como si fuesen
-fugas, mientras que FlowDroid identifica 3.
-
+fugas, mientras que FlowDroid identifica 3.\newline
 A partir de tales resultados se mide la Precisión y Recall para ambas
 herramientas. La precisión \textit{p} mide si la herramienta detecta fugas
 cuando efectivamente las hay(no reporta falsos positivos TP), el Recall
@@ -244,24 +248,20 @@ Las formulas para ambas métricas son:
 \begin{lstlisting}
 Precision p = TP/(TP +FP)
 Recall r = TP/(TP+FN) 
-\end{lstlisting}
-Donde TP representa el total de verdaderos positivos, FP el total de falsos
-positivos y  FN el total de falsos negativos.\newline
+\end{lstlisting} 
+Donde TP representa el total de verdaderos positivos, FP el
+total de falsos positivos y  FN el total de falsos negativos.\newline
 
-Con un porcentaje del 78\%, FlowDroid presenta mayor precisión frente al
-Prototipo, que presenta un porcentaje del 73\%.\newline
-En cuanto a Recall, el Prototipo presenta un porcentaje del 100\%, superando a
-flowDroid que presenta un porcentaje del 78\%.
+En lo que respecta a precisión, FlowDroid presenta un porcentaje del 78\%,
+siendo más preciso frente al Prototipo, que presenta un porcentaje del
+73\%.\newline 
+Por otro lado, el Prototipo presenta un porcentaje en Recall del 100\%,
+mientras que FlowDroid presenta un porcentaje del 78\%.
 
 
 -\textit{Qué tanto cambia la anotación del código original}
+\textbf{Martín: está parte debería ir el esta sección, o en la discusión?}
 
-En lenguaje Java las excepciones tipo Runtime tales como NullPonterException, no
-son verificadas a tiempo de compilación, sin embargo, buscando evitar la
-generación de canales encubiertos mediante las mismas, Jif si las verifica. 
-En consecuencia, si un programa requiere excepciones NullPointerException,
-ClassCastException y/o ArrayIndexOutOfBoundsException, el programador debe
-declararlas en el programa, de lo contrario, el compilador de Jif genera error.
 
 
 

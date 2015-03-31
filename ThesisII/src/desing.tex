@@ -10,7 +10,7 @@ reconocidas por Jif, a continuación se describen tanto las encontradas, como la
 especificadas en el manual de referencia de Jif.
 
 -\textit{Características del lenguaje Java no soportadas por jif}\newline
-Si bien, el sistema de anotaciones de Jif hace extenciones al lenguaje java,
+Si bien, el sistema de anotaciones de Jif hace extensiones al lenguaje java,
 permitiendo la evaluación de políticas de confidencialidad e integridad para
 aplicativos implementados en dicho lenguaje, el manual de referencia de Jif
 precisa las características del lenguaje Java no soportadas\cite{jifRef}. Estas
@@ -34,27 +34,27 @@ aplicaciones evaluables) mediante la herramienta propuesta.
 % anotación de de las mismas. Entre las limitaciones identificadas están:\newline 
 
 - \textit{Soporte para sobreescritura de métodos}\newline 
-En la construccción de aplicaciones Android, según el componente que se esté
+En la construcción de aplicaciones Android, según el componente que se esté
 implementando(activities, content providers, receivers, services), se requiere
 sobreescribir métodos de la clase que extienda el componente. Así, cuando se
 define un componente tipo Activity, que debe extender de la clase Activiy.java, 
 se sobreescriben métodos como Oncreate. Cada que se sobreescribe
 un método se utiliza el statement @Override, con el cual se informa al
 compilador de Java que el método es sobreescrito. No obstante, al implementar la
-version Jif de aplicaciones Android con dicho statement, el compilador de Jif
+versión Jif de aplicaciones Android con dicho statement, el compilador de Jif
 no lo reconoce. La dificultad que se presenta está en el reconocimiento del
-statement(caracter @ y clase Override), y no en la sobreescritura de métodos,
+statement(carácter @ y clase Override), y no en la sobreescritura de métodos,
 puesto que Jif soporta tal característica. El soporte para la sobreescritura de
-métodos es confirmadado con una sencilla prueba, anotando la clase Activity.java
+métodos es confirmado con una sencilla prueba, anotando la clase Activity.java
 del framework Android (con un único método, el método Ocreate), e implementando
 la versión Jif de una aplicación Android que extiende de tal clase, en la cual
 se define una actividad y sobreescribe el método Oncreate.
 Cuando se comenta la sentencia @Override, el compilador de Jif identifica la
 sobreescritura del método y reporta comentarios para el flujo de información.\newline 
 Al investigar el por qué Jif no reconoce tal sentencia, se encuentra que dentro
-de las clases Java estandar soportadas por el compilador de Jif, no está
+de las clases Java estándar soportadas por el compilador de Jif, no está
 contenida la clase java.lang.Override.\newline
-Las clases Java estandar pertenecientes a los paquetes io, lang, math, net y
+Las clases Java estándar pertenecientes a los paquetes io, lang, math, net y
 sql; para las que el compilador Jif brinda soporte, vienen implementadas con
 anotaciones en el directorio sig-src, directorio que forma parte de la
 distribución del compilador de Jif con que se esté trabajando.\newline
@@ -65,7 +65,7 @@ es la generadora de errores de compilación.
 
 - \textit{Casting entre tipos EditText y View}\newline
 El framework de Android cuenta con diferentes clases para manejar las interfaces
-graficas que presenta al usuario, entre las cuales se encuentran EditText y
+gráficas que presenta al usuario, entre las cuales se encuentran EditText y
 View. View es la clase principal para la creación de widgets, necesarios para la
 implementación de componentes interactivos en las interfaces de usuario(UI).
 EditText permite adicionar campos de texto editables en UI. El casting entre los
@@ -150,7 +150,7 @@ de una interfaz pasada como parámetro al método setOnClickListener.
 En estos casos, la dificultad está en encontrar una sintaxis que permita obtener
 la versión equivalente del programa que las contenga. A lo que se suma, la falta
 de documentación disponible para solventar los mismos. En consecuencia, se omite
-del conjunto de aplicaciones evaluables, aplicaciones Androiod que requieran en
+del conjunto de aplicaciones evaluables, aplicaciones Android que requieran en
 su implementación las estructuras de datos descritas.\newline
 
 %- \textit{Paso de statements dentro de los argumentos de un método
@@ -203,6 +203,16 @@ respectivamente, sin necesidad de interacción del usuario.\newline
 { \color{black} {Teniendo en cuenta lo anterior, se asume que la aplicación a
 evaluar tiene un único punto de entrada, que depende del tipo de componente que
 implemente.} }
+
+\textit{Chequeo de excepciones tipo Runtime}\newline
+En lenguaje Java las excepciones tipo Runtime tales como NullPonterException, no
+son verificadas a tiempo de compilación, sin embargo, buscando evitar la
+generación de canales encubiertos mediante las mismas, Jif si las verifica. 
+En consecuencia, si un programa requiere excepciones NullPointerException,
+ClassCastException y/o ArrayIndexOutOfBoundsException, el programador debe
+declararlas en el programa, de lo contrario, el compilador de Jif genera error.
+Para las aplicaciones a analizar, se espera que el desarrollador haya
+especificado las excepciones necesarias.
 
 \textit{Información considerada con nivel de seguridad alto}\newline
 Para verificar el cumplimiento de la política de seguridad a evaluar se parte de
