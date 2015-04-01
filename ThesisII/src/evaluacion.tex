@@ -11,6 +11,8 @@ No se consideran flujos de información vía interAppComunicación. Por ejemplo,
 varias aplicaciones que se comunican entre sí.
 
 \section{Evaluación conjunto de aplicaciones}
+--->Descripción del benchmarch\newline
+
 Para la evaluación del prototipo se toma un grupo de testcases de DroidBech, el
 benchmark de FlowDroid, evaluables frente a la política de seguridad
 establecida.\newline 
@@ -109,15 +111,17 @@ Negativo(TN) cuando no existe leak que detectar.\newline
 El tiempo que tarda cada herramienta para evaluar el respectivo testcase es
 medido con el comando \textit{time}.
  
+----> Evaluación FlowDroid vs Prototipo\newline
+
 \begin{table}[H]
 \begin{center}
 \small\addtolength{\tabcolsep}{-3pt}
-\caption{Resultados de evaluación. Donde
+\caption{Resultados de evaluación para FlowDroid y Prototipo. Donde
 \textit{Testcase} especifica el nombre de la aplicación que se está evaluando;
 \textit{Leaks} indica si el testcase presenta fugas de información;
-\textit{F} y  \textit{P} muetran los resultados devueltos FlowDroid y por el
-Prototipo; \textit{tF} y \textit{tF}, señalan el tiempo(en segundos) que toma el
-análisis para Flowdroid y para el Prototipo, respectivamente.}
+\textit{F} y  \textit{P} muestran los resultados devueltos por FlowDroid y por
+el Prototipo; \textit{tF} y \textit{tP}, señalan el tiempo(en segundos) que toma
+el análisis para Flowdroid y para el Prototipo, respectivamente.}
 \label{tb:resultados}
 \begin{tabular}{|p{6cm}|p{1cm}|p{1cm}|p{1cm}|p{1cm}|p{1cm}|}
 	\hline
@@ -211,6 +215,72 @@ implícitos.
 % flujo de datos y no al flujo de control, puesto que si incluyen seguimiento al
 % flujo de control, se adiciona sobrecarga a la herramienta, la cual es de tipo
 % dinámico.
+----> Evaluación JoDroid vs Prototipo\newline
+JoDroid no evalua los testcases para excepciones, puesto que la actual versión
+no soporta en analisis de flujo de información para excepciones. \cite{JoDroid-Thesis} Pag 93
+
+
+\begin{table}[H]
+\begin{center}
+\small\addtolength{\tabcolsep}{-3pt}
+\caption{Resultados de evaluación para JoDroid y Prototipo. Donde
+\textit{Testcase} especifica el nombre de la aplicación que se está evaluando;
+\textit{Leaks} indica si el testcase presenta fugas de información; \textit{J} y
+\textit{P} muestran los resultados devueltos por JoDroid y por el Prototipo;
+\textit{tF} y \textit{tP}, señalan el tiempo que toma el análisis para JoDroid
+y para el Prototipo, respectivamente.}
+\label{tb:resultados}
+\begin{tabular}{|p{6cm}|p{1cm}|p{1cm}|p{1cm}|p{1cm}|p{1cm}|}
+	\hline
+	\textbf{Testcase} & \textbf{Leaks} & \textbf{J} &
+	\textbf{P} & \textbf{ tJ} & 
+	\textbf{tP}\\
+	\hline
+	AndroidSpecific\_DirectLeak1 & 1 & TP & TP &5.371s &2.063s\\
+	\hline
+	AndroidSpecific\_InactiveActivity & 0 & FP & FP  &3.255s &2.469s\\
+	\hline
+	AndroidSpecific\_LogNoLeak & 0 & TN & TN &5.505s &2.946s\\
+	\hline
+	AndroidSpecific\_Obfuscation1 & 1 & TP & TP &6.734s &2.706s\\
+	\hline
+	 AndroidSpecific\_PrivateDataLeak2 & 1 & TP & TP & 6.144s &2.644s\\
+	\hline
+	 ArraysAndLists\_ArrayAccess1 & 0 & FP & FP & 4.708s & 1.278s\\
+	\hline
+	 ArraysAndLists\_ArrayAccess2 & 0 & FP & FP & 4.4s &1.361s\\
+	 \hline
+	 GeneralJava\_Exceptions1 & 1 & - & TP &6.397s &2.755s\\
+	\hline
+	 GeneralJava\_Exceptions2 & 1 & - & TP &5.887s &1.980s\\
+	\hline
+	GeneralJava\_Exceptions3 & 0 &  - & FP &6.008s &2.032s\\
+	\hline
+	GeneralJava\_Exceptions4 & 1 & - & TP &5.731s &2.313s\\
+	\hline
+	GeneralJava\_Loop1 & 1 & TP & TP &5.605s &2.800s\\
+	\hline
+	GeneralJava\_Loop2 & 1 & TP & TP &4.719s &1.361s\\
+	\hline
+	GeneralJava\_UnreachableCode & 0 & TN & FP &3.792s &1.197s\\
+	\hline
+	ImplicitFlows\_ImplicitFlow1 & 1 & TP & TP &4.853s &1.331s\\
+	\hline
+	ImplicitFlows\_ImplicitFlow2 & 1 & TP & TP &4.496s &1.212s\\
+	\hline
+	ImplicitFlows\_ImplicitFlow4 & 1 & TP & TP &4.375s &1.224s\\
+	\hline
+	Lifecycle\_ActivityLifecycle3 & 1 & TP & TP &4.792s &1.222s\\
+	\hline
+	Lifecycle\_BroadcastReceiverLifecycle1 & 1 & TP & TP &4.456s &1.061s\\
+	\hline
+	Lifecycle\_ServiceLifecycle1 & 1 & TP & TP &5.225s &1.180s\\
+	\hline
+\end{tabular}
+\end{center}
+\end{table}
+
+----> Comparación FlowDroid, JoDroid, Prototipo\newline 
 
 \subsubsection{Comparación de resultados}
 \begin{table}[H]
