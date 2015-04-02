@@ -1,35 +1,53 @@
 \label{ch:evaluacion}
 \chapter{Evaluación}
-Ventajas y limitaciones de la solución.\newline 
-Si aplica, evaluación de desempeño.  \newline 
-Si aplica, evaluación de usabilidad.  
-Hay otras soluciones similares? \newline 
-Cuáles son las diferencias y las ventajas y desventajas con respecto a esas soluciones.
+% Ventajas y limitaciones de la solución.\newline 
+% Si aplica, evaluación de desempeño.  \newline 
+% Si aplica, evaluación de usabilidad.  
+% Hay otras soluciones similares? \newline 
+% Cuáles son las diferencias y las ventajas y desventajas con respecto a esas soluciones.
 
 \section{Consideraciones de evaluación}
 No se consideran flujos de información vía interAppComunicación. Por ejemplo,
 varias aplicaciones que se comunican entre sí.
 
 \section{Evaluación conjunto de aplicaciones}
---->Descripción del benchmarch\newline
+Para la evaluación se parte de DroidBech, benchmark integrado por casos de
+prueba para aplicaciones Android, cuyos autores son los mismos creadores de
+FlowDroid. Se opta por utilizar DroidBench puesto que, en la literatura
+científica consultada al respecto, no se encuentran otros benchmarks diseñados
+específicamente para evaluar aplicaciones Android.\newline 
+De DroidBech se toma un grupo de testcases evaluables frente a la política de
+seguridad establecida, este grupo está integrado por 20 testcases.
 
-Para la evaluación del prototipo se toma un grupo de testcases de DroidBech, el
-benchmark de FlowDroid, evaluables frente a la política de seguridad
-establecida.\newline 
-Se considera con nivel de seguridad alto, variables y métodos que almacenan y
-modifican(respectivamente), información catalogada como privada(Sources).\newline 
-Se considera con nivel de seguridad bajo, canales para envío de mensajes,
-muestra de logs y canales creados durante el control de flujo del programa.\newline 
-La tabla \ref{tb:muestra-descripApps} describe parte del grupo de testcases a
+La tabla \ref{tab:descripApps0} describe parte del grupo de testcases a
 evaluar. En los casos en que se requiere, se precisan observaciones entre los
 resultados de evaluación esperados para la técnica de análisis utilizada por
-FlowDroid y la técnica de análisis propuesta en el presente trabajo.\newline 
-La descripción para el grupo completo de testcases está en los anexos\ref{sec:testcases}.
+FlowDroid y la técnica de análisis propuesta en el presente trabajo. En
+la sección \ref{sec:testcases} de los anexos, se encuentra la
+descripción del grupo de prueba completo.
+
+El conjunto de prueba es analizado con FlowDroid, JoDroid\footnote{En el caso de
+JoDroid, algunas son ejecutadas otras probadas **} y con el Prototipo. Los
+resultados del análisis que devuelve cada herramienta son calificados como:
+Falso Positivo(FP) cuando se detecta un leak que no existe; Falso Negativo(FN)
+cuando no se detecta un leak existente; Verdadero Positivo(TP) cuando se detecta
+un leak existente; Verdadero Negativo(TN) cuando no existe leak que detectar.
+
+En base a estos resultados se calcula la Precisión y el Recall. La
+Precisión(\textit{p}) mide si la herramienta detecta fugas cuando efectivamente
+las hay(no reporta falsos positivos TP), el Recall(\textit{r}) mide si la
+herramienta deja pasar fugas de información( no reporta falsos negativos FN).
+Las formulas \ref{p} y \ref{r}, permiten el calculo de ambas métricas de
+seguridad.
 
 \begin{table}[H]
 \small\addtolength{\tabcolsep}{-3pt}
-\caption{Descripción aplicaciones de prueba}
-\label{tb:muestra-descripApps}
+\caption{Descripción aplicaciones de prueba.\newline
+Se considera con nivel de seguridad alto, variables y métodos que almacenan y
+modifican(respectivamente), información catalogada como privada(Sources).\newline 
+Se considera con nivel de seguridad bajo, canales para envío de mensajes,
+muestra de logs y canales creados durante el control de flujo del programa.\newline }
+\label{tab:descripApps0}
 \begin{tabular}{|p{13cm}|p{1cm}|}
 	\hline
 	\multicolumn{2}{|>{\columncolor[gray]{0.8}}c|}{\textbf{AndroidSpecific\_DirectLeak1}}\\
@@ -95,23 +113,16 @@ La descripción para el grupo completo de testcases está en los anexos\ref{sec:
 	 textPassword), después, al tratar de mostrar en el \textit{log} información
 	 que depende de tal comparación. & 1\\
 	\hline
-	
 \end{tabular}
 \end{table}
 
-Cada aplicación del conjunto de prueba es analizada con FlowDroid y con el
-Prototipo, los resultados obtenidos son presentados en la
-tabla\ref{tb:resultados}. En esta, por cada caso de prueba se indica la cantidad
-de leaks que presenta, el resultado y el tiempo que tarda el análisis para
-ambas herramientas.
-Los resultados del análisis son calificados como: Falso Positivo(FP) cuando se
-detecta un leak que no existe; Falso Negativo(FN) cuando no se detecta un leak
-existente; Verdadero Positivo(TP) cuando se detecta un leak existente; Verdadero
-Negativo(TN) cuando no existe leak que detectar.\newline 
+\subsection{Comparación evaluación FlowDroid y Prototipo } 
+\label{subsec:fvsp}
+son presentados en la tabla\ref{tb:resultados}. En esta,
+por cada caso de prueba se indica la cantidad de leaks que presenta, el
+resultado y el tiempo que tarda el análisis para ambas herramientas.
 El tiempo que tarda cada herramienta para evaluar el respectivo testcase es
 medido con el comando \textit{time}.
- 
-----> Evaluación FlowDroid vs Prototipo\newline
 
 \begin{table}[H]
 \begin{center}
@@ -172,7 +183,7 @@ el análisis para Flowdroid y para el Prototipo, respectivamente.}
 \end{tabular}
 \end{center}
 \end{table}
-
+\subsubsection{Analisis de evaluación entre FlowDroid y Prototipo}
 -\textit{Resultados de precisión}\newline
 En lo que respecta a los resultados del Prototipo, los FP correspondientes a
 AndroidSpecific\_InactiveActivity y GeneralJava\_UnreachableCode, surgen como
@@ -215,74 +226,7 @@ implícitos.
 % flujo de datos y no al flujo de control, puesto que si incluyen seguimiento al
 % flujo de control, se adiciona sobrecarga a la herramienta, la cual es de tipo
 % dinámico.
-----> Evaluación JoDroid vs Prototipo\newline
-JoDroid no evalua los testcases para excepciones, puesto que la actual versión
-no soporta en analisis de flujo de información para excepciones. \cite{JoDroid-Thesis} Pag 93
 
-
-\begin{table}[H]
-\begin{center}
-\small\addtolength{\tabcolsep}{-3pt}
-\caption{Resultados de evaluación para JoDroid y Prototipo. Donde
-\textit{Testcase} especifica el nombre de la aplicación que se está evaluando;
-\textit{Leaks} indica si el testcase presenta fugas de información; \textit{J} y
-\textit{P} muestran los resultados devueltos por JoDroid y por el Prototipo;
-\textit{tF} y \textit{tP}, señalan el tiempo que toma el análisis para JoDroid
-y para el Prototipo, respectivamente.}
-\label{tb:resultados}
-\begin{tabular}{|p{6cm}|p{1cm}|p{1cm}|p{1cm}|p{1cm}|p{1cm}|}
-	\hline
-	\textbf{Testcase} & \textbf{Leaks} & \textbf{J} &
-	\textbf{P} & \textbf{ tJ} & 
-	\textbf{tP}\\
-	\hline
-	AndroidSpecific\_DirectLeak1 & 1 & TP & TP &5.371s &2.063s\\
-	\hline
-	AndroidSpecific\_InactiveActivity & 0 & FP & FP  &3.255s &2.469s\\
-	\hline
-	AndroidSpecific\_LogNoLeak & 0 & TN & TN &5.505s &2.946s\\
-	\hline
-	AndroidSpecific\_Obfuscation1 & 1 & TP & TP &6.734s &2.706s\\
-	\hline
-	 AndroidSpecific\_PrivateDataLeak2 & 1 & TP & TP & 6.144s &2.644s\\
-	\hline
-	 ArraysAndLists\_ArrayAccess1 & 0 & FP & FP & 4.708s & 1.278s\\
-	\hline
-	 ArraysAndLists\_ArrayAccess2 & 0 & FP & FP & 4.4s &1.361s\\
-	 \hline
-	 GeneralJava\_Exceptions1 & 1 & - & TP &6.397s &2.755s\\
-	\hline
-	 GeneralJava\_Exceptions2 & 1 & - & TP &5.887s &1.980s\\
-	\hline
-	GeneralJava\_Exceptions3 & 0 &  - & FP &6.008s &2.032s\\
-	\hline
-	GeneralJava\_Exceptions4 & 1 & - & TP &5.731s &2.313s\\
-	\hline
-	GeneralJava\_Loop1 & 1 & TP & TP &5.605s &2.800s\\
-	\hline
-	GeneralJava\_Loop2 & 1 & TP & TP &4.719s &1.361s\\
-	\hline
-	GeneralJava\_UnreachableCode & 0 & TN & FP &3.792s &1.197s\\
-	\hline
-	ImplicitFlows\_ImplicitFlow1 & 1 & TP & TP &4.853s &1.331s\\
-	\hline
-	ImplicitFlows\_ImplicitFlow2 & 1 & TP & TP &4.496s &1.212s\\
-	\hline
-	ImplicitFlows\_ImplicitFlow4 & 1 & TP & TP &4.375s &1.224s\\
-	\hline
-	Lifecycle\_ActivityLifecycle3 & 1 & TP & TP &4.792s &1.222s\\
-	\hline
-	Lifecycle\_BroadcastReceiverLifecycle1 & 1 & TP & TP &4.456s &1.061s\\
-	\hline
-	Lifecycle\_ServiceLifecycle1 & 1 & TP & TP &5.225s &1.180s\\
-	\hline
-\end{tabular}
-\end{center}
-\end{table}
-
-----> Comparación FlowDroid, JoDroid, Prototipo\newline 
-
-\subsubsection{Comparación de resultados}
 \begin{table}[H]
 \begin{center}
 \caption{Comparación de precisión entre FlowDroid y Prototipo.\newline
@@ -327,6 +271,99 @@ siendo más preciso frente al Prototipo, que presenta un porcentaje del
 73\%.\newline 
 Por otro lado, el Prototipo presenta un porcentaje en Recall del 100\%,
 mientras que FlowDroid presenta un porcentaje del 78\%.
+
+\subsection{Comparación evaluación JoDroid y Prototipo}
+\label{subsec:jvsp}
+\begin{table}[H]
+\begin{center}
+\small\addtolength{\tabcolsep}{-3pt}
+\caption{Resultados de evaluación para JoDroid y Prototipo. Donde
+\textit{Testcase} especifica el nombre de la aplicación que se está evaluando;
+\textit{Leaks} indica si el testcase presenta fugas de información; \textit{J} y
+\textit{P} muestran los resultados devueltos por JoDroid y por el Prototipo;
+\textit{tJ} y \textit{tP}, señalan el tiempo que toma el análisis para JoDroid
+y para el Prototipo, respectivamente.}
+\label{tb:resultados}
+\begin{tabular}{|p{6cm}|p{1cm}|p{1cm}|p{1cm}|p{1cm}|p{1cm}|}
+	\hline
+	\textbf{Testcase} & \textbf{Leaks} & \textbf{J} &
+	\textbf{P} & \textbf{ tJ} & 
+	\textbf{tP}\\
+	\hline
+	AndroidSpecific\_DirectLeak1 & 1 & TP & TP &&2.063s\\
+	\hline
+	AndroidSpecific\_InactiveActivity & 0 & FP & FP  &&2.469s\\
+	\hline
+	AndroidSpecific\_LogNoLeak & 0 & TN & TN &&2.946s\\
+	\hline
+	AndroidSpecific\_Obfuscation1 & 1 & TP & TP &&2.706s\\
+	\hline
+	 AndroidSpecific\_PrivateDataLeak2 & 1 & TP & TP &&2.644s\\
+	\hline
+	 ArraysAndLists\_ArrayAccess1 & 0 & FP & FP && 1.278s\\
+	\hline
+	 ArraysAndLists\_ArrayAccess2 & 0 & FP & FP &&1.361s\\
+	 \hline
+	 GeneralJava\_Exceptions1 & 1 & - & TP &&2.755s\\
+	\hline
+	 GeneralJava\_Exceptions2 & 1 & - & TP &&1.980s\\
+	\hline
+	GeneralJava\_Exceptions3 & 0 &  - & FP &&2.032s\\
+	\hline
+	GeneralJava\_Exceptions4 & 1 & - & TP &&2.313s\\
+	\hline
+	GeneralJava\_Loop1 & 1 & TP & TP &&2.800s\\
+	\hline
+	GeneralJava\_Loop2 & 1 & TP & TP &&1.361s\\
+	\hline
+	GeneralJava\_UnreachableCode & 0 & TN & FP &&1.197s\\
+	\hline
+	ImplicitFlows\_ImplicitFlow1 & 1 & TP & TP &&1.331s\\
+	\hline
+	ImplicitFlows\_ImplicitFlow2 & 1 & TP & TP &&1.212s\\
+	\hline
+	ImplicitFlows\_ImplicitFlow4 & 1 & TP & TP &&1.224s\\
+	\hline
+	Lifecycle\_ActivityLifecycle3 & 1 & TP & TP &&1.222s\\
+	\hline
+	Lifecycle\_BroadcastReceiverLifecycle1 & 1 & TP & TP &&1.061s\\
+	\hline
+	Lifecycle\_ServiceLifecycle1 & 1 & TP & TP &&1.180s\\
+	\hline
+\end{tabular}
+\end{center}
+\end{table}
+
+\subsubsection{Analisis de evaluación entre JoDroid y Prototipo}
+JoDroid no evalua los testcases para excepciones, puesto que la actual versión
+no soporta en analisis de flujo de información para excepciones.
+\cite{JoDroid-Thesis} Pag 93\newline
+
+\begin{table}[H]
+\begin{center}
+\caption{Comparación de precisión entre JoDroid y Prototipo.\newline
+Resume el total de respuestas devuelta por cada herramienta, para cada uno de
+los cuatro tipos de calificación(FP, TP, TN, FN)}
+\label{tb:precision}
+\begin{tabular}{cc|c|c}
+\cline{2-3}
+& \multicolumn{0}{ |c|  }{\multirow{1}{*}{JoDroid} } & Prototipo \\
+\cline{1-3}
+\multicolumn{0}{ |c|  }{\multirow{0}{*}{FP} }  & 3 & 4 &  \\ \cline{0-2}
+\multicolumn{0}{ |c|  }{\multirow{0}{*}{FN} }  & 0 & 0 &  \\ \cline{0-2}
+\multicolumn{0}{ |c|  }{\multirow{0}{*}{TP} }  & 11 & 11 &  \\ \cline{0-2}
+\multicolumn{0}{ |c|  }{\multirow{0}{*}{TN} }  & 2 & 1 &  \\ \cline{0-2}
+\end{tabular}
+\end{center}
+\end{table}
+
+En lo que respecta a la métrica de Precisión, JoDroid presenta un
+porcentaje del 78,57\%; frente al Prototipo que presenta un porcentaje
+del 73,33\%.\newline
+Para la métrica de Recall, tanto JoiDroid como el Prototipo, presentan
+el mismo porcentaje esto es 100\%.\newline
+\subsection{Comparación FlowDroid, JoDroid, Prototipo}
+\label{subsec:fjp}
 
 
 -\textit{Qué tanto cambia la anotación del código original}
