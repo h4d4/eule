@@ -67,6 +67,24 @@ del sistema de anotaciones de JIF. Proporcionando una herramienta de apoyo al
 desarrollador de aplicaciones Android, ya que por el momento, JOANA sólo analiza
 aplicaciones en JAVA.
 
+\subsection{JoDroid}
+JoDroid es una extención a la herramienta de análisis JOANA para soportar
+analisis de aplicaciones Android.\newline 
+El análisis de JOANA está basado en Program Dependence Graphs(PDG) y técnicas
+slicing. Con PDGs obtiene una representación del programa que
+analiza, donde los nodos representan statements y expresiones; y las aristas
+modelan las dependencias sintacticas entre los statements y expresiones:
+dependencias de datos y dependencias de control, por tanto el grafo está en
+capacidad de modelar, tanto flujos explícitos como flujos implícitos.\newline
+Con técnicas slicing provee sensibilidad al contexto, puesto que el PDG se
+construye de manera tal que al hacer el backwards slice de un determinado nodo,
+se obtiene cada nodo que es alcanzable por caminos del grafo que conservan
+llamadas al contexto.\newline
+El PDG es generado mediante el Front-end de WALA, framework que analiza bytecode
+de Java. Así, los ajustes hechos a JOANA adaptan parte del Front-end de WALA
+para generar el PDG de aplicaciones Android.\newline
+JoDroid detecta tanto flujos explícitos como flujos implícitos.
+
 \subsection{FlowDroid}
 \label{FlowDroid-Tool}
 FlowDroid es una herramienta para análisis estático de flujo de datos en
