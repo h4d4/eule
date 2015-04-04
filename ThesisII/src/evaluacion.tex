@@ -417,8 +417,38 @@ Si & Si\\
 \end{table}
 
 -\textit{Qué tanto cambia la anotación del código original}
-\textbf{Martín: esta parte debería ir en esta sección, o en la discusión?}
-
+\textbf{Martín: esta parte debería ir en esta sección, o en la discusión?}\newline
+ Dentro de las limitaciones técnicas \ref{sec:limitaciones} descritas en el
+ diseño de la solución propuesta para generar la versión Jif del programa
+ Android a analizar, se describieron una serie de limitaciones. Para algunas de
+ tales limitaciones se propuso un mécanismo que permita soportarlas, estas son:
+\begin{itemize}
+  \item Statement @Override
+  \item Casting entre tipos EditText y View
+  \item Clase Nested R 
+  \item Enhanced for loop
+\end{itemize}
+Adicionalmente, se describió que el compilador de Jif exige la declaración del
+chequeo de excepciones tipo runtime, en programas que lo
+requieran\ref{subsec:consVerPol}. Ahora, para soportar tales limitaciones y
+cumplir con los requisitos del compilador de Jif, el código fuente del programa
+Android a analizar, pasa por una serie de transformaciones tanto en la etapa
+previa a la anotación como en la anotación misma.\newline
+Prevía a la anotación el desarrollador debe garantizar dos cosas, primero debe
+adicionar las runtime exceptions que su programa necesite, segundo debe usar
+bucles for en vez de Enhanced for loop.\newline
+Durante la anotación, además de aplicar los criterios de anotación definidos en
+el diseño de la solución \ref{subsec:pasosSol}, se aplican las soluciones
+propuestas para soportar el Statement @Override, Casting entre tipos EditText y
+View; y Clase Nested R. Así, en el caso de  la sentencia Statement @Override, se
+comenta la línea que lo contenga; para el casting entre tipos EditText y View,
+la información implicada en este tipo de casting es abstraída mediante un tipo
+de dato String; finalmente para la clase nested R, el ajuste al código consiste
+en crear una clase que en vez de definir los recursos utilizados por la
+aplicación mediante clases, los define a través de variables.\newline 
+Solventar tales limitaciones implica ajustes en el código fuente del programa a
+analizar, que si bien no cambian la lógica del programa si implican ajustes en
+la escritura del código.
 
 
 
