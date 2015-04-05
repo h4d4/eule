@@ -11,13 +11,14 @@ No se consideran flujos de información vía interAppComunicación. Por ejemplo,
 varias aplicaciones que se comunican entre sí.
 
 \section{Evaluación conjunto de aplicaciones}
-Para la evaluación se parte de DroidBech, benchmark integrado por casos de
-prueba para aplicaciones Android, cuyos autores son los mismos creadores de
+Para la evaluación se parte de DroidBech\cite{DroidBenchBenchmarks}, benchmark
+integrado por casos de prueba para aplicaciones Android, cuyos autores son los mismos creadores de
 FlowDroid. Se opta por utilizar DroidBench puesto que, en la literatura
 científica consultada al respecto, no se encuentran otros benchmarks diseñados
 específicamente para evaluar aplicaciones Android.\newline 
 De DroidBech se toma un grupo de testcases evaluables frente a la política de
-seguridad establecida, este grupo está integrado por 20 testcases.
+seguridad establecida\ref{subsection:politica}, este grupo está integrado por 20
+testcases.
 
 La tabla \ref{tab:descripApps0} describe parte del grupo de testcases a
 evaluar. En los casos en que se requiere, se precisan observaciones entre los
@@ -122,8 +123,8 @@ Del total de testcases(20), 14 presentan fugas de información mientras que 6 de
 ellos no. Los resultados de evaluación para FlowDroid y el Prototipo, son
 presentados en la tabla \ref{tb:resultados}. En esta, por cada caso de prueba
 se indica la cantidad de leaks que presenta, el resultado y el tiempo que tarda el
-análisis para ambas herramientas.
-Para medir el tiempo se utiliza el comando \textit{time}\cite{time-man} de unix.
+análisis. Para medir el tiempo se utiliza el comando
+\textit{time}\cite{time-man} de unix.
 
 \begin{table}[H]
 \begin{center}
@@ -188,22 +189,30 @@ el análisis para Flowdroid y para el Prototipo, respectivamente.}
 -\textit{Resultados de precisión}\newline
 En lo que respecta a los resultados del Prototipo, los FP correspondientes a
 AndroidSpecific\_InactiveActivity y GeneralJava\_UnreachableCode, surgen como
-consecuencia de realizar el análisis asumiendo que el desarrollador utiliza lo
-que implementa.\newline 
-Por otro lado, en el caso de ArraysAndLists\_ArrayAccess1 y
-ArraysAndLists\_ArrayAccess2, no es sencillo calificar los resultados como FP,
-puesto que, para lo que está analizando FlowDroid(verificar que su técnica de
-análisis diferencie entre los elementos marcados y no marcados de un array),
-efectivamente se presentan FP, sin embargo, para la forma en que se deben
-implementar los programas en jif, donde se suele definir un nivel de seguridad
-para todo el array antes de almacenar los elementos en el mismo, podría decirse
-que no se trata de un FP, porque se revelo información que había sido
-catalogada con nivel de seguridad alto.
+consecuencia de un análisis pesimista, donde se asume que el desarrollador
+utiliza lo que implementa, es decir, que los métodos serán invocados.\newline 
+Por otro lado, en el caso de ArraysAndLists: ArrayAccess1 y ArrayAccess2, no es
+sencillo calificar los resultados como FP, puesto que, para lo que está
+analizando FlowDroid(verificar que su técnica de análisis diferencie entre los
+elementos marcados y no marcados de un array), efectivamente se presentan FP,
+sin embargo, para la forma en que se deben implementar los programas en Jif,
+donde se suele definir un nivel de seguridad para todo el array antes de
+almacenar los elementos en el mismo, podría decirse que no se trata de un FP,
+porque se revelo información que había sido catalogada con nivel de seguridad alto.
 
-A diferencia de FlowDroid, el Prototipo detecta fugas de información través de
-flujos implícitos.
+A diferencia de FlowDroid, el Prototipo detecta fugas de
+información través de flujos implícitos.\newline
+--el Prototipo, la anotación generada por el prototipo, o la técnica de análisis
+en que se basa el diseño de la solución: lenguajes tipados de seguridad???
 
 -\textit{Resultados de desempeño}\newline
+Acorde a los datos señalados en los campos tF y tP de la tabla
+\ref{tb:resultados}, en promedio, FlowDroid tarda 3,3 segundos más que el
+Prototipo para ejecutar el análisis.\newline
+Tal diferencia de tiempo va en concordancia con una de las principales ventajas
+de análisis de seguridad basado en técnicas de lenguajes tipados de seguridad:
+mejor desempeño, menor tiempo requerido.\newline
+
 Se podría destacar como positivo que el análisis de flujo de información
 mediante técnicas de tipado de seguridad, requiere menos tiempo que la técnica
 de marcado de datos utilizada por FlowDroid.
@@ -380,7 +389,8 @@ los cuatro tipos de calificación(FP, TP, TN, FN)}
 
 \subsection{Comparación FlowDroid, JoDroid, Prototipo}
 \label{subsec:fjp}
-Como se señala en las tablas \ref{tb:resultados} y \ref{tab:JoDroid-Prototipo},
+%las tablas confirman lo que ya se sabia segun la literatura existe.
+Como muestran las tablas \ref{tb:resultados} y \ref{tab:JoDroid-Prototipo},
 el análisis de flujo de información basado en lenguajes tipados de seguridad
 presenta un mejor desempeño, frente a las técnicas en que se basan FlowDroid y
 JoDroid, análisis de flujo de datos mediante técnicas tainting y 
