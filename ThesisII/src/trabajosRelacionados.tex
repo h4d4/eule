@@ -5,7 +5,7 @@
 JIF(Java Information Flow), es un lenguaje tipado de seguridad que
 permite extender el lenguaje de programación Java,  con control de flujo de
 información y control de acceso, usando anotaciones de seguridad. El compilador
-usa estás anotaciones durante el chequeo de tipos, verificando el
+usa estas anotaciones durante el chequeo de tipos, verificando el
 cumplimiento de la propiedad de seguridad non-interference.
 
 Usar JIF para el análisis estático de flujo de información de un programa,
@@ -208,17 +208,17 @@ decir, la posibilidad de fugas a través de datos no marcados para el
 análisis.\newline
 Las técnicas para aplicar análisis mediante control de flujo de información,
 generalmente permiten definir anotaciones de seguridad en el código fuente de la
-aplicación, para verificar sus flujos de información. Estas generalmente se
+aplicación, para verificar sus flujos de información. Estas generalmente se 
 basan en técnicas de seguridad de tipado(Security-Typed Analyses), o en grafos
 que describen el comportamiento del programa, como Contol Dependence Graphs(PDG)
 y System Dependence Graphs(SDG).
-Ambas técnicas recurren a etapas de análisis de compilación, sin embargo,
-mientras las técnicas de Security-Typed sólo requieren llegar hasta el chequeo
-de tipos; las basadas en grafos de dependencia deben llegar hasta la
-representación de código intermedio para generar los respectivos grafos. Si
-bien, con grafos de dependencia se tiene mayor precisión en el análisis, su
-ejecución es costosa, ya que genera una complejidad de orden polinomial,
-O(N)3\cite[page 3]{FCO-PDG}.
+Ambas técnicas recurren a etapas de análisis de compilación(se basan en
+técnicas de compilación), sin embargo, mientras las técnicas de Security-Typed
+sólo requieren llegar hasta el chequeo de tipos; las basadas en grafos de
+dependencia deben llegar hasta la representación de código intermedio para
+generar los respectivos grafos. Si bien, con grafos de dependencia se tiene
+mayor precisión en el análisis, su ejecución es costosa, ya que genera una
+complejidad de orden polinomial, O(N)3\cite[page 3]{FCO-PDG}.
 Las motivaciones para guiar el análisis bajo una u otra perspectiva, implica
 poner a consideración tanto el nivel de precisión requerido por las propiedades
 de seguridad a evaluar, como el costo de implementación y de ejecución del
