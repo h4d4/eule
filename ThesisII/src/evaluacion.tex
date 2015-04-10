@@ -11,6 +11,7 @@ No se consideran flujos de información vía interAppComunicación. Por ejemplo,
 varias aplicaciones que se comunican entre sí.
 
 \section{Conjunto de evaluación}
+\label{sec:evalSet}
 Para la evaluación se parte de DroidBech\cite{DroidBenchBenchmarks}, benchmark
 integrado por casos de prueba para aplicaciones Android, cuyos autores son los
 mismos creadores de FlowDroid. Se opta por utilizar DroidBench puesto que, en la
@@ -18,7 +19,7 @@ literatura científica consultada al respecto, no se encuentran otros benchmarks
 diseñados específicamente para evaluar aplicaciones Android.\newline 
 De DroidBech se toma un grupo de testcases evaluables frente a la política de
 seguridad establecida\ref{subsection:politica}, este grupo está integrado por 20
-testcases.
+testcases. De los cuales, 14 presentan fugas de información.
 
 La tabla \ref{tab:descripApps0} describe parte del grupo de testcases a
 evaluar. En los casos en que se requiere, se precisan observaciones entre los
@@ -447,27 +448,17 @@ porcentaje esto es 100\%.\newline
 \subsection{Análisis de evaluación FlowDroid, JoDroid, Prototipo}
 \label{subsec:fjp}
 %las tablas confirman lo que ya se sabia segun la literatura existe.
-Los anteriores apartados del presente capítulo presentan un análisis detallado
-para la evaluación entre FlowDroid vs Prototipo, y, JoDroid vs Prototipo. De los
-resultados obtenidos se toman los correspondientes a la evaluación del conjunto
-completo de testcases(conjunto de evaluación). La tabla\ref{tb:comparacion}
-resume tales resultados.\newline Como muestran las tablas \ref{tb:resultados} y
-\ref{tab:JoDroid-Prototipo}, el análisis de flujo de información basado en
-lenguajes tipados de seguridad(en que se fundamenta la propuesta de análisis)
-presenta un mejor desempeño, frente a las técnicas en que se basan FlowDroid y
-JoDroid, análisis de flujo de datos mediante técnicas tainting y IFC(Information
-Flow Control) mediante PDG y slicing, respectivamente.
 
-El análisis de flujo de información mediante lenguajes tipados de
-seguridad(en que se basa la propuesta de análisis), ofrece un mejor Recall que
-FlowDroid, sin embargo FlowDroid es más preciso. Esto se traduce en que la
-propuesta de análisis evaluada a través del Prototipo, presenta más falsos
-positivos que FlowDroid, pero no deja pasar fugas de información.\newline
-Por otro lado, el Prototipo detecta fugas de información presentes en Flujos
-implicitos, FlowDroid No.\newline
-El análisis de flujo de información mediante lenguajes tipados de seguridad,
-ofrece igual Recall que la técnica de PDG utilizada por JoDroid, sin
-embargo, JoDroid presenta mejor Precisión.
+En base a los resultados de evaluación para el conjunto de
+evaluación(compuesto por 20 testcases, de los cuales 14 presentan leaks),
+obtenidos en los anteriores apartados, 
+% donde se presentó un análisis detallado para la evaluación entre FlowDroid vs
+% Prototipo, y, JoDroid vs Prototipo; 
+se comparan las tres herramientas(FlowDroid, JoDroid y Prototipo) frente a
+Precisión, Recall, y la detección de fugas de información mediante flujos
+implícitos. La tabla \ref{tb:comparacion} ilustra los resultados.\newline
+INCLUIR TABLAS: una con todos los resultados de evalución para las tres
+herramientas, otra con la cantidad de falsos positos de cada una.\newline
 
 \begin{table}[H]
 \begin{center}
@@ -488,6 +479,46 @@ Si & Si\\
 \caption{Comparación entre FlowDroid, JoDroid y Prototipo.\newline}
 \label{tb:comparacion}
 \end{table}
+
+-\textit{Desempeño}\newline 
+Como muestran las tablas \ref{tb:resultados} y \ref{tab:JoDroid-Prototipo}, el
+Prototipo presenta mejor desempeño frente FlowDroid y JoDroid. En el caso de
+FlowDroid, en promedio tarda 3,3 segundos más que el Prototipo para ejecutar el
+análisis. En el caso de JoDroid, el tiempo de análisis es costoso en comparación
+a las otras herramientas, puesto que su tiempo de ejecución oscila entre 21 y 22
+minutos.\newline
+EXPLICAR POR QUE, DE ACUERDO A LA TECNICA DE ANALISIS?\newline
+Como muestran las tablas \ref{tb:resultados} y \ref{tab:JoDroid-Prototipo}, el
+análisis de flujo de información basado en lenguajes tipados de seguridad(en que
+se fundamenta la propuesta de análisis) presenta un mejor desempeño, frente a
+las técnicas en que se basan FlowDroid y JoDroid, análisis de flujo de datos
+mediante técnicas tainting y IFC(Information Flow Control) mediante PDG y
+slicing, respectivamente.
+
+-\textit{Precisión y Recall}\newline
+Tanto FlowDroid como JoDroid presentan mejor Precisión que el Prototipo, es
+decir que el Prototipo presenta más falsos positivos(FP).\newline 
+Por otro lado, el Prototipo presenta mayor Recall frente a FlowDroid y JoDroid,
+por tanto, el Prototipo detecta mayor cantidad fugas existentes (verdaderos
+positivos(TP)). Para este caso particular, el Prototipo detecta todos los
+TP.\newline
+En consecuencia, es posible decir que aunque el Prototipo presenta mayor
+cantidad de FP frente a FlowDroid y JoDroid, deja pasar menos fugas de
+información.\newline
+En lo que respecta a flujos implícitos, a diferencia de FlowDroid, tanto JoDroid
+como el Prototipo detectan fugas de información a través de Flujos
+implícitos.\newline
+EXPLICAR POR QUE DE ACUERDO A LAS TECNICAS DE ANALISIS?\newline
+El análisis de flujo de información mediante lenguajes tipados de
+seguridad(en que se basa el Prototipo), ofrece un mejor Recall que
+FlowDroid, sin embargo FlowDroid es más preciso. Esto se traduce en que la
+propuesta de análisis evaluada a través del Prototipo, presenta más falsos
+positivos que FlowDroid, pero no deja pasar fugas de información.\newline
+Por otro lado, el Prototipo detecta fugas de información presentes en Flujos
+implicitos, FlowDroid No.\newline
+El análisis de flujo de información mediante lenguajes tipados de seguridad,
+ofrece igual Recall que la técnica de PDG utilizada por JoDroid, sin
+embargo, JoDroid presenta mejor Precisión.
 
 \subsection{Comparación técnicas de análisis evaluadas}
 % En las subsecciones anteriores(4.2.1 a 4.2.3), se analizaron los resultados de
