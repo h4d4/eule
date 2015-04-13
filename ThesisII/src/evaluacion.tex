@@ -7,16 +7,17 @@
 % Cuáles son las diferencias y las ventajas y desventajas con respecto a esas soluciones.
 
 \section{Consideraciones de evaluación}
-No se consideran flujos de información vía interAppComunicación. Por ejemplo,
-varias aplicaciones que se comunican entre sí.
+El flujo de información es analizado al interior de una sóla aplicación, no se
+consideran flujos de información vía interApp, es decir, varias aplicaciones que
+se comunican entre sí.
 
 \section{Conjunto de evaluación}
 \label{sec:evalSet}
-Para la evaluación se parte de DroidBech\cite{DroidBenchBenchmarks}, benchmark
-integrado por casos de prueba para aplicaciones Android, cuyos autores son los
-mismos creadores de FlowDroid. Se opta por utilizar DroidBench puesto que, en la
-literatura científica consultada al respecto, no se encuentran otros benchmarks
-diseñados específicamente para evaluar aplicaciones Android.\newline 
+Para la evaluación se parte de DroidBech versión 1.0\cite{DroidBenchBenchmarks},
+benchmark integrado por 39 casos de prueba para aplicaciones Android, cuyos
+autores son los mismos creadores de FlowDroid. Se opta por utilizar DroidBench
+puesto que, en la literatura científica consultada al respecto, no se encuentran
+otros benchmarks diseñados específicamente para evaluar aplicaciones Android.\newline 
 De DroidBech se toma un grupo de testcases evaluables frente a la política de
 seguridad establecida\ref{subsection:politica}, este grupo está integrado por 20
 testcases. De los cuales, 14 presentan fugas de información.
@@ -42,7 +43,7 @@ herramienta. A mayor Precisión, la herramienta detecta menos falsos
 positivos(FP).\newline 
 El Recall(\textit{r}) mide la cantidad de verdaderos Positivos(TP) frente a la
 cantidad de Falsos negativos(FN), reportados por la herramienta. A mayor Recall,
-menos leks deja pasar la herramienta, es decir menor reporte de falsos
+menos leaks deja pasar la herramienta, es decir menor reporte de falsos
 negativos. Las formulas \ref{p} y \ref{r}, permiten el calculo de ambas métricas
 de seguridad.\newline
 Adicionalmente, para medir el desempeño de cada herramienta se utiliza el
@@ -342,7 +343,7 @@ Prototipo, en base a los cuales, se calculan las métricas de precisión y recal
 	\hline
 	 GeneralJava\_Exceptions2 & 1 & FN & TP & 21m4.434s&1.980s\\
 	\hline
-	GeneralJava\_Exceptions3 & 0 & TN\footnote{Al igual que en
+	GeneralJava\_Exceptions3 & 0 & TN\tablefootnote{Al igual que en
 	los testcases GeneralJava\_Exceptions(1, 2 y 4), la herramienta no detecta
 	leaks, la diferencia para el presente caso, es que efectivamente no existe
 	leak. Por tanto se califica como TN.} & FP & 21m37.040s &2.032s\\
@@ -614,11 +615,13 @@ sources y sinks, y genera el respectivo análisis.\newline
 
 La propuesta está basada en análisis de flujo de información mediante lenguajes
 tipados de seguridad, más específicamente mediante Jif.\newline
-Para cada programa a analizar se debe implementar la versión Jif, es decir debe
-estar implementado acorde al sistema de anotaciones de Jif. A partir de tales
-anotaciones el compilador verifica la no generación de flujos de información
-indebidos. Al ser evaluado directamente por un compilador, obtiene los
-beneficios de bajo costo computacional del mismo.\newline
+Para cada programa a analizar se debe implementar la versión Jif, es decir
+el programa debe estar implementado acorde al sistema de anotaciones de Jif. A
+partir de tales anotaciones el compilador verifica la generación de flujos de
+información que incumplan la política de seguridad establecida, para reportalos
+como flujos de información indebidos. 
+Al ser evaluado directamente por un
+compilador, obtiene los beneficios de bajo costo computacional del mismo.\newline
 La generación del análisis para verificar la política de seguridad
 definida, requiere dos pasos. Primero, se genera la versión Jif del aplicativo a
 analizar usando el prototipo de anotación, este recibe como entrada el
@@ -656,7 +659,7 @@ anteriormente.
 	\hline
 \end{tabular}
 \end{center}
-\caption{Generalidaddes técnicas de análisis evaluadas}
+\caption{Generalidades técnicas de análisis evaluadas}
 \label{tab:comparacion}
 \end{table}	
 
@@ -664,26 +667,70 @@ anteriormente.
 \begin{table}[H]
 \begin{center}
 \small\addtolength{\tabcolsep}{-3pt}
-\begin{tabular}{|p{2,3cm}|p{2cm}|p{4cm}|p{2,5cm}|p{2,5cm}|}
+\begin{tabular}{|p{2,3cm}|p{2cm}|p{2,5cm}|p{3cm}|p{3cm}|}
 	\hline
 	\textbf{Herramienta} & \textbf{ventajas } & \textbf{desventajas} 
 	& \textbf{similitudes} & \textbf{diferencias}\\
 	\hline
-	FlowDroid 
-	& Alta precisión; Alto recall;  &
-	 & & \\
+	Prototipo vs FlowDroid &  Mejor Recall.  &  Menor Precisión. &
+	Detección automática de sources y sinks & Tipo de análisis(flujo de
+	informacion; flujo de datos)\\
+	 & Detección de flujos implícitos.  & No soporte para análisis interApp. & Bajo
+	 costo en desempeño. & \\
 	\hline
-	JoDroid & flujo de información & & & \\ 
-	\hline
-	Prototipo & flujo de información  & & & \\ 
+	Prototipo vs JoDroid & Mejor Recall. &  Menor Precisión. &  & \\ 
+	 & Detección automática de sources y sinks. &  & No soporte para análisis
+	 interApp &
+	\\
+	& Menor costo en desempeño & & Tipo de análisis IFC & Técnica de análisis: PDG,
+	slicing\\
 	\hline
 \end{tabular}
 \end{center}
-\caption{Comparación de técnicas.\newline
-Ventajas y desventajas comparando el prototipo(Propuesta de solución)}
+\caption{Comparación técnicas de FlowDroid y JoDroid, frente a técnicas
+del Prototipo.\newline Ventajas y desventajas comparando el prototipo(Propuesta
+de solución)}
 \label{tab:comparacion}
 \end{table}	
 
+\begin{table}[H]
+\begin{center}
+\small\addtolength{\tabcolsep}{-3pt}
+\begin{tabular}{|p{4cm}|p{1cm}|p{1cm}|p{1cm}|p{1cm}|p{1cm}|p{1cm}|p{1cm}|p{1cm}|p{1cm}|p{1cm}|}
+	\hline
+	\multirow{4}{*}\textbf{Item} & \textbf{P vs F} & \textbf{P vs J}\\
+	\hline
+	 & & \textbf\\
+	\hline
+	Mayor Precisión & & \\
+	\hline
+	Menor Precisión & & \\
+	\hline
+	Mayor Recall & & \\
+	\hline
+	Mayor Recall & & \\
+	\hline
+	Mayor costo en desempeño & & \\
+	\hline
+	Bajo costo en desempeño & & \\
+	\hline
+	Detección automática de sources y sinks & & \\
+	\hline
+	No soporte para Análisis interApp & & \\
+	\hline
+	Tipo de análisis(flujo de informacion; flujo de datos) & & \\
+	\hline
+	Tipo de análisis IFC & & \\
+	\hline
+	Técnica de análisis: PDG, slicing & & \\
+	\hline
+\end{tabular}
+\end{center}
+\caption{Comparación técnicas de FlowDroid y JoDroid, frente a técnicas
+del Prototipo.\newline Ventajas y desventajas comparando el prototipo(Propuesta
+de solución)}
+\label{tab:comparacion}
+\end{table}	
 
 \subsection{Qué tanto cambia la anotación del código original}
 (\textbf{Martín: esta parte debería ir en esta sección, o en la
