@@ -64,7 +64,6 @@ con el fin de evitar omisiones de flujo de información a través de los canales
 previamente mencionados.
 
 \textit{Pasos para el diseño de la solución:}\newline
-Paso uno:\newline
 
 \begin{figure}[h!]
 	\begin{center}
@@ -75,15 +74,31 @@ Paso uno:\newline
 \end{figure}
 
 Paso uno: hacer que jif reconozca determinadas clases de la Api de
-Android\newline 
-
+Android.\newline 
+Adicional al mecanismo de anotación que se maneja en jif, en que para hacer
+análisis al flujo de información de un programa java, se debe implementar la
+versión del respectivo programa para jif. También es posible adicionar clases
+Java ya existentes, utilizando signaturas nativas para que el compilador jif las
+reconozca, esto es: generando una versión jif de la clase java, donde se
+declaran constructores y cuerpo de los métodos a utilizar de la clase fuente
+java.\newline
+Para el presente trabajo se utilzan ambas opciones de anotación. El criterio
+para decidir que se anota de una u otra forma, depende de lo que represente la
+clase Android para verificar la política de seguridad establecida. Así, clases
+como Activity, BroadcastReceiver y Service, que son extendidas cuando se
+implementa una actividad, un receiver o un servicio, se anotan de forma no
+nativa. De igual modo, las clases Log y SmsManager, que representan canales para
+conocer información, son anotadas de forma no nativa.\newline
+La opción de anotación nativa se utiliza para librerias Android, por ejemplo la
+clase TelephonyManager necesaria para utilizar el método getDeviceId.\newline
+A continuación se ilustran las clases anotadas.\newline
+Explicar criterio de anotación para las clases sin native signatures.**
 \begin{figure}[h!]
 	\begin{center}
-	\includegraphics[width=5cm]{desingSol-step1.jpg}
+	\includegraphics[width=14cm]{desingSol-step1-details.jpg}
 	\end{center}
-	\caption{Diseño de la solución paso 1. Ilustra dos tipos de anotaciones que
-	deben ser incluidas para que el compilador reconozca clases de la API de
-	Android.}
+	\caption{Diseño de la solución paso 1. Ilustra las clases especificas de la
+	clase de Android, anotadas manualmente.}
 	\label{fig:desingSol-step1}
 \end{figure}
 
@@ -133,14 +148,7 @@ influenciar(acceder, modificar) o no, información anotada con nivel de segurida
 alto.
 Partiendo de lo anterior, se define un algoritmo de anotación que se condensa en
 un generador de anotaciones\newline
-\begin{figure}[h!]
-	\begin{center}
-	\includegraphics[width=6cm]{desingSol-step2.jpg}
-	\end{center}
-	\caption{Diseño de la solución paso 2. Ilustra salidas y entradas del
-	generador de anotaciones.}
-	\label{fig:desingSol-step1}
-\end{figure}
+
 
 
 
