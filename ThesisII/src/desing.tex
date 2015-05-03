@@ -84,15 +84,12 @@ declaran constructores y cuerpo de los métodos a utilizar de la clase fuente
 java.\newline
 Para el presente trabajo se utilzan ambas opciones de anotación. El criterio
 para decidir que se anota de una u otra forma, depende de lo que represente la
-clase Android para verificar la política de seguridad establecida. Así, clases
-como Activity, BroadcastReceiver y Service, que son extendidas cuando se
-implementa una actividad, un receiver o un servicio, se anotan de forma no
-nativa. De igual modo, las clases Log y SmsManager, que representan canales para
-conocer información, son anotadas de forma no nativa.\newline
-La opción de anotación nativa se utiliza para librerias Android, por ejemplo la
-clase TelephonyManager necesaria para utilizar el método getDeviceId.\newline
-A continuación se ilustran las clases anotadas.\newline
-Explicar criterio de anotación para las clases sin native signatures.**
+clase Android para verificar la política de seguridad establecida. Las clases
+Log y SmsManager, que representan canales para conocer información, son anotadas
+de forma no nativa. La opción de anotación nativa se utiliza para librerias
+Android, por ejemplo la clase TelephonyManager necesaria para utilizar el método
+getDeviceId.\newline A continuación se ilustran las clases anotadas.
+
 \begin{figure}[h!]
 	\begin{center}
 	\includegraphics[width=14cm]{desingSol-step1-details.jpg}
@@ -101,6 +98,11 @@ Explicar criterio de anotación para las clases sin native signatures.**
 	clase de Android, anotadas manualmente.}
 	\label{fig:desingSol-step1}
 \end{figure}
+
+Los métodos de las clases Activity, Service y BroadcastReceiver, son métodos
+que se sobreescriben, todo programa Android desde donde sea invocado debe poder
+utilizarlo. Así, sus respectivos métodos son anotados con un begin label
+público(\{\}).
 
 Paso dos: 
 Definir Autoridades y forma de annotación del programa android a analizar.
@@ -115,7 +117,13 @@ métodos.\newline
 La sintaxis para anotación de variables es: \newline 
 \emph{ type\{L\} varName; } \newline donde type especifíca el tipo de dato que
 almacena la variable, \{L\} el label de seguridad  para especificar quien es el
-dueño de la variable, y name, el respectivo nombre de la variable.\newline 
+dueño de la variable, y name, el respectivo nombre de la variable.\newline
+Definición de arrays:\newline
+en jif un array cuenta con dos labels de seguirdad, Base Label(BL) y Size
+Label(SL). BL indica el nivel de seguridad de los elementos que almacena el
+array, es decir, indica quienes pueden acceder a los elementos almacenados en el 
+array. SL especifica quienes pueden conocer la número de elementos
+alamacenados.\newline
 Un método se escribe de la forma:\newline
 \emph{ type \{RTL\} methodName \{BL\} (arg1\{AL\},,, argn\{AL\}) :\{EL\}
 }\newline RTL, Return Type Label, indica el label de seguridad con que
@@ -147,9 +155,39 @@ Ahora en el caso de los métodos, la anotación varía acorde a si el método de
 influenciar(acceder, modificar) o no, información anotada con nivel de seguridad
 alto.
 Partiendo de lo anterior, se define un algoritmo de anotación que se condensa en
-un generador de anotaciones\newline
-
-
+un generador de anotaciones.\newline 
+- Descripción criterios de anotación:\newline
+\textit{Definición A:} anotación de variables con nivel de seguridad alto:
+\newline 
+modifier type\{Alice:\} varName;\newline 
+\textit{Definición B:} métodos que se sobreescriben. El sistema de anotaciones
+de jif exige que el método desde donde se invoca un método que es sobreescrito, no debe ser menos restrictivo que el método a sobreescribir, y como se mencionó
+al final del paso uno, los métodos a sobreescribir deben poder ser invocados
+desde todo programa Android, siguiendo con este principio, y buscando que jif
+no limite el flujo de información, estos métodos deben ser anotados con BL
+público(\{\}).\newline
+\textit{Definición C:} anotación de métodos que reciben como parámetro la
+variable source.
+Los labels para la definición del método(BL, EL, AL )se anotan de la
+siguiente manera:\newline modifier type
+nameMethod\textit{\{Alice:\}} type\textit{\{Alice:\}}
+( arg1,.....type\textit{\{Alice:\}}argn ) \{\}\newline Si dentro del método se
+definen arrays, sus respectivos BL y SL, deben ser anotados así: modifier type\{Alice:\}[ ]\{Alice:\}\newline
+\textit{Definición D:} anotación de métodos que no reciben información del
+source. 
+nameMethod\textit{\{\}}(
+type\textit{\{Alice:\}}arg1,.....type\textit{\{Alice:\}}argn ) \{\}\newline
+- Pasos:\newline
+(1) Identificar sources de la clase. Si se encuentran sources continuar con
+los pasos (2) a (4), sino, continuar con paso (2) y aplicar definiciones B y
+D.\newline
+(2) Identificar el total de métodos source de la clase.\newline
+(3) Del total de métodos listar los que son invocados con el source.\newline
+(4) Del total de métodos listar los que no son invocados con el source.\newline
+(5) Aplicar definición C a listado del paso(3).\newline
+(6) Aplicar definición D a listado del paso (4).\newline
+(7) Aplicar definición B. \newline
+(8) Aplicar definición A a listado del paso (1).
 
 
 
