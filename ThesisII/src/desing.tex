@@ -17,25 +17,25 @@ mediante Jif}
 \textit{Diferencia entre una aplicación Android y una aplicación Java
 convencional:}\newline 
 En esencia, una aplicación Android es una aplicación Java con interfaces
-descritas en XML, que para ser ejecutada necesita del framwork de Android,
+descritas en XML, que para ser ejecutada necesita del framework de Android,
 porque este le provee acceso al hardware del dispositivo y funcionalidades del
 sistema.\newline 
-Por otro lado, jif permite hacer seguiemiento al flujo de información de una
+Por otro lado, jif permite hacer seguimiento al flujo de información de una
 aplicación Java, extendiendo el lenguaje mediante labels de seguridad.\newline
 Para analizar flujo de información de una aplicación Android mediante
 jif, es importante mencionar que mientras una aplicación Java convencional
-cuenta con un único método como punto de entrada para inciar su ejecución(el
+cuenta con un único método como punto de entrada para iniciar su ejecución(el
 método main de la clase principal); una aplicación Android puede tener más de un
 punto de entrada, generados a partir de los diferentes tipos de componentes que
 la pueden integrar(Activity, Service, Content Provider y Broadcast
 Receiver). La necesidad de interacción del usuario para activar tales puntos de
 entrada varía acorde al tipo de componente, así, en el caso de componentes tipo
-Activity su ejecución sólo inicia hasta que el usuario interactue con la
+Activity su ejecución sólo inicia hasta que el usuario interactúe con la
 actividad, y para ello cuenta con el método OnCreate. De otro modo, componentes
 tipo Service y Broadcast Receiver, inician su ejecución a través de los métodos
 OnStartCommand y OnReceive, respectivamente, sin necesidad de interacción del
 usuario.\newline 
-{ \color{red} {Teniendo en cuenta lo anterior, se asume que la aplicación a
+{ \color{black} {Teniendo en cuenta lo anterior, se asume que la aplicación a
 evaluar tiene un único punto de entrada, que depende del tipo de componente que
 implemente.} }
 
@@ -49,19 +49,20 @@ incluye el campo EditText, si y sólo si, es de tipo textPassword, es decir, un
 campo que almacena contraseñas.
 
 \textit{Canales que muestran información con nivel de seguridad bajo}\newline
-La información envíada a través de mensajes de texto y la información conocida
-tanto a través de mensajes de log, como a través de canales generados por el
+La información enviada a través de mensajes de texto y la información conocida
+tanto a través de mensajes de Log, como a través de canales generados por el
 control de flujo del programa, tiene en común que debe poder ser conocida por
 terceros. En consecuencia, se considera que estos canales deben dar a conocer
 información con nivel de seguridad bajo.\newline
-En el caso de mensajes de texto y mensajes de log, se hace referencia
+En el caso de mensajes de texto y mensajes de Log, se hace referencia
 específicamente a las clases Log y SmsManager de la API de Android.\newline
 
 \textit{Evaluación del flujo de información:}\newline
-Para evaluar el flujo de información, son tenidos en cuenta todos los métodos
+Para evaluar el flujo de información, se tienen en cuenta todos los métodos
 definidos dentro de la clase, se asume que todos los métodos son invocados, esto
 con el fin de evitar omisiones de flujo de información a través de los canales
 previamente mencionados.
+
 
 \textit{Pasos para el diseño de la solución:}\newline
 
@@ -73,7 +74,7 @@ previamente mencionados.
 	\label{fig:desingSol-steps1-2}
 \end{figure}
 
-Paso uno: hacer que jif reconozca determinadas clases de la Api de
+-Paso uno: hacer que jif reconozca determinadas clases de la API de
 Android.\newline 
 Adicional al mecanismo de anotación que se maneja en jif, en que para hacer
 análisis al flujo de información de un programa java, se debe implementar la
@@ -82,11 +83,11 @@ Java ya existentes, utilizando signaturas nativas para que el compilador jif las
 reconozca, esto es: generando una versión jif de la clase java, donde se
 declaran constructores y cuerpo de los métodos a utilizar de la clase fuente
 java.\newline
-Para el presente trabajo se utilzan ambas opciones de anotación. El criterio
+Para el presente trabajo se utilizan ambas opciones de anotación. El criterio
 para decidir que se anota de una u otra forma, depende de lo que represente la
 clase Android para verificar la política de seguridad establecida. Las clases
 Log y SmsManager, que representan canales para conocer información, son anotadas
-de forma no nativa. La opción de anotación nativa se utiliza para librerias
+de forma no nativa. La opción de anotación nativa se utiliza para librerías
 Android, por ejemplo la clase TelephonyManager necesaria para utilizar el método
 getDeviceId.\newline A continuación se ilustran las clases anotadas.
 
@@ -100,30 +101,28 @@ getDeviceId.\newline A continuación se ilustran las clases anotadas.
 \end{figure}
 
 Los métodos de las clases Activity, Service y BroadcastReceiver, son métodos
-que se sobreescriben, todo programa Android desde donde sea invocado debe poder
-utilizarlo. Así, sus respectivos métodos son anotados con un begin label
-público(\{\}).
+que se pueden sobreescribir, todo programa Android que extienda de tales clases
+debe poder utilizarlos.
 
-Paso dos: 
-Definir Autoridades y forma de annotación del programa android a analizar.
+-Paso dos: 
+Definir Autoridades y forma de anotación del programa Android a analizar.
 Una clase Android tendrá una Autoridad máxima(un principal), en este caso Alice,
 así que, información con nivel de seguridad alto deberá pertenecer a dicha
 autoridad.\newline
 Jif hace seguimiento al flujo de información del programa, asociando un label
-de seguridad al program counter de cada sentencia y expresion del programa,
+de seguridad al program counter de cada sentencia y expresión del programa,
 program counter(pc) label. Este pc se ve afectado por el label
 de seguridad que se especifique en la declaración de variables y
 métodos.\newline 
 La sintaxis para anotación de variables es: \newline 
-\emph{ type\{L\} varName; } \newline donde type especifíca el tipo de dato que
+\emph{ type\{L\} varName; } \newline donde type especifica el tipo de dato que
 almacena la variable, \{L\} el label de seguridad  para especificar quien es el
 dueño de la variable, y name, el respectivo nombre de la variable.\newline
 Definición de arrays:\newline
-en jif un array cuenta con dos labels de seguirdad, Base Label(BL) y Size
+en jif un array cuenta con dos labels de seguridad, Base Label(BL) y Size
 Label(SL). BL indica el nivel de seguridad de los elementos que almacena el
-array, es decir, indica quienes pueden acceder a los elementos almacenados en el 
-array. SL especifica quienes pueden conocer la número de elementos
-alamacenados.\newline
+array, controlando quien puede conocer la información del mismo. SL especifica
+quienes pueden conocer la número de elementos almacenados.\newline
 Un método se escribe de la forma:\newline
 \emph{ type \{RTL\} methodName \{BL\} (arg1\{AL\},,, argn\{AL\}) :\{EL\}
 }\newline RTL, Return Type Label, indica el label de seguridad con que
@@ -132,13 +131,13 @@ BL begin label, representa el máximo nivel se seguridad del pc label desde dond
 se invoca el método, de este modo, el program counter label desde donde
 se invoca el método debe ser menor o igual de restrictivo que el BL del
 método.\newline 
-AL argument label, indica el máximo nivel de seguridad de los argumentos con que
-se invoca el método, así, los labels de los argumentos con que se invoca el
+AL argument label, indica el máximo nivel de seguridad  para los argumentos con
+que se llama el método, así, los labels de los argumentos con que se invoca el
 método deben ser menor o igual de restrictivos que los AL con que han
 definido el método.\newline
 EL end label, indica el pc label en el punto de terminación del método, y
 representa la información que puede ser conocida.\newline
-Cuando un label no es específicado, Jif define unos por defecto. En el caso de
+Cuando un label no es especificado, Jif define unos por defecto. En el caso de
 RTL, jif hace un join entre los diferentes AL con que ha sido definido el
 método.\newline
 
@@ -161,13 +160,13 @@ un generador de anotaciones.\newline
 \newline 
 modifier type\{Alice:\} varName;\newline 
 \textit{Definición B:} métodos que se sobreescriben. El sistema de anotaciones
-de jif exige que el método desde donde se invoca un método que es sobreescrito, no debe ser menos restrictivo que el método a sobreescribir, y como se mencionó
-al final del paso uno, los métodos a sobreescribir deben poder ser invocados
-desde todo programa Android, siguiendo con este principio, y buscando que jif
-no limite el flujo de información, estos métodos deben ser anotados con BL
-público(\{\}).\newline
-\textit{Definición C:} anotación de métodos que reciben como parámetro la
-variable source.
+de jif exige que el nivel de seguridad del método desde donde se invoca la
+sobreescritura de un método, no debe ser menos restrictivo que el método a
+sobreescribir, y como se mencionó al final del paso uno, los métodos a
+sobreescribir deben poder ser invocados desde todo programa Android, siguiendo
+con este principio, y buscando que jif no limite el flujo de información, estos
+métodos deben ser anotados con BL público(\{\}).\newline 
+\textit{Definición C:} anotación de métodos con sources\newline
 Los labels para la definición del método(BL, EL, AL )se anotan de la
 siguiente manera:\newline modifier type
 nameMethod\textit{\{Alice:\}} type\textit{\{Alice:\}}
@@ -181,7 +180,7 @@ type\textit{\{Alice:\}}arg1,.....type\textit{\{Alice:\}}argn ) \{\}\newline
 (1) Identificar sources de la clase. Si se encuentran sources continuar con
 los pasos (2) a (4), sino, continuar con paso (2) y aplicar definiciones B y
 D.\newline
-(2) Identificar el total de métodos source de la clase.\newline
+(2) Identificar el total de métodos de la clase.\newline
 (3) Del total de métodos listar los que son invocados con el source.\newline
 (4) Del total de métodos listar los que no son invocados con el source.\newline
 (5) Aplicar definición C a listado del paso(3).\newline

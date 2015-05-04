@@ -1,7 +1,7 @@
 \label{ch:anexos}
 \chapter{Anexos}
 \section{Instrucciones para uso del prototipo}
-En el directorio \small{\ttfamily{/home/estudiante/eule}} están los elementos
+En el directorio \small{\ttfamily{/home/testing/eule}} están los elementos
 necesarios para evaluar los casos de prueba, de allí interesan los
 subdirectorios \small{\ttfamily{androidFlows}},
 \small{\ttfamily{InputLabelGenerator}} y el jar
@@ -9,23 +9,26 @@ subdirectorios \small{\ttfamily{androidFlows}},
 
 El subdirectorio \small{\ttfamily{androidFlows}} contiene la estructura de
 archivos necesaria para ejecutar un programa jif, así:
-\small{\ttfamily{sig-src}} aloja clases java y clases de la API de android, con
+\small{\ttfamily{sig-src}} aloja clases java y clases de la API de Android, con
 signaturas para que jif las reconozca de forma nativa.
 \small{\ttfamily{jif-src/test}} tiene clases de la API de Android con
 anotaciones jif(Activity.jif, BroadcastReceiver.jif, Log.jif, R.jif,
 Service.jif, SmsManager.jif). Allí se deben alojar los programas jif a
 ejecutar.\newline 
 En {\small{\ttfamily{InputLabelGenerator}}} están los fuentes java a pasar como
-entrada para el genenrador de labels(LabelGenerator.jar), que devuleve la
-versión jif de los mismos.
+entrada para el generador de labels(LabelGenerator.jar), que devuleve la
+versión jif de los mismos. Se recomienda utilizar estos, ya que contienen las
+adaptaciones necesarias para poder ser analizadas con JIF, la adición de
+excepciones NullPointerException, ClassCastException y
+ArrayIndexOutOfBoundsException, son algunos ejemplos de elementos adicionados.
 
-\textbf{Instrucciones de ejecución:}\newline
-\textbf{(1)} Ejecutar el jar para la generación de los labels:
+ \textbf{Instrucciones de
+ejecución:}\newline \textbf{(1)} Ejecutar el jar para la generación de los labels:
 \begin{lstlisting}
-estudiante@debianJessie:~/eule$ java -jar LabelGenerator.jar
+testing@debianJessie:~/eule$ java -jar LabelGenerator.jar
 \end{lstlisting}
 Una vez se ejecuta el .jar, se solicita el directorio de entrada(que contiene
-las aplicacione a anotar) y el directorio de salida(para alojar las
+las aplicaciones a anotar) y el directorio de salida(para alojar las
 aplicaciones anotadas). Separados por el simbolo @
 \begin{lstlisting}
 Ingrese la ruta completa para el directorio de entrada, y para el 
@@ -34,12 +37,12 @@ Ejemplo: dir-entrada@dir-salida
 \end{lstlisting}
 Se deben pasar los directorios:
 \begin{lstlisting}
-InputLabelGenerator@androidFlows/jif-src/test
+InputLabelGenerator@androidFlows/jif-src/test/
 \end{lstlisting}
 
-\textbf{(2)} ejecutar el script setup.sh(basta con ejecutarlo una sóla vez)
+\textbf{(2)} ejecutar el script setup.sh(basta con ejecutarlo una sola vez)
 \begin{lstlisting}
-estudiante@debianJessie:~/eule/androidFlows$ ./setup.sh
+testing@debianJessie:~/eule/androidFlows$ ./setup.sh
 \end{lstlisting}
 
 \textbf{(3)}
@@ -49,7 +52,7 @@ En la ruta pasada como directorio de salida en el punto anterior
 aplicación, con un .java y un *-out.jif. Se debe ejecutar el *-out.jif. Por
 ejemplo, para evaluar el testcase ArraysAndLists\_ArrayAccess1:
 \begin{lstlisting}
-estudiante@debianJessie:~/eule/androidFlows$ ./jifc-java-libraries.sh \
+testing@debianJessie:~/eule/androidFlows$ ./jifc-java-libraries.sh \
 jif-src/test/ArraysAndLists_ArrayAccess1/ArrayAccess1-out.jif
 \end{lstlisting}
 Cuando se presentan flujos indebidos, el compilador genera una salida señalando
@@ -61,8 +64,8 @@ los problemas de seguridad.
 \begin{lstlisting}
 estudiante@debianJessie:~/eule/androidFlows$ ./jifc-java-libraries.sh \
 jif-src/test/ArraysAndLists_ArrayAccess1/ArrayAccess1-out.jif 
-/home/estudiante/eule/androidFlows/jif-src/test/ArraysAndLists_ArrayAccess1/ArrayAccess1-out.jif:51: 
-    Unsatisfiable constraint
+/home/testing/eule/androidFlows/jif-src/test/ArraysAndLists_ArrayAccess1/ArrayAccess1-out.jif:51:
+Unsatisfiable constraint
     	general constraint:
     		actual_arg_3 <= formal_arg_3
     	in this context:
@@ -89,7 +92,7 @@ jif-src/test/ArraysAndLists_ArrayAccess1/ArrayAccess1-out.jif
                                                   ^-------^
 
 1 error.
-estudiante@debianJessie:~/eule/androidFlows$
+testing@debianJessie:~/eule/androidFlows$
 \end{lstlisting}
 
 Cuando el caso de prueba no presenta flujos indebidos, el compilador no genera
@@ -105,9 +108,9 @@ Para ello se requiere ejecutar el jar de FlowDroid, indicando el apk a analizar,
 los apk están en el subdirectorio \tetxtit{DroidBench-master}.
 Por ejemplo, para analizar el testace ImplicitFlow4:
 \begin{lstlisting}
-estudiante@debianJessie:~/eule/FlowDroid$ java -jar FlowDroid.jar \
+testing@debianJessie:~/eule/FlowDroid$ java -jar FlowDroid.jar \
 ../DroidBench-master/apk/ImplicitFlows/ImplicitFlow4.apk
-~/android-sdks/platforms/
+/home/estudiante/android-sdks/platforms/
 \end{lstlisting}
 El archivo \small{\ttfamily{howRunIt}} contenido en el directorio
 \small{\ttfamily{/FlowDroid}}, indica como se debe ejecutar.
