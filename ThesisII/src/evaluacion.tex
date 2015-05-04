@@ -114,7 +114,7 @@ propuesta en el presente trabajo.\newline
 	información quedará con nivel de seguridad alto. En consecuencia, al enviar
 	cualquier indice del array como parámetro del metódo 
 	\textit{sendTextMessage} se presenta un flujo de información no
-	permitido, se genera un leak. & 0
+	permitido. & 0
 	\\
 	\hline
 \end{tabular}
@@ -156,8 +156,8 @@ propuesta en el presente trabajo.\newline
 	La variable \textit{imei} es de nivel de seguridad alto, almacena información
 	devuelta por el método \textit{getDeviceId}. El control de flujo del
 	programa conduce de manera implícita a la captura de una excepción tipo
-	RuntimeException, desde allí se utiliza informacoión proveida por la variable
-	\textit{imei} como parámetro para invocar el método \textit{sendTextMessage}.
+	RuntimeException, desde allí se utiliza información proveida por la variable
+	\textit{imei}, como parámetro para invocar el método \textit{sendTextMessage}.
 	Generando un flujo de información indebido. & 1
 	\\
 	\hline
@@ -219,8 +219,8 @@ propuesta en el presente trabajo.\newline
 	\hline
 	La variable \textit{deviceid} con nivel de seguridad alto, está contenida en un
 	método que no es llamado, dentro del mismo, \textit{deviceid} es pasada como
-	parámetro para invocar el método \textit{sendTextMessage}, con nivel de
-	seguridad bajo. \textit{Observaciones:} para el análisis de FlowDroid el
+	parámetro para invocar el método \textit{sendTextMessage}, cuyo nivel de
+	seguridad es bajo. \textit{Observaciones:} para el análisis de FlowDroid el
 	programa no presenta leaks, ya que el método nunca es llamado.
 	Para nuestro análisis, el programa presenta leak porque se asume que todos los
 	métodos son llamados. & 0\\
@@ -229,9 +229,9 @@ propuesta en el presente trabajo.\newline
 	\hline
 	\textbf{Descripción} & \textbf{Leaks}\\
 	\hline
-	 La variable \textit{imei} almacena información devuelta por el método,
-	 \textit{getDeviceId}, con nivel de seguridad alto, \textit{imei} es pasada
-	 como parámetro al método obfuscateIMEI que devuelve la información ofuscada.
+	 La variable \textit{imei} con nivel de seguridad alto, almacena información
+	 devuelta por el método \textit{getDeviceId}, \textit{imei} se pasa como
+	 parámetro al método obfuscateIMEI que devuelve la información ofuscada.
 	 Después se invoca el método WriteToLog, con la información ofuscada como
 	 parámetro para ser mostrada en el log. Al invocar el método WriteToLog con la
 	 información ofuscada, se genera un flujo de información indebido. & 1 \\
@@ -253,12 +253,11 @@ propuesta en el presente trabajo.\newline
 	\textbf{Descripción} & \textbf{Leaks}\\
 	\hline
 	La variable \textit{password} con nivel de seguridad alto, almacena información
-	de un campo EditText tipo textPassword(password suministrado por el usuario).
-	\textit{password} es utilizada como parte de los parámetros para invocar el
-	método \textit{lookup} que busca identificar el password sumisnitrado por el
-	usuario. Se genera un flujo de información indebido, cuando se compara lo
-	retornado por el método para mostrar en el \textit{log} información del
-	password. & 1 \\
+	de un campo EditText tipo textPassword, \textit{password} es utilizada como
+	parte de los parámetros para invocar el método \textit{lookup} que busca
+	identificar el password sumisnitrado por el usuario. Se genera un flujo de
+	información indebido, cuando se compara lo retornado por el método para mostrar
+	en el \textit{log} información del password. & 1 \\
 	\hline
 	\multicolumn{2}{|>{\columncolor[gray]{0.8}}c|}{\textbf{Lifecycle\_ActivityLifecycle3}}\\
 	\hline
@@ -295,6 +294,15 @@ propuesta en el presente trabajo.\newline
 \end{tabular}
 \end{table}
 
+La tabla\ref{tb:comparacion} presenta los resultados de analizar los casos de
+prueba previamente descritos, tanto con FlowDroid como con el prototipo. Los
+resultados se califican como: Falso Positivo(FP) cuando se detecta un leak que
+no existe; Falso Negativo(FN) cuando no se detecta un leak existente; Verdadero
+Positivo(TP) cuando se detecta un leak existente; Verdadero Negativo(TN) cuando
+no existe leak que detectar.\newline 
+Se utiliza el comando \textit{time} para medir el tiempo requerido para
+realizar el análisis.
+ 
 \begin{table}[H]
 \small\addtolength{\tabcolsep}{-3pt}
 \caption{Comparación Precisión entre FlowDroid y Prototipo}
@@ -305,55 +313,66 @@ propuesta en el presente trabajo.\newline
 	\textbf{Prototipo} & \textbf{ t F} & 
 	\textbf{t P}\\
 	\hline
-	AndroidSpecific\_DirectLeak1 & 1 & detecta leak & detecta leak &5.371s &2.063s\\
+	AndroidSpecific\_DirectLeak1 & 1 & TP & TP &5.371s &2.063s\\
 	\hline
-	AndroidSpecific\_InactiveActivity & 0 & cero leaks & FP  &3.255s &2.469s\\
+	AndroidSpecific\_InactiveActivity & 0 & TN & FP  &3.255s &2.469s\\
 	\hline
-	AndroidSpecific\_LogNoLeak & 0 & cero leaks & cero leaks &5.505s &2.946s\\
+	AndroidSpecific\_LogNoLeak & 0 & TN & TN &5.505s &2.946s\\
 	\hline
-	 AndroidSpecific\_Obfuscation1 & 1 & detecta leak & detecta leak &6.734s
-	 &2.706s\\
+	AndroidSpecific\_Obfuscation1 & 1 & TP & TP &6.734s &2.706s\\
 	\hline
-	 AndroidSpecific\_PrivateDataLeak2 & 1 & detecta leak & detecta leak &
-	 6.144s &2.644s\\
+	 AndroidSpecific\_PrivateDataLeak2 & 1 & TP & TP & 6.144s &2.644s\\
 	\hline
-	 ArraysAndLists\_ArrayAccess1 & 0 & FP & detecta leak & 4.708s & 1.278s\\
+	 ArraysAndLists\_ArrayAccess1 & 0 & FP & FP & 4.708s & 1.278s\\
 	\hline
-	 ArraysAndLists\_ArrayAccess2 & 0 & FP & detecta leak & 4.4s &1.361s\\
+	 ArraysAndLists\_ArrayAccess2 & 0 & FP & FP & 4.4s &1.361s\\
 	 \hline
-	 GeneralJava\_Exceptions1 & 1 & detecta leak & detecta leak &6.397s &2.755s\\
+	 GeneralJava\_Exceptions1 & 1 & TP & TP &6.397s &2.755s\\
 	\hline
-	 GeneralJava\_Exceptions2 & 1 & detecta leak & detecta leak &5.887s &1.980s\\
+	 GeneralJava\_Exceptions2 & 1 & TP & TP &5.887s &1.980s\\
 	\hline
 	GeneralJava\_Exceptions3 & 0 & FP & FP &6.008s &2.032s\\
 	\hline
-	GeneralJava\_Exceptions4 & 1 & detecta leak & detecta leak &5.731s &2.313s\\
+	GeneralJava\_Exceptions4 & 1 & TP & TP &5.731s &2.313s\\
 	\hline
-	GeneralJava\_Loop1 & 1 & detecta leak & detecta leak &5.605s
-	&2.800s\\
+	GeneralJava\_Loop1 & 1 & TP & TP &5.605s &2.800s\\
 	\hline
-	GeneralJava\_Loop2 & 1 & detecta leak & detecta leak &4.719s
-	&1.361s\\
+	GeneralJava\_Loop2 & 1 & TP & TP &4.719s &1.361s\\
 	\hline
-	GeneralJava\_UnreachableCode & 1 & cero leaks & FP &3.792s &1.197s\\
+	GeneralJava\_UnreachableCode & 0 & TP & FP &3.792s &1.197s\\
 	\hline
-	ImplicitFlows\_ImplicitFlow1 & 1 & FN & detecta leak &4.853s &1.331s\\
+	ImplicitFlows\_ImplicitFlow1 & 1 & FN & TP &4.853s &1.331s\\
 	\hline
-	ImplicitFlows\_ImplicitFlow2 & 1 & FN & detecta leak &4.496s &1.212s\\
+	ImplicitFlows\_ImplicitFlow2 & 1 & FN & TP &4.496s &1.212s\\
 	\hline
-	ImplicitFlows\_ImplicitFlow4 & 1 & FN & detecta leak &4.375s &1.224s\\
+	ImplicitFlows\_ImplicitFlow4 & 1 & FN & TP &4.375s &1.224s\\
 	\hline
-	Lifecycle\_ActivityLifecycle3 & 1 & detecta leak & detecta leak &4.792s
-	&1.222s\\
+	Lifecycle\_ActivityLifecycle3 & 1 & TP & TP &4.792s &1.222s\\
 	\hline
-	Lifecycle\_BroadcastReceiverLifecycle1 & 1 & detecta leak & detecta leak
-	&4.456s &1.061s\\
+	Lifecycle\_BroadcastReceiverLifecycle1 & 1 & TP & TP &4.456s &1.061s\\
 	\hline
-	Lifecycle\_ServiceLifecycle1 & 1 & detecta leak &detecta leak &5.225ss
-	&1.180s\\
+	Lifecycle\_ServiceLifecycle1 & 1 & TP & TP &5.225s &1.180s\\
 	\hline
 \end{tabular}
 \end{table}
 
-El tiempo que tarda cada herramienta en realizar el respectivo análisis, es
-medido con el comando \textit{time}.
+-\textit{Resultados de precisión}\newline
+En lo que respecta a los resultados del Prototipo, los FP correspondientes a
+AndroidSpecific\_InactiveActivity y GeneralJava\_UnreachableCode, surgen como
+consecuencia de realizar el análisis asumiendo que el desarrollador utiliza lo
+que implementa.\newline 
+Por otro lado, en el caso de ArraysAndLists\_ArrayAccess1 y
+ArraysAndLists\_ArrayAccess2, no es sencillo calificar los resultados como FP,
+puesto que, para lo que está analizando FlowDroid(verificar que su técnica de
+análisis diferencie entre los elementos marcados y no marcados de un array),
+efectivamente se presentan FP, sin embargo, para la forma en que se deben
+implementar los programas en jif, donde se suele definir un nivel de seguridad
+para todo el array antes de almacenar los elementos en el mismo, podría decirse
+que no se trata de un FP, porque se revelo información que había sido
+catalogada.\newline 
+La detección de flujos implícitos podría ser un elemento diferenciador.\newline
+-\textit{Resultados de desempeño}\newline
+Se podría destacar como positivo que el análisis de flujo de información
+mediante técnicas de tipado de seguridad, requiere menos tiempo que la técnica
+de marcado de datos utilizada por FlowDroid.
+
